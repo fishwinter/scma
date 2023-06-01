@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.scma.mapper.RoleDao">
+  <resultMap id="BaseResultMap" type="com.company.scma.common.po.TRole">
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="build_date" jdbcType="DATE" property="buildDate" />
+    <result column="build_userid" jdbcType="INTEGER" property="buildUserid" />
+    <result column="modify_date" jdbcType="DATE" property="modifyDate" />
+    <result column="modify_userid" jdbcType="INTEGER" property="modifyUserid" />
+    <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    role_id, role_name, introduction, build_date, build_userid, modify_date, modify_userid, 
+    deleteflag
+  </sql>
+</mapper>
