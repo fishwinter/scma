@@ -16,6 +16,18 @@ public interface Constant {
         String PERMISSION_ID = "PERMISSION_ID";
         String USERNAME = "USERNAME";
         String STATUS = "STATUS";
+        String USERID = "USERID";
+        String NAME = "NAME";
+        String TEL = "TEL";
+        String BUILD_DATE = "BUILD_DATE";
+        String MEMBER_NAME = "MEMBER_NAME";
+        String SERIALNO = "SERIALNO";
+        String ITEM_CODE = "ITEM_CODE";
+        String TYPE = "TYPE";
+        String OWNER_USERID = "OWNER_USERID";
+        String MEMBER_ID = "MEMBER_ID";
+        String CONTACTS = "CONTACTS";
+        String MEMBER_TYPE_ID = "MEMBER_TYPE_ID";
     }
     
     //常用常数
@@ -36,5 +48,17 @@ public interface Constant {
     public interface Sex{
         Integer MALE = 1;
         Integer FEMALE = 2;
+    }
+    
+    //实体类型
+    public interface ItemType{
+        Integer PROVINCE = 1;
+        Integer CITY = 2;
+    }
+    
+    public interface MemberStatus{
+        Integer RELEASED_PUBLIC_RESOURCE = 1;
+        Integer NORMAL = 2;
+        Integer RELEASED_MEMBER_DATABASE = 2;
     }
 }

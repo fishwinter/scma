@@ -1,16 +1,11 @@
 package com.company.scma.common.util;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.company.scma.common.constant.Constant;
-import com.company.scma.common.dto.CreateRoleDTO;
-import com.company.scma.common.po.TPermission;
-import com.company.scma.common.po.TRole;
-import com.company.scma.common.po.TRoleMtmPermission;
-import com.company.scma.common.po.TUser;
-import com.company.scma.common.vo.MenuVO;
-import com.company.scma.common.vo.PermissionVO;
-import com.company.scma.common.vo.RoleDetailVO;
-import com.company.scma.common.vo.RoleListVO;
+import com.company.scma.common.dto.*;
+import com.company.scma.common.po.*;
+import com.company.scma.common.vo.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -38,6 +33,18 @@ public class GenerateUtil {
         return tRole;
     }
 
+    public static TRole createTRole(EditRoleDTO editRoleDTO) {
+        TRole tRole = new TRole();
+        tRole.setRoleName(editRoleDTO.getRoleName());
+        tRole.setIntroduction(editRoleDTO.getIntroduction());
+        tRole.setRoleId(editRoleDTO.getRoleId());
+        //获取当前登录用户信息
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tRole.setModifyDate(new Date());
+        tRole.setModifyUserid(tUser.getUserid());
+        return tRole;
+    }
+
     public static List<TRoleMtmPermission> createTRoleMtmPermissionList(TRole tRole, CreateRoleDTO createRoleDTO) {
         List<Integer> permissionIdList = createRoleDTO.getPermissionIdList();
         ArrayList<TRoleMtmPermission> tRoleMtmPermissionList = new ArrayList<>();
@@ -51,12 +58,28 @@ public class GenerateUtil {
         return tRoleMtmPermissionList;
     }
 
-    public static RoleDetailVO createRoleDetailVO(TRole tRole, List<TPermission> tPermissionList){
+    public static List<TRoleMtmPermission> createTRoleMtmPermissionList(EditRoleDTO editRoleDTO) {
+        List<Integer> permissionIdList = editRoleDTO.getPermissionIdList();
+        ArrayList<TRoleMtmPermission> tRoleMtmPermissionList = new ArrayList<>();
+        for (Integer permissionId : permissionIdList) {
+            TRoleMtmPermission tRoleMtmPermission = new TRoleMtmPermission();
+            tRoleMtmPermission.setRoleId(editRoleDTO.getRoleId());
+            tRoleMtmPermission.setPermissionId(permissionId);
+            tRoleMtmPermission.setDeleteflag(Constant.Judge.YES);
+            tRoleMtmPermissionList.add(tRoleMtmPermission);
+        }
+        return tRoleMtmPermissionList;
+    }
+
+    public static RoleDetailVO createRoleDetailVO(TRole tRole, List<TPermission> rolePermissionList, 
+                                                  List<TPermission> allPermissionList){
         RoleDetailVO roleDetailVO = new RoleDetailVO();
         roleDetailVO.setRoleName(tRole.getRoleName());
         roleDetailVO.setIntroduction(tRole.getIntroduction());
-        List<MenuVO> menuVOList = GenerateUtil.createMenuVOByTPermissionList(tPermissionList);
-        roleDetailVO.setMenuVOList(menuVOList);
+        List<MenuVO> roleMenuVOList = GenerateUtil.createMenuVOByTPermissionList(rolePermissionList);
+        List<MenuVO> allMenuVOList = GenerateUtil.createMenuVOByTPermissionList(allPermissionList);
+        roleDetailVO.setRolePermission(roleMenuVOList);
+        roleDetailVO.setAllPermission(allMenuVOList);
         return roleDetailVO;
     }
     
@@ -76,6 +99,7 @@ public class GenerateUtil {
                 MenuVO menuVO = new MenuVO();
                 menuVOMap.put(tPermission.getMenuName(),menuVO);
                 menuVO.setMenuName(tPermission.getMenuName());
+                menuVO.setMenuSort(tPermission.getMenuSort());
                 menuVO.setPermissionVOList(new ArrayList<>());
                 menuVO.getPermissionVOList().add(permissionVO);
             }
@@ -88,6 +112,121 @@ public class GenerateUtil {
         PermissionVO permissionVO = new PermissionVO();
         permissionVO.setPermissionId(tPermission.getPermissionId());
         permissionVO.setPermissionName(tPermission.getPermissionName());
+        permissionVO.setPermissionSort(tPermission.getPermissionSort());
         return permissionVO;
-    } 
+    }
+
+    public static TUser createTUser(CreateUserDTO createUserDTO){
+        TUser tUser = new TUser();
+        BeanUtils.copyProperties(createUserDTO,tUser);
+        TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tUser.setType(Constant.UserType.COMMON_USER);
+        tUser.setBuildDate(new Date());
+        tUser.setBuildUserid(currentUser.getUserid());
+        tUser.setModifyDate(new Date());
+        tUser.setModifyUserid(currentUser.getUserid());
+        tUser.setDeleteflag(Constant.Judge.YES);
+        tUser.setStatus(Constant.Judge.YES);
+        return tUser;
+    }
+    
+    public static UserListVO getUserListVO(IPage<TUser> iPage){
+        UserListVO userListVO = new UserListVO();
+        if(ObjectUtil.isEmpty(iPage)){
+            return userListVO;
+        }
+        userListVO.setUserTotal(iPage.getTotal());
+        List<TUser> tUserList = iPage.getRecords();
+        if(ObjectUtil.isNotEmpty(tUserList)){
+            List<UserListRowVO> collect = tUserList.stream().map(GenerateUtil::getUserListRowVO).collect(Collectors.toList());
+            userListVO.setUserListRowVOList(collect);
+        }
+        return userListVO;
+    }
+    
+    public static UserListRowVO getUserListRowVO(TUser tUser){
+        UserListRowVO userListRowVO = new UserListRowVO();
+        if(ObjectUtil.isEmpty(tUser)){
+            return userListRowVO;
+        }
+        BeanUtils.copyProperties(tUser,userListRowVO);
+        return userListRowVO;
+    }
+    
+    public static UserDetailVO getUserDetailVO(TUser tUser,String roleName){
+        UserDetailVO userDetailVO = new UserDetailVO();
+        BeanUtils.copyProperties(tUser,userDetailVO);
+        userDetailVO.setRoleName(roleName);
+        return userDetailVO;
+    }
+    
+    public static TUser getTUser(EditUserDTO editUserDTO){
+        TUser tUser = new TUser();
+        BeanUtils.copyProperties(editUserDTO,tUser);
+        TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tUser.setModifyDate(new Date());
+        tUser.setModifyUserid(currentUser.getUserid());
+        return tUser;
+    }
+    
+    public static TMember getTMember(CreateMemberDTO createMemberDTO){
+        TMember tMember = new TMember();
+        BeanUtils.copyProperties(createMemberDTO,tMember);
+        TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tMember.setBuildDate(new Date());
+        tMember.setBuildUserid(currentUser.getUserid());
+        tMember.setModifyDate(new Date());
+        tMember.setModifyUserid(currentUser.getUserid());
+        tMember.setDeleteflag(Constant.Judge.YES);
+        tMember.setOwnerUserid(currentUser.getUserid());
+        tMember.setStatus(Constant.MemberStatus.NORMAL);
+        return tMember;
+    }
+
+    public static TMember getTMember(EditMemberDTO editMemberDTO){
+        TMember tMember = new TMember();
+        BeanUtils.copyProperties(editMemberDTO,tMember);
+        TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tMember.setModifyDate(new Date());
+        tMember.setModifyUserid(currentUser.getUserid());
+        return tMember;
+    }
+    
+    public static MemberListVO getMemberListVO(IPage<TMember> iPage){
+        MemberListVO memberListVO = new MemberListVO();
+        if(ObjectUtil.isEmpty(iPage)){
+            return memberListVO;
+        }
+        memberListVO.setMemberTotal(iPage.getTotal());
+        List<TMember> tMemberList = iPage.getRecords();
+        if(ObjectUtil.isNotEmpty(tMemberList)){
+            List<MemberListRowVO> collect = tMemberList.stream().map(GenerateUtil::getMemberListRowVO).collect(Collectors.toList());
+            memberListVO.setMemberListRowVOList(collect);
+        }
+        return memberListVO;
+    }
+    
+    //请注意，该方法生成memberListRowVO中的memberTypeVO中的memberTypeName没有赋值
+    public static MemberListRowVO getMemberListRowVO(TMember tMember){
+        MemberListRowVO memberListRowVO = new MemberListRowVO();
+        if(ObjectUtil.isEmpty(tMember)){
+            return memberListRowVO;
+        }
+        BeanUtils.copyProperties(tMember,memberListRowVO);
+        MemberTypeVO memberTypeVO = new MemberTypeVO();
+        memberListRowVO.setMemberTypeVO(memberTypeVO);
+        memberTypeVO.setMemberTypeId(tMember.getMemberTypeId());
+        return memberListRowVO;
+    }
+    
+    public static void setMemberTypeName(List<MemberListRowVO> memberListRowVOList,List<TMemberType> tMemberTypeList){
+        if(ObjectUtil.isEmpty(memberListRowVOList) || ObjectUtil.isEmpty(tMemberTypeList)){
+            return;
+        }
+        Map<Integer, String> typeMap = tMemberTypeList.stream().collect(Collectors.toMap(TMemberType::getMemberTypeId, TMemberType::getMemberTypeName));
+        memberListRowVOList.stream().forEach(memberListRowVO -> {
+            MemberTypeVO memberTypeVO = memberListRowVO.getMemberTypeVO();
+            memberTypeVO.setMemberTypeName(typeMap.get(memberTypeVO.getMemberTypeId()));
+        });
+    }
 }

@@ -1,7 +1,9 @@
 package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.po.TRoleMtmPermission;
@@ -32,5 +34,13 @@ public class RoleMtmPermissionServiceImpl extends ServiceImpl<RoleMtmPermissionM
             result = TRoleMtmPermissionList.stream().map(TRoleMtmPermission::getPermissionId).collect(Collectors.toList());
         }
         return result;
+    }
+
+    @Override
+    public void deleteByRoleId(Integer roleId) {
+        UpdateWrapper<TRoleMtmPermission> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(Constant.ColumnName.DELETEFLAG,Constant.Judge.NO);
+        updateWrapper.eq(Constant.ColumnName.ROLE_ID,roleId);
+        roleMtmPermissionMapper.update(null,updateWrapper);
     }
 }

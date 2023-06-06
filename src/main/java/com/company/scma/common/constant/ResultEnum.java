@@ -15,8 +15,17 @@ public enum ResultEnum {
     ERROR_PARAM(403,"参数错误"),
     NO_PERMISSION(405,"没有权限"),
     
-    //角色模块错误
+    //用户模块错误
+    EXIST_USERNAME(411,"用户名已存在"),
+    ERROR_USERNAME(412,"用户名存在非法字符"),
     
+    //角色模块错误
+    DELETED_ROLE_BIND_USER(421,"删除的角色有绑定的用户"),
+    
+    //会员模块错误
+    EXIST_MEMBER_NAME(431,"会员名已存在"),
+    ERROR_MEMBER_ID(432,"会员id错误"),
+    USER_CANNOT_OPERATE_MEMBER(433,"当前用户无法编辑该会员"),
     
     //其他错误
     UNKNOWN_ERROR(500,"未知错误");

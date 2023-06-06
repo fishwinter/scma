@@ -8,8 +8,10 @@
     <result column="introduction" jdbcType="VARCHAR" property="introduction" />
     <result column="build_date" jdbcType="DATE" property="buildDate" />
     <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
+    <result column="menu_sort" jdbcType="INTEGER" property="menuSort" />
+    <result column="permission_sort" jdbcType="INTEGER" property="permissionSort" />
   </resultMap>
   <sql id="Base_Column_List">
-    permission_id, menu_name, permission_name, introduction, build_date, deleteflag
+    permission_id, menu_name, permission_name, introduction, build_date, deleteflag,menu_sort,permission_sort
   </sql>
 </mapper>

@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface RoleMtmPermissionService extends IService<TRoleMtmPermission> {
     
-    List<Integer> selectPermissionIdByRoleId(Integer roleid);
+    public List<Integer> selectPermissionIdByRoleId(Integer roleid);
+    
+    public void deleteByRoleId(Integer roleId);
 }

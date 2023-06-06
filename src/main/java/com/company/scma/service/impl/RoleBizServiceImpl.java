@@ -1,14 +1,12 @@
 package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.company.scma.common.constant.Constant;
 import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreateRoleDTO;
+import com.company.scma.common.dto.EditRoleDTO;
 import com.company.scma.common.po.TPermission;
 import com.company.scma.common.po.TRole;
 import com.company.scma.common.po.TRoleMtmPermission;
-import com.company.scma.common.po.TUser;
 import com.company.scma.common.util.GenerateUtil;
 import com.company.scma.common.vo.Result;
 import com.company.scma.common.vo.RoleDetailVO;
@@ -18,14 +16,11 @@ import com.company.scma.service.mapperservice.PermissionService;
 import com.company.scma.service.mapperservice.RoleMtmPermissionService;
 import com.company.scma.service.mapperservice.RoleService;
 import com.company.scma.service.validateservice.RoleValidateService;
-import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +55,42 @@ public class RoleBizServiceImpl implements RoleBizService {
     }
 
     @Override
+    @Transactional
+    public Result editRole(EditRoleDTO editRoleDTO) {
+        //参数校验
+        boolean flag = roleValidateService.validateEditRoleDTO(editRoleDTO);
+        if (!flag) {
+            return Result.getResult(ResultEnum.ERROR_PARAM);
+        }
+        //更新role表
+        TRole tRole = GenerateUtil.createTRole(editRoleDTO);
+        roleService.saveOrUpdate(tRole);
+        //删除role之前对应的permission关联信息
+        roleMtmPermissionService.deleteByRoleId(editRoleDTO.getRoleId());
+        //插入新的关联信息
+        List<TRoleMtmPermission> tRoleMtmPermissionList = GenerateUtil.createTRoleMtmPermissionList(editRoleDTO);
+        roleMtmPermissionService.saveBatch(tRoleMtmPermissionList);
+        //返回
+        return Result.success();
+    }
+
+    @Override
+    @Transactional
+    public Result deleteRole(Integer roleId) {
+        //参数校验
+        Result result = roleValidateService.validateDeleteRoleId(roleId);
+        if(!Result.isSuccess(result)){
+            return result;
+        }
+        //删除角色
+        roleService.deleteRoleByRoleId(roleId);
+        //删除对应关系
+        roleMtmPermissionService.deleteByRoleId(roleId);
+        //返回
+        return Result.success();
+    }
+
+    @Override
     public Result getAllRole() {
         List<RoleListVO> roleListVOList = new ArrayList<>();
         //查询角色
@@ -86,12 +117,13 @@ public class RoleBizServiceImpl implements RoleBizService {
         if(ObjectUtil.isEmpty(tRole) || ObjectUtil.isEmpty(permissionIdList)){
             return Result.success(roleDetailVO);
         }
-        List<TPermission> tPermissionList = permissionService.getBaseMapper().selectBatchIds(permissionIdList);
+        List<TPermission> rolePermissionList = permissionService.getPermissionByIdList(permissionIdList);
+        List<TPermission> allPermissionList = permissionService.getAllPermission();
         //封装返回结果
-        if(ObjectUtil.isEmpty(tPermissionList)){
+        if(ObjectUtil.isEmpty(rolePermissionList) || ObjectUtil.isEmpty(allPermissionList) ){
             return Result.success(roleDetailVO);
         }
-        roleDetailVO = GenerateUtil.createRoleDetailVO(tRole, tPermissionList);
+        roleDetailVO = GenerateUtil.createRoleDetailVO(tRole, rolePermissionList, allPermissionList);
         //返回
         return Result.success(roleDetailVO);
     }

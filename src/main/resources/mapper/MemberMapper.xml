@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.MemeberMapper">
+  <resultMap id="BaseResultMap" type="com.company.scma.common.po.TMember">
+    <id column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="member_name" jdbcType="VARCHAR" property="memberName" />
+    <result column="member_type_id" jdbcType="INTEGER" property="memberId" />
+    <result column="corporation" jdbcType="VARCHAR" property="corporation" />
+    <result column="reg_address" jdbcType="VARCHAR" property="regAddress" />
+    <result column="steupdate" jdbcType="DATE" property="steupdate" />
+    <result column="creditno" jdbcType="VARCHAR" property="creditno" />
+    <result column="regstock" jdbcType="DECIMAL" property="regstock" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="contact_title" jdbcType="VARCHAR" property="contactTitle" />
+    <result column="contact_tel" jdbcType="VARCHAR" property="contactTel" />
+    <result column="contact_addr" jdbcType="VARCHAR" property="contactAddr" />
+    <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
+    <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="build_date" jdbcType="DATE" property="buildDate" />
+    <result column="build_userid" jdbcType="INTEGER" property="buildUserid" />
+    <result column="modify_date" jdbcType="DATE" property="modifyDate" />
+    <result column="modify_userid" jdbcType="INTEGER" property="modifyUserid" />
+    <result column="owner_userid" jdbcType="INTEGER" property="ownerUserid" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    member_id, mermber_name, mermber_type_id, corporation, reg_address, steupdate, creditno, 
+    regstock, contacts, contact_title, contact_tel, contact_addr, province_code, city_code, 
+    introduction, build_date, build_userid, modify_date, modify_userid, owner_userid, 
+    `status`, deleteflag
+  </sql>
+</mapper>

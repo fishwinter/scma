@@ -44,6 +44,12 @@ public class TPermission implements Serializable {
      * 删除标记：0-删除，1-正常
      */
     private Integer deleteflag;
+    
+    //菜单名排序
+    private Integer menuSort;
+    
+    //权限排序
+    private Integer permissionSort;
 
     private static final long serialVersionUID = 1L;
 }

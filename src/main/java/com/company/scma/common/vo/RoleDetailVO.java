@@ -8,5 +8,6 @@ import java.util.List;
 public class RoleDetailVO {
     private String roleName;
     private String introduction;
-    private List<MenuVO> menuVOList;
+    private List<MenuVO> rolePermission;
+    private List<MenuVO> allPermission;
 }
