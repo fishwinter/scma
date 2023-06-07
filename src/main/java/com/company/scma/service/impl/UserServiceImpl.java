@@ -84,4 +84,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, TUser> implements U
         updateWrapper.eq(Constant.ColumnName.USERID,userid);
         userMapper.update(null,updateWrapper);
     }
+
+    @Override
+    public TUser getUserByUserid(Integer userid) {
+        QueryWrapper<TUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.USERID,userid);
+        List<TUser> tUserList = userMapper.selectList(queryWrapper);
+        if(ObjectUtil.isNotEmpty(tUserList)){
+            return tUserList.get(0);
+        }
+        return null;
+    }
 }

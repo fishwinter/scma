@@ -28,6 +28,10 @@ public interface Constant {
         String MEMBER_ID = "MEMBER_ID";
         String CONTACTS = "CONTACTS";
         String MEMBER_TYPE_ID = "MEMBER_TYPE_ID";
+        String OPERATION_ID = "OPERATION_ID";
+        String OPERATION_NAME = "OPERATION_NAME";
+        String DIRECTOR = "DIRECTOR";
+        String CONTACT_TEL = "CONTACT_TEL";
     }
     
     //常用常数

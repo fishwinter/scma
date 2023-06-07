@@ -13,6 +13,7 @@ import com.company.scma.common.po.TRole;
 import com.company.scma.common.po.TUser;
 import com.company.scma.common.util.GenerateUtil;
 import com.company.scma.common.vo.Result;
+import com.company.scma.common.vo.RoleListVO;
 import com.company.scma.common.vo.UserDetailVO;
 import com.company.scma.common.vo.UserListVO;
 import com.company.scma.service.bizservice.UserBizService;
@@ -27,6 +28,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserBizServiceImpl implements UserBizService {
@@ -59,18 +62,24 @@ public class UserBizServiceImpl implements UserBizService {
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
         //查询用户信息
-        TUser tUser = userService.getById(userid);
+        TUser tUser = userService.getUserByUserid(userid);
         //查询角色信息并封装返回结果
         if(ObjectUtil.isEmpty(tUser)){
             return Result.success(new UserDetailVO());
         }
-        UserDetailVO userDetailVO = GenerateUtil.getUserDetailVO(tUser, null);
+        UserDetailVO userDetailVO = GenerateUtil.getUserDetailVO(tUser);
         Integer roleId = tUser.getRoleId();
         if(ObjectUtil.isNotEmpty(roleId)){
-            TRole tRole = roleService.getById(roleId);
+            TRole tRole = roleService.getRoleByRoleId(roleId);
             if(ObjectUtil.isNotEmpty(tRole)){
-                userDetailVO.setRoleName(tRole.getRoleName());
+                RoleListVO myRole = GenerateUtil.getRoleListVOByTRole(tRole);
+                userDetailVO.setMyRole(myRole);
             }
+        }
+        List<TRole> allRole = roleService.getAllRole();
+        if (ObjectUtil.isNotEmpty(allRole)) {
+            List<RoleListVO> allRoleListVO = allRole.stream().map(GenerateUtil::getRoleListVOByTRole).collect(Collectors.toList());
+            userDetailVO.setAllRole(allRoleListVO);
         }
         //返回
         return Result.success(userDetailVO);

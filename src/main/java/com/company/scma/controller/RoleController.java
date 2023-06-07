@@ -4,6 +4,7 @@ import com.company.scma.common.dto.CreateRoleDTO;
 import com.company.scma.common.dto.EditRoleDTO;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.bizservice.RoleBizService;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,7 +18,7 @@ public class RoleController {
     private RoleBizService roleBizService;
     
     @RequestMapping(value = "/getAllRole", method = RequestMethod.POST)
-    @RequiresPermissions("role:visit")
+    @RequiresPermissions(value = {"role:visit","user:add"},logical = Logical.OR)
     public Result getAllRole(){
         return roleBizService.getAllRole();
     }

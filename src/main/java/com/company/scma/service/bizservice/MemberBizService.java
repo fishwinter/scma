@@ -15,4 +15,6 @@ public interface MemberBizService {
     public Result checkMemberName(String memberName);
     
     public Result editMember(EditMemberDTO editMemberDTO);
+    
+    public Result deleteMember(Integer memberId);
 }

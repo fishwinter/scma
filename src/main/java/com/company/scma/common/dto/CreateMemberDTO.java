@@ -1,5 +1,6 @@
 package com.company.scma.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -33,6 +34,7 @@ public class CreateMemberDTO {
     /**
      * 创建日期
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date steupdate;
 
     /**

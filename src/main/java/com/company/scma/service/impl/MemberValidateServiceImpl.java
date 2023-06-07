@@ -69,7 +69,7 @@ public class MemberValidateServiceImpl implements MemberValidateService {
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
         //校验member是否为当前用户所属
-        TMember tMemberById = memberService.getById(editMemberDTO.getMemberId());
+        TMember tMemberById = memberService.getMemberByMemberId(editMemberDTO.getMemberId());
         if(ObjectUtil.isEmpty(tMemberById)){
             return Result.getResult(ResultEnum.ERROR_MEMBER_ID);
         }

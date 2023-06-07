@@ -15,4 +15,6 @@ public interface UserService extends IService<TUser> {
     public List<TUser> selectUserByRoleId(Integer roleId);
     
     public void deleteUserByUserid(Integer userid);
+    
+    public TUser getUserByUserid(Integer userid);
 }

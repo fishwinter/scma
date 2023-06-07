@@ -45,4 +45,10 @@ public class MemberController {
     public Result editMember(@RequestBody EditMemberDTO editMemberDTO){
         return memberBizService.editMember(editMemberDTO);
     }
+
+    @RequestMapping(value = "/deleteMember", method = RequestMethod.POST)
+    @RequiresPermissions("member:delete")
+    public Result deleteMember(@RequestParam Integer memberId){
+        return memberBizService.deleteMember(memberId);
+    }
 }

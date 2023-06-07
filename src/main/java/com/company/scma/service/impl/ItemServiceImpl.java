@@ -27,4 +27,9 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, TItem> implements I
         }
         return null;
     }
+
+    @Override
+    public List<TItem> getAllItem() {
+        return itemMapper.selectList(null);
+    }
 }

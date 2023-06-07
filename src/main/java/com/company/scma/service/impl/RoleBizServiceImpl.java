@@ -94,7 +94,7 @@ public class RoleBizServiceImpl implements RoleBizService {
     public Result getAllRole() {
         List<RoleListVO> roleListVOList = new ArrayList<>();
         //查询角色
-        List<TRole> tRoleList = roleService.getBaseMapper().selectList(null);
+        List<TRole> tRoleList = roleService.getAllRole();
         //封装返回值
         if (ObjectUtil.isNotEmpty(tRoleList)) {
             roleListVOList = tRoleList.stream().map(GenerateUtil::getRoleListVOByTRole).collect(Collectors.toList());
@@ -111,7 +111,7 @@ public class RoleBizServiceImpl implements RoleBizService {
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
         //查询roleid对应的permissionid
-        TRole tRole = roleService.getById(roleId);
+        TRole tRole = roleService.getRoleByRoleId(roleId);
         List<Integer> permissionIdList = roleMtmPermissionService.selectPermissionIdByRoleId(roleId);
         //查询permission信息
         if(ObjectUtil.isEmpty(tRole) || ObjectUtil.isEmpty(permissionIdList)){

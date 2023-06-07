@@ -2,6 +2,8 @@ package com.company.scma.common.vo;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class UserDetailVO {
     private String username;
@@ -10,5 +12,6 @@ public class UserDetailVO {
     private String tel;
     private String addr;
     private String imageUrl;
-    private String roleName;
+    private RoleListVO myRole;
+    private List<RoleListVO> allRole;
 }

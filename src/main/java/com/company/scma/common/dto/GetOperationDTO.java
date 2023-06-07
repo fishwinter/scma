@@ -7,14 +7,26 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
-public class GetUserDTO {
-    private String username;
-    private String name;
-    private String tel;
+public class GetOperationDTO {
+    /**
+     * 活动名称
+     */
+    private String operationName;
+
+    /**
+     * 活动负责人
+     */
+    private String director;
+
+    /**
+     * 联系电话
+     */
+    private String contactTel;
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date startDate;
+    Date startDate;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date endDate;
+    Date endDate;
     @NotNull
     private Long currentPage;
     @NotNull

@@ -9,4 +9,8 @@ public interface MemberService extends IService<TMember> {
     public TMember getMemberByMemberName(String memberName);
     
     public IPage<TMember> getMemberByCondition(GetMyMemberDTO getMyMemberDTO);
+    
+    public TMember getMemberByMemberId(Integer memberId);
+    
+    public void deleteMemberByMemberId(Integer memberId);
 }

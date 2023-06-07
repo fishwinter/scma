@@ -2,6 +2,7 @@ package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -69,5 +70,25 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, TMember> implem
         Page<TMember> page = Page.of(getMyMemberDTO.getCurrentPage(), getMyMemberDTO.getPageSize(), 0, true);
         IPage<TMember> tMemberIPage = memberMapper.selectPage(page, queryWrapper);
         return tMemberIPage;
+    }
+
+    @Override
+    public TMember getMemberByMemberId(Integer memberId) {
+        QueryWrapper<TMember> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.MEMBER_ID,memberId);
+        List<TMember> tMemberList = memberMapper.selectList(queryWrapper);
+        if(ObjectUtil.isNotEmpty(tMemberList)){
+            return tMemberList.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteMemberByMemberId(Integer memberId) {
+        UpdateWrapper<TMember> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(Constant.ColumnName.DELETEFLAG,Constant.Judge.NO);
+        updateWrapper.eq(Constant.ColumnName.MEMBER_ID,memberId);
+        memberMapper.update(null,updateWrapper);
     }
 }

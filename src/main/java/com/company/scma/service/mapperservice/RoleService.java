@@ -10,4 +10,6 @@ public interface RoleService extends IService<TRole> {
     public void deleteRoleByRoleId(Integer roleId);
     
     public List<TRole> getAllRole();
+    
+    public TRole getRoleByRoleId(Integer roleId);
 }

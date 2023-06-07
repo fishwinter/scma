@@ -1,5 +1,6 @@
 package com.company.scma.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -33,5 +34,17 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, TRole> implements R
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
         List<TRole> tRoleList = roleMapper.selectList(queryWrapper);
         return tRoleList;
+    }
+
+    @Override
+    public TRole getRoleByRoleId(Integer roleId) {
+        QueryWrapper<TRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.ROLE_ID,roleId);
+        List<TRole> tRoleList = roleMapper.selectList(queryWrapper);
+        if(ObjectUtil.isNotEmpty(tRoleList)){
+            return tRoleList.get(0);
+        }
+        return null;
     }
 }
