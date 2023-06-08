@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.TPartnershipMapper">
+  <resultMap id="BaseResultMap" type="com.company.scma.common.po.TPartnership">
+    <id column="partnership_id" jdbcType="INTEGER" property="partnershipId" />
+    <result column="partnership_name" jdbcType="VARCHAR" property="partnershipName" />
+    <result column="partnership_type" jdbcType="INTEGER" property="partnershipType" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
+    <result column="addr" jdbcType="VARCHAR" property="addr" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="web_addr" jdbcType="VARCHAR" property="webAddr" />
+    <result column="wechat_account" jdbcType="VARCHAR" property="wechatAccount" />
+    <result column="video_account" jdbcType="VARCHAR" property="videoAccount" />
+    <result column="director_name" jdbcType="VARCHAR" property="directorName" />
+    <result column="director_position" jdbcType="VARCHAR" property="directorPosition" />
+    <result column="director_tel" jdbcType="VARCHAR" property="directorTel" />
+    <result column="director_wechat" jdbcType="VARCHAR" property="directorWechat" />
+    <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+    <result column="contact_position" jdbcType="VARCHAR" property="contactPosition" />
+    <result column="contact_tel" jdbcType="VARCHAR" property="contactTel" />
+    <result column="contact_wechat" jdbcType="VARCHAR" property="contactWechat" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="payment_time" jdbcType="DATE" property="paymentTime" />
+    <result column="contract_number" jdbcType="VARCHAR" property="contractNumber" />
+    <result column="contract_term" jdbcType="VARCHAR" property="contractTerm" />
+    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
+    <result column="first_join_time" jdbcType="DATE" property="firstJoinTime" />
+    <result column="service_provider" jdbcType="VARCHAR" property="serviceProvider" />
+    <result column="operation_id" jdbcType="INTEGER" property="operationId" />
+    <result column="manager_userid" jdbcType="INTEGER" property="managerUserid" />
+    <result column="build_date" jdbcType="DATE" property="buildDate" />
+    <result column="build_userid" jdbcType="INTEGER" property="buildUserid" />
+    <result column="modify_date" jdbcType="DATE" property="modifyDate" />
+    <result column="modify_userid" jdbcType="INTEGER" property="modifyUserid" />
+    <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    partnership_id, partnership_name, partnership_type, logo_url, addr, email, web_addr, 
+    wechat_account, video_account, director_name, director_position, director_tel, director_wechat, 
+    contact_name, contact_postion, contact_tel, contact_wechat, amount, payment_time, 
+    contract_number, contract_term, project_type, first_join_time, service_provider, 
+    operation_id, manager_userid, build_date, build_userid, modify_date, modify_userid, 
+    deleteflag
+  </sql>
+</mapper>
