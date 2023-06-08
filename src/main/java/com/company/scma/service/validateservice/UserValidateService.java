@@ -9,6 +9,8 @@ public interface UserValidateService {
     
     public Result validateCreateUserDTO(CreateUserDTO createUserDTO);
     
+    public Result validateCreateUserParam(String username,String password);
+    
     public boolean validateGetUserDTO(GetUserDTO getUserDTO);
     
     public Result validateEditUserDTO(EditUserDTO editUserDTO);

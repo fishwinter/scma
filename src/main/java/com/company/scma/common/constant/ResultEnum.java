@@ -27,6 +27,11 @@ public enum ResultEnum {
     ERROR_MEMBER_ID(432,"会员id错误"),
     USER_CANNOT_OPERATE_MEMBER(433,"当前用户无法编辑该会员"),
     
+    //合作企业模块错误
+    ERROR_OPERATION_STATUS(441,"绑定活动状态错误"),
+    ERROR_MANAGER_USERNAME(442,"管理员账号名存在非法字符"),
+    EXIST_MANAGER_USERNAME(443,"管理员账号名已存在"),
+    
     //其他错误
     UNKNOWN_ERROR(500,"未知错误");
     ;

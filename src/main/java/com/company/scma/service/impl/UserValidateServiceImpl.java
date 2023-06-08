@@ -44,6 +44,23 @@ public class UserValidateServiceImpl implements UserValidateService {
     }
 
     @Override
+    public Result validateCreateUserParam(String username, String password) {
+        if(ObjectUtil.isEmpty(username) || ObjectUtil.isEmpty(password)){
+            return Result.getResult(ResultEnum.ERROR_PARAM);
+        }
+
+        if(username.contains("-")){
+            return Result.getResult(ResultEnum.ERROR_MANAGER_USERNAME);
+        }
+
+        TUser tUser = userService.selectUserByUsername(username);
+        if(ObjectUtil.isNotEmpty(tUser)){
+            return Result.getResult(ResultEnum.EXIST_MANAGER_USERNAME);
+        }
+        return Result.success();
+    }
+
+    @Override
     public boolean validateGetUserDTO(GetUserDTO getUserDTO) {
         if(ObjectUtil.isEmpty(getUserDTO)){
             return false;

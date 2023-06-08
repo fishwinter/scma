@@ -15,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OperationServiceImpl extends ServiceImpl<OperationMapper, TOperation> implements OperationService {
     @Autowired
@@ -57,5 +59,25 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, TOperatio
         Page<TOperation> page = Page.of(getOperationDTO.getCurrentPage(), getOperationDTO.getPageSize(), 0, true);
         IPage<TOperation> tOperationIPage = operationMapper.selectPage(page, queryWrapper);
         return tOperationIPage;
+    }
+
+    @Override
+    public TOperation getTOperationById(Integer operationId) {
+        QueryWrapper<TOperation> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.OPERATION_ID,operationId);
+        List<TOperation> tOperationList = operationMapper.selectList(queryWrapper);
+        if(ObjectUtil.isNotEmpty(tOperationList)){
+            return tOperationList.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List<TOperation> getAllValidOperation() {
+        QueryWrapper<TOperation> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.STATUS,Constant.OperationStatus.NORMAL);
+        return operationMapper.selectList(queryWrapper);
     }
 }

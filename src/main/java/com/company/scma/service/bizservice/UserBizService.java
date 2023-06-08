@@ -14,6 +14,8 @@ public interface UserBizService {
     
     public Result createUser(CreateUserDTO createUserDTO);
     
+    public Result createUserByPartnership(String username,String password,Integer partnershipId,Integer subAccountType);
+    
     public Result editUser(EditUserDTO editUserDTO);
     
     public Result deleteUser(Integer userid);

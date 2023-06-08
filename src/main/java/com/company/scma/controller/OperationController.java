@@ -1,7 +1,6 @@
 package com.company.scma.controller;
 
 import com.company.scma.common.dto.CreateOperationDTO;
-import com.company.scma.common.dto.CreateRoleDTO;
 import com.company.scma.common.dto.EditOperationDTO;
 import com.company.scma.common.dto.GetOperationDTO;
 import com.company.scma.common.vo.Result;
@@ -17,10 +16,22 @@ public class OperationController {
     @Autowired
     private OperationBizService operationBizService;
 
-    @RequestMapping(value = "/getAllOperation", method = RequestMethod.POST)
+    @RequestMapping(value = "/getOperation", method = RequestMethod.POST)
     @RequiresPermissions("operation:visit")
-    public Result getAllOperation(@RequestBody GetOperationDTO getOperationDTO){
-        return operationBizService.getAllOperation(getOperationDTO);
+    public Result getOperation(@RequestBody GetOperationDTO getOperationDTO){
+        return operationBizService.getOperation(getOperationDTO);
+    }
+
+    @RequestMapping(value = "/getOperationDetail", method = RequestMethod.POST)
+    @RequiresPermissions("operation:visit")
+    public Result getOperationDetail(@RequestParam Integer operationId){
+        return operationBizService.getOperationDetail(operationId);
+    }
+
+    @RequestMapping(value = "/getAllValidOperation", method = RequestMethod.POST)
+    @RequiresPermissions("partnership:add")
+    public Result getAllValidOperation(){
+        return operationBizService.getAllValidOperation();
     }
 
     @RequestMapping(value = "/createOperation", method = RequestMethod.POST)

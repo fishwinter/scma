@@ -118,6 +118,24 @@ public class UserBizServiceImpl implements UserBizService {
 
     @Override
     @Transactional
+    public Result createUserByPartnership(String username, String password, Integer partnershipId, Integer subAccountType) {
+        //数据校验
+        if(Constant.SubAccountType.MANAGER.equals(subAccountType)){
+            Result result = userValidateService.validateCreateUserParam(username,password);
+            if(!Result.isSuccess(result)){
+                return result;
+            }
+        }
+        //密码解密
+
+        //生成实体类
+        TUser tUser = GenerateUtil.getPartnerShipUser(username, password, partnershipId);
+        //返回
+        return Result.success(tUser);
+    }
+
+    @Override
+    @Transactional
     public Result editUser(EditUserDTO editUserDTO) {
         //参数校验
         Result result = userValidateService.validateEditUserDTO(editUserDTO);

@@ -45,7 +45,7 @@ public interface Constant {
     //用户类型
     public interface UserType{
         Integer COMMON_USER = 1;
-        Integer SON_ACCOUNT_USER = 2;
+        Integer SUB_ACCOUNT_USER = 2;
     }
     
     //性别
@@ -64,5 +64,16 @@ public interface Constant {
         Integer RELEASED_PUBLIC_RESOURCE = 1;
         Integer NORMAL = 2;
         Integer RELEASED_MEMBER_DATABASE = 2;
+    }
+    
+    public interface OperationStatus{
+        Integer NOT_STARTED = 0;
+        Integer NORMAL = 1;
+        Integer FINISH = 2;
+    }
+    
+    public interface SubAccountType {
+        Integer MANAGER = 1;
+        Integer SUB_ACCOUNT = 2;
     }
 }

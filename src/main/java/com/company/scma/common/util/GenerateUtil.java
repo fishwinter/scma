@@ -1,6 +1,7 @@
 package com.company.scma.common.util;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.dto.*;
@@ -167,6 +168,26 @@ public class GenerateUtil {
         tUser.setModifyUserid(currentUser.getUserid());
         return tUser;
     }
+
+    public static TUser getPartnerShipUser(String username, String password, Integer partnershipId){
+        TUser tUser = new TUser();
+        if(ObjectUtil.isEmpty(username) || ObjectUtil.isEmpty(password)){
+            return tUser;
+        }
+        tUser.setUsername(username);
+        String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        tUser.setPassword(hashPassword);
+        TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tUser.setType(Constant.UserType.SUB_ACCOUNT_USER);
+        tUser.setBuildDate(new Date());
+        tUser.setBuildUserid(currentUser.getUserid());
+        tUser.setBuildPartnershipid(partnershipId);
+        tUser.setModifyDate(new Date());
+        tUser.setModifyUserid(currentUser.getUserid());
+        tUser.setDeleteflag(Constant.Judge.YES);
+        tUser.setStatus(Constant.Judge.YES);
+        return tUser;
+    }
     
     public static TMember getTMember(CreateMemberDTO createMemberDTO){
         TMember tMember = new TMember();
@@ -292,5 +313,65 @@ public class GenerateUtil {
         tOperation.setModifyDate(new Date());
         tOperation.setModifyUserid(tUser.getUserid());
         return tOperation;
+    }
+    
+    public static OperationListVO getOperationListVO(IPage<TOperation> iPage){
+        OperationListVO operationListVO = new OperationListVO();
+        if(ObjectUtil.isEmpty(iPage)){
+            return operationListVO;
+        }
+        operationListVO.setOperationTotal(iPage.getTotal());
+        List<TOperation> tOperationList = iPage.getRecords();
+        if(ObjectUtil.isNotEmpty(tOperationList)){
+            List<OperationListRowVO> operationListRowVOList = tOperationList.stream().map(GenerateUtil::getOperationListRowVO).collect(Collectors.toList());
+            operationListVO.setOperationListRowVOList(operationListRowVOList);
+        }
+        return operationListVO;
+    }
+    
+    public static OperationListRowVO getOperationListRowVO(TOperation tOperation){
+        OperationListRowVO operationListRowVO = new OperationListRowVO();
+        if(ObjectUtil.isEmpty(tOperation)){
+            return operationListRowVO;
+        }
+        BeanUtils.copyProperties(tOperation,operationListRowVO);
+        return operationListRowVO;
+    }
+    
+    public static OperationDetailVO getOperationDetailVO(TOperation tOperation){
+        OperationDetailVO operationDetailVO = new OperationDetailVO();
+        if(ObjectUtil.isEmpty(tOperation)){
+            return operationDetailVO;
+        }
+        BeanUtils.copyProperties(tOperation,operationDetailVO);
+        return operationDetailVO;
+    }
+    
+    public static TPartnership getTPartnership (CreatePartnershipDTO createPartnershipDTO){
+        TPartnership tPartnership = new TPartnership();
+        if(ObjectUtil.isEmpty(createPartnershipDTO)){
+            return tPartnership;
+        }
+        BeanUtils.copyProperties(createPartnershipDTO,tPartnership);
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tPartnership.setBuildDate(new Date());
+        tPartnership.setBuildUserid(tUser.getUserid());
+        tPartnership.setModifyDate(new Date());
+        tPartnership.setModifyUserid(tUser.getUserid());
+        tPartnership.setDeleteflag(Constant.Judge.YES);
+        return tPartnership;
+    }
+    
+    public static TOperationOtmPartnership getTOperationOtmPartnership(Integer operationId,Integer partnershipId){
+        TOperationOtmPartnership tOperationOtmPartnership = new TOperationOtmPartnership();
+        if(ObjectUtil.isEmpty(operationId) || ObjectUtil.isEmpty(partnershipId)){
+            return tOperationOtmPartnership;
+        }
+        
+        tOperationOtmPartnership.setOperationId(operationId);
+        tOperationOtmPartnership.setPartnershipId(partnershipId);
+        tOperationOtmPartnership.setBuildDate(new Date());
+        tOperationOtmPartnership.setDeleteflag(Constant.Judge.YES);
+        return tOperationOtmPartnership;
     }
 }

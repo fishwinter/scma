@@ -6,7 +6,11 @@ import com.company.scma.common.dto.GetOperationDTO;
 import com.company.scma.common.vo.Result;
 
 public interface OperationBizService {
-    public Result getAllOperation(GetOperationDTO getOperationDTO);
+    public Result getOperation(GetOperationDTO getOperationDTO);
+    
+    public Result getOperationDetail(Integer operationId);
+    
+    public Result getAllValidOperation();
     
     public Result createOperation(CreateOperationDTO createOperationDTO);
     
