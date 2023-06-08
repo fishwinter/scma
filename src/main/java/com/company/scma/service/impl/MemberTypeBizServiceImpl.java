@@ -22,4 +22,14 @@ public class MemberTypeBizServiceImpl implements MemberTypeBizService {
         List<MemberTypeVO> memberTypeVOList = GenerateUtil.getMemberTypeVOList(allType);
         return Result.success(memberTypeVOList);
     }
+
+    @Override
+    public Result createMemberType(List<String> memberTypeName) {
+        return null;
+    }
+
+    @Override
+    public Result deleteMemberType(Integer memberTypeId) {
+        return null;
+    }
 }

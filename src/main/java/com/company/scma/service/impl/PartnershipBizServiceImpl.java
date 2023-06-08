@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.dto.CreatePartnershipDTO;
 import com.company.scma.common.dto.EditPartnershipDTO;
+import com.company.scma.common.dto.GetPartnershipDTO;
 import com.company.scma.common.po.TOperationOtmPartnership;
 import com.company.scma.common.po.TPartnership;
 import com.company.scma.common.po.TUser;
@@ -34,7 +35,17 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
     private UserService userService;
     @Autowired
     private OperationOtmPartnershipService operationOtmPartnershipService;
-    
+
+    @Override
+    public Result getPartnership(GetPartnershipDTO getPartnershipDTO) {
+        return null;
+    }
+
+    @Override
+    public Result getPartnershipDetail(Integer partnershipId) {
+        return null;
+    }
+
     @Override
     @Transactional
     public Result createPartnership(CreatePartnershipDTO createPartnershipDTO) {
@@ -104,6 +115,11 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         //修改子账号
         
         //修改绑定关系
+        return null;
+    }
+
+    @Override
+    public Result deletePartnership(Integer partnershipId) {
         return null;
     }
 }

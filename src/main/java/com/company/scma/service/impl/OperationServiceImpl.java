@@ -77,7 +77,7 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, TOperatio
     public List<TOperation> getAllValidOperation() {
         QueryWrapper<TOperation> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES);
-        queryWrapper.eq(Constant.ColumnName.STATUS,Constant.OperationStatus.NORMAL);
+        queryWrapper.and(wrapper -> wrapper.eq(Constant.ColumnName.STATUS,Constant.OperationStatus.NORMAL).or().eq(Constant.ColumnName.STATUS,Constant.OperationStatus.FINISH));
         return operationMapper.selectList(queryWrapper);
     }
 }

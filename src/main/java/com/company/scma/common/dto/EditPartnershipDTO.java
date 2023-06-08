@@ -134,12 +134,6 @@ public class EditPartnershipDTO {
     @NotNull
     private Integer operationId;
 
-    @NotBlank
-    private String managerUsername;
-
-    @NotBlank
-    private String managerPassword;
-
     @NotNull
     private Integer subAccountNum;
 }

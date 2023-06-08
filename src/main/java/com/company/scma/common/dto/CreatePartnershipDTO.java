@@ -92,7 +92,7 @@ public class CreatePartnershipDTO {
     /**
      * 协办金额
      */
-    private BigDecimal amount;
+    private String amount;
 
     /**
      * 进账时间
@@ -112,7 +112,7 @@ public class CreatePartnershipDTO {
     /**
      * 合作项目，1-协办，2-广告，3-活动
      */
-    private String projectType;
+    private Integer projectType;
 
     /**
      * 首次加入协办单位时间

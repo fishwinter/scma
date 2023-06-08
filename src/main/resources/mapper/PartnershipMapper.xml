@@ -19,11 +19,11 @@
     <result column="contact_position" jdbcType="VARCHAR" property="contactPosition" />
     <result column="contact_tel" jdbcType="VARCHAR" property="contactTel" />
     <result column="contact_wechat" jdbcType="VARCHAR" property="contactWechat" />
-    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="amount" jdbcType="VARCHAR" property="amount" />
     <result column="payment_time" jdbcType="DATE" property="paymentTime" />
     <result column="contract_number" jdbcType="VARCHAR" property="contractNumber" />
     <result column="contract_term" jdbcType="VARCHAR" property="contractTerm" />
-    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
+    <result column="project_type" jdbcType="INTEGER" property="projectType" />
     <result column="first_join_time" jdbcType="DATE" property="firstJoinTime" />
     <result column="service_provider" jdbcType="VARCHAR" property="serviceProvider" />
     <result column="operation_id" jdbcType="INTEGER" property="operationId" />

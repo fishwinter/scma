@@ -22,7 +22,7 @@ public class MemberController {
         return memberBizService.getMyMember(getMyMemberDTO);
     }
 
-    @RequiresPermissions("member:visit")
+    @RequiresPermissions(value = {"member:visit","memberDataBase:visit"})
     @RequestMapping(value = "/getMemberDetail", method = RequestMethod.POST)
     public Result getMemberDetail(@RequestParam Integer memberId){
         return memberBizService.getMemberDetail(memberId);

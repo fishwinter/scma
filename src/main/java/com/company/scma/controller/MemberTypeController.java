@@ -6,9 +6,9 @@ import com.company.scma.service.bizservice.MemberTypeBizService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "memberType", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -17,8 +17,20 @@ public class MemberTypeController {
     private MemberTypeBizService memberTypeBizService;
 
     @RequestMapping(value = "/getAllMemberType", method = RequestMethod.POST)
-    @RequiresPermissions("member:add")
+    @RequiresPermissions("member:visit")
     public Result getAllMemberType(){
         return memberTypeBizService.getAllMemberType();
+    }
+
+    @RequestMapping(value = "/createMemberType", method = RequestMethod.POST)
+    @RequiresPermissions("member:add")
+    public Result createMemberType(@RequestBody List<String> memberTypeNameList){
+        return memberTypeBizService.createMemberType(memberTypeNameList);
+    }
+
+    @RequestMapping(value = "/deleteMemberType", method = RequestMethod.POST)
+    @RequiresPermissions("member:delete")
+    public Result deleteMemberType(@RequestParam Integer memberTypeId){
+        return memberTypeBizService.deleteMemberType(memberTypeId);
     }
 }
