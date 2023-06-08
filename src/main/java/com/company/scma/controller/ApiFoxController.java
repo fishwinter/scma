@@ -24,112 +24,112 @@ public class ApiFoxController {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login1")
     public MemberListRowVO login1(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login2")
     public MemberListVO login2(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login3")
     public MemberTypeVO login3(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login4")
     public MenuVO login4(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login5")
     public OperationDetailVO login5(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login6")
     public OperationListRowVO login6(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login7")
     public OperationListVO login7(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login8")
     public PermissionVO login8(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login9")
     public RoleDetailVO login9(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login10")
     public RoleListVO login10(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login11")
     public UserDetailVO login11(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login12")
     public UserListRowVO login12(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login13")
     public UserListVO login13(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login14")
     public List<OperationListRowVO> login14(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login15")
     public MemberDetailVO login15(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login16")
     public MemberDataBaseListVO login16(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login17")
     public MemberDataBaseListRowVO login17(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login18")
     public PartnershipDetailVO login18(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login19")
     public PartnershipListRowVO login19(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login20")
     public PartnershipListVO login20(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login21")
     public SysConfigDTO login21(MemberDetailVO memberDetailVO) {
         return null;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login22")
     public SysConfigDetailVO login22(MemberDetailVO memberDetailVO) {
         return null;
     }
