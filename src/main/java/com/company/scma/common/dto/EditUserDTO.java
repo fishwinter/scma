@@ -7,6 +7,9 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class EditUserDTO {
+    /**
+     * 用户id
+     */
     @NotNull
     private Integer userid;
     
@@ -51,8 +54,10 @@ public class EditUserDTO {
      */
     @NotBlank
     private String imageUrl;
-    
-    //角色id
+
+    /**
+     * 角色id
+     */
     @NotNull
     private Integer roleId;
 }

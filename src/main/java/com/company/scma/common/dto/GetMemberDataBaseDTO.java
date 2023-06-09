@@ -15,7 +15,7 @@ public class GetMemberDataBaseDTO {
      */
     String partnershipName;
     /**
-     * 所属人
+     * 所属人名称
      */
     String username;
 

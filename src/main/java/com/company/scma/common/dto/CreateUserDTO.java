@@ -48,8 +48,10 @@ public class CreateUserDTO {
      */
     @NotBlank
     private String imageUrl;
-    
-    //角色id
+
+    /**
+     *角色id
+     */
     @NotNull
     private Integer roleId;
 }

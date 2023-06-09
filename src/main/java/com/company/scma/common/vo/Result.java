@@ -10,8 +10,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Result {
+    /**
+     * 响应代码
+     */
     private Integer code;
+    /**
+     * 响应信息
+     */
     private String msg;
+    /**
+     * 响应数据
+     */
     private Object Data;
     
     public static Result success(){

@@ -129,13 +129,22 @@ public class CreatePartnershipDTO {
      */
     @NotNull
     private Integer operationId;
-    
+
+    /**
+     * 管理员账号
+     */
     @NotBlank
     private String managerUsername;
-    
+
+    /**
+     * 管理员密码
+     */
     @NotBlank
     private String managerPassword;
-    
+
+    /**
+     * 子账号数量
+     */
     @NotNull
     private Integer subAccountNum;
 }

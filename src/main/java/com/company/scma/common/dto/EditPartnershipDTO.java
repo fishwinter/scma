@@ -134,6 +134,9 @@ public class EditPartnershipDTO {
     @NotNull
     private Integer operationId;
 
+    /**
+     * 子账号数量
+     */
     @NotNull
     private Integer subAccountNum;
 }

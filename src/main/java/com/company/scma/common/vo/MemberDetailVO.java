@@ -57,15 +57,25 @@ public class MemberDetailVO {
      */
     private String contactAddr;
 
+    /**
+     * 当前会员类型
+     */
     private MemberTypeVO myMemberType;
-    
-    private List<MemberTypeVO> allMemberType;
-    
-    private List<ItemVO> myItem;
-    
-    private List<ItemVO> allItem;
 
-    private String cityCode;
+    /**
+     * 所有会员类型
+     */
+    private List<MemberTypeVO> allMemberType;
+
+    /**
+     * 当前实体
+     */
+    private List<ItemVO> myItem;
+
+    /**
+     * 所有实体
+     */
+    private List<ItemVO> allItem;
 
     /**
      * 简介
