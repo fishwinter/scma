@@ -12,14 +12,14 @@ public class PartnershipListRowVO {
     private String partnershipName;
 
     /**
-     * 负责人姓名
+     * 联系人姓名
      */
-    private String directorName;
+    private String contactName;
 
     /**
-     * 负责人手机号
+     * 联系人手机
      */
-    private String directorTel;
+    private String contactTel;
 
     /**
      * 状态

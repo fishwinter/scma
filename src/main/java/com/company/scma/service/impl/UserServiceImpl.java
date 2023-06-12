@@ -96,4 +96,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, TUser> implements U
         }
         return null;
     }
+
+    @Override
+    public List<TUser> getUserByTypeAndBuildId(Integer userType, Integer buildId) {
+        QueryWrapper<TUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.STATUS, Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.TYPE,userType);
+        queryWrapper.orderByDesc(Constant.ColumnName.USERID);
+        if(Constant.UserType.COMMON_USER.equals(userType)){
+            queryWrapper.eq(Constant.ColumnName.BUILD_USERID,buildId);
+        }else {
+            queryWrapper.eq(Constant.ColumnName.BUILD_PARTNERSHIPID,buildId);
+        }
+        List<TUser> tUserList = userMapper.selectList(queryWrapper);
+        return tUserList;
+    }
 }

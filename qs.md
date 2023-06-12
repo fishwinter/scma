@@ -59,7 +59,7 @@ admin 密码 $2a$10$9EOfxf2jHSH0Lgg/N6Noe.4TK.p4JR55jr6Q7fvqqFVqc5qoJ2lsi
 查询修改为模糊查询
 
 修改或者删除活动，只修改活动状态，不修改合作企业状态，也不修改绑定关系
-修改或者删除合作企业，只修改合作企业状态，不删除绑定关系，不修改子账号和对应的会员状态
+修改或者删除合作企业，只修改合作企业状态，删除绑定关系，不修改子账号和对应的会员状态
 定时任务修改活动状态，修改绑定关系，修改子账号状态，修改会员状态，生成新的子账号 
 
 只有会员和用户名是要求不重名的，合租企业，供应商，活动，角色都是可以重名的 是的
@@ -81,6 +81,16 @@ admin 密码 $2a$10$9EOfxf2jHSH0Lgg/N6Noe.4TK.p4JR55jr6Q7fvqqFVqc5qoJ2lsi
 系统参数是否还需要一个提交按钮
 系统参数的初始值是多少 按照原型决定，释放到公司会员数据库
 
+活动和合作企业，搜索条件和展示信息是联系人还是负责人
+合作企业更新文档
+合作企业创建接口
+合作企业projectType由integer变为string
+
+数据初始化
+权限初始化
+角色初始化
+用户初始化
+系统参数初始化
 
 apifox:APS-RM63iwXq1rtxoRmif3qWD9eQLCtp0tKp
 github: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

@@ -23,10 +23,11 @@
     <result column="payment_time" jdbcType="DATE" property="paymentTime" />
     <result column="contract_number" jdbcType="VARCHAR" property="contractNumber" />
     <result column="contract_term" jdbcType="VARCHAR" property="contractTerm" />
-    <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
     <result column="first_join_time" jdbcType="DATE" property="firstJoinTime" />
     <result column="service_provider" jdbcType="VARCHAR" property="serviceProvider" />
     <result column="operation_id" jdbcType="INTEGER" property="operationId" />
+    <result column="operation_status" jdbcType="INTEGER" property="operationStatus" />
     <result column="manager_userid" jdbcType="INTEGER" property="managerUserid" />
     <result column="build_date" jdbcType="DATE" property="buildDate" />
     <result column="build_userid" jdbcType="INTEGER" property="buildUserid" />
@@ -39,7 +40,7 @@
     wechat_account, video_account, director_name, director_position, director_tel, director_wechat, 
     contact_name, contact_postion, contact_tel, contact_wechat, amount, payment_time, 
     contract_number, contract_term, project_type, first_join_time, service_provider, 
-    operation_id, manager_userid, build_date, build_userid, modify_date, modify_userid, 
+    operation_id, operation_status, manager_userid, build_date, build_userid, modify_date, modify_userid, 
     deleteflag
   </sql>
 </mapper>

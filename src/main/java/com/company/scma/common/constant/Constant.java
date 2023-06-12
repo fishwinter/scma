@@ -32,6 +32,12 @@ public interface Constant {
         String OPERATION_NAME = "OPERATION_NAME";
         String DIRECTOR = "DIRECTOR";
         String CONTACT_TEL = "CONTACT_TEL";
+        String PARTNERSHIP_ID = "PARTNERSHIP_ID";
+        String PARTNERSHIP_NAME = "PARTNERSHIP_NAME";
+        String CONTACT_NAME = "CONTACT_NAME";
+        String CUSTCODE = "CUSTCODE";
+        String BUILD_USERID = "BUILD_USERID";
+        String BUILD_PARTNERSHIPID = "BUILD_PARTNERSHIPID";
     }
     
     //常用常数
@@ -75,5 +81,10 @@ public interface Constant {
     public interface SubAccountType {
         Integer MANAGER = 1;
         Integer SUB_ACCOUNT = 2;
+    }
+    
+    public interface SysConfigCustCode{
+        String PARTNERSHIP_TYPE = "PARTNERSHIP_TYPE";
+        String PARTNERSHIP_PROJECT_TYPE = "PARTNERSHIP_PROJECT_TYPE";
     }
 }

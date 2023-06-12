@@ -4,6 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreatePartnershipDTO;
+import com.company.scma.common.dto.EditPartnershipDTO;
+import com.company.scma.common.dto.GetPartnershipDTO;
 import com.company.scma.common.po.TOperation;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.mapperservice.OperationService;
@@ -31,6 +33,37 @@ public class PartnershipValidateServiceImpl implements PartnershipValidateServic
         
         //校验绑定的活动状态
         Integer operationId = createPartnershipDTO.getOperationId();
+        TOperation tOperationById = operationService.getTOperationById(operationId);
+        if(Constant.OperationStatus.NOT_STARTED.equals(tOperationById.getStatus())){
+            return Result.getResult(ResultEnum.ERROR_OPERATION_STATUS);
+        }
+        return Result.success(tOperationById.getStatus());
+    }
+
+    @Override
+    public Result validateGetPartnershipDTO(GetPartnershipDTO getPartnershipDTO) {
+        if(ObjectUtil.isEmpty(getPartnershipDTO)){
+            return Result.getResult(ResultEnum.ERROR_PARAM);
+        }
+
+        if(!commonValidateService.validateAnnotation(getPartnershipDTO)){
+            return Result.getResult(ResultEnum.ERROR_PARAM);
+        }
+        return Result.success();
+    }
+
+    @Override
+    public Result validateEditPartnershipDTO(EditPartnershipDTO editPartnershipDTO) {
+        if(ObjectUtil.isEmpty(editPartnershipDTO)){
+            return Result.getResult(ResultEnum.ERROR_PARAM);
+        }
+
+        if(!commonValidateService.validateAnnotation(editPartnershipDTO)){
+            return Result.getResult(ResultEnum.ERROR_PARAM);
+        }
+        
+        //校验绑定的活动状态
+        Integer operationId = editPartnershipDTO.getOperationId();
         TOperation tOperationById = operationService.getTOperationById(operationId);
         if(Constant.OperationStatus.NOT_STARTED.equals(tOperationById.getStatus())){
             return Result.getResult(ResultEnum.ERROR_OPERATION_STATUS);

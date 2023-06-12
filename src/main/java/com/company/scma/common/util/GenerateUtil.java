@@ -347,18 +347,29 @@ public class GenerateUtil {
         return operationDetailVO;
     }
     
-    public static TPartnership getTPartnership (CreatePartnershipDTO createPartnershipDTO){
+    public static TPartnership getTPartnership (CreatePartnershipDTO createPartnershipDTO,Integer operationStatus){
         TPartnership tPartnership = new TPartnership();
         if(ObjectUtil.isEmpty(createPartnershipDTO)){
             return tPartnership;
         }
         BeanUtils.copyProperties(createPartnershipDTO,tPartnership);
         TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tPartnership.setOperationStatus(operationStatus);
         tPartnership.setBuildDate(new Date());
         tPartnership.setBuildUserid(tUser.getUserid());
         tPartnership.setModifyDate(new Date());
         tPartnership.setModifyUserid(tUser.getUserid());
         tPartnership.setDeleteflag(Constant.Judge.YES);
+        StringBuffer sb = new StringBuffer();
+        List<Integer> projectType = createPartnershipDTO.getProjectType();
+        if(ObjectUtil.isNotEmpty(projectType)){
+            for (Integer projectTypeId : projectType) {
+                sb.append(projectTypeId).append(",");
+            }
+            String projectTypeStr = sb.toString();
+            projectTypeStr = projectTypeStr.substring(0,projectTypeStr.length() - 1);
+            tPartnership.setProjectType(projectTypeStr);
+        }
         return tPartnership;
     }
     
@@ -374,4 +385,96 @@ public class GenerateUtil {
         tOperationOtmPartnership.setDeleteflag(Constant.Judge.YES);
         return tOperationOtmPartnership;
     }
+
+    public static PartnershipListVO getPartnershipListVO(IPage<TPartnership> iPage){
+        PartnershipListVO partnershipListVO = new PartnershipListVO();
+        if(ObjectUtil.isEmpty(iPage)){
+            return partnershipListVO;
+        }
+        partnershipListVO.setPartnershipTotal(iPage.getTotal());
+        List<TPartnership> tPartnershipList = iPage.getRecords();
+        if(ObjectUtil.isNotEmpty(tPartnershipList)){
+            List<PartnershipListRowVO> partnershipListRowVOList = tPartnershipList.stream().map(GenerateUtil::getPartnershipListRowVO).collect(Collectors.toList());
+            partnershipListVO.setPartnershipListRowVOList(partnershipListRowVOList);
+        }
+        return partnershipListVO;
+    }
+
+    public static PartnershipListRowVO getPartnershipListRowVO(TPartnership tPartnership){
+        PartnershipListRowVO partnershipListRowVO = new PartnershipListRowVO();
+        if(ObjectUtil.isEmpty(tPartnership)){
+            return partnershipListRowVO;
+        }
+        BeanUtils.copyProperties(tPartnership,partnershipListRowVO);
+        partnershipListRowVO.setStatus(tPartnership.getOperationStatus());
+        return partnershipListRowVO;
+    }
+    
+    public static PartnershipDetailVO getPartnershipDetailVO(TPartnership tPartnership){
+        PartnershipDetailVO partnershipDetailVO = new PartnershipDetailVO();
+        if(ObjectUtil.isEmpty(tPartnership)){
+            return partnershipDetailVO;
+        }
+        BeanUtils.copyProperties(tPartnership,partnershipDetailVO);
+        return partnershipDetailVO;
+    }
+    
+    public static PartnershipTypeVO getPartnershipTypeVO(List<PartnershipTypeVO> partnershipTypeVOList,Integer partnershipTypeId){
+        PartnershipTypeVO result = null;
+        if(ObjectUtil.isEmpty(partnershipTypeVOList) || ObjectUtil.isEmpty(partnershipTypeId)){
+            return result;
+        }
+        for (PartnershipTypeVO partnershipTypeVO : partnershipTypeVOList) {
+            if(partnershipTypeVO.getPartnershipTypeId()!= null && partnershipTypeVO.getPartnershipTypeId() == partnershipTypeId){
+                result = partnershipTypeVO;
+                return result;
+            }
+        }
+        return null;
+    }
+
+    public static List<PartnershipProjectTypeVO> getPartnershipProjectTypeVO
+            (List<PartnershipProjectTypeVO> partnershipProjectTypeVOList,List<String> partnershipProjectTypeIdList){
+        List<PartnershipProjectTypeVO> result = null;
+        if(ObjectUtil.isEmpty(partnershipProjectTypeVOList) || ObjectUtil.isEmpty(partnershipProjectTypeIdList)){
+            return result;
+        }
+        result = new ArrayList<PartnershipProjectTypeVO>();
+        Map<Integer, PartnershipProjectTypeVO> collect = partnershipProjectTypeVOList.stream().collect(Collectors.toMap(PartnershipProjectTypeVO::getPartnershipProjectTypeId, partnershipProjectTypeVO -> partnershipProjectTypeVO));
+        for (String partnershipProjectTypeId : partnershipProjectTypeIdList) {
+            if(ObjectUtil.isEmpty(partnershipProjectTypeId)){
+                continue;
+            }
+            int partnershipProjectTypeIdInt = Integer.parseInt(partnershipProjectTypeId);
+            PartnershipProjectTypeVO partnershipProjectTypeVO = collect.get(partnershipProjectTypeIdInt);
+            if(ObjectUtil.isNotEmpty(partnershipProjectTypeVO)){
+                result.add(partnershipProjectTypeVO);
+            }
+        }
+        return result;
+    }
+
+    public static TPartnership getTPartnership (EditPartnershipDTO editPartnershipDTO,Integer operationStatus){
+        TPartnership tPartnership = new TPartnership();
+        if(ObjectUtil.isEmpty(editPartnershipDTO)){
+            return tPartnership;
+        }
+        BeanUtils.copyProperties(editPartnershipDTO,tPartnership);
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tPartnership.setOperationStatus(operationStatus);
+        tPartnership.setModifyDate(new Date());
+        tPartnership.setModifyUserid(tUser.getUserid());
+        StringBuffer sb = new StringBuffer();
+        List<Integer> projectType = editPartnershipDTO.getProjectType();
+        if(ObjectUtil.isNotEmpty(projectType)){
+            for (Integer projectTypeId : projectType) {
+                sb.append(projectTypeId).append(",");
+            }
+            String projectTypeStr = sb.toString();
+            projectTypeStr = projectTypeStr.substring(0,projectTypeStr.length() - 1);
+            tPartnership.setProjectType(projectTypeStr);
+        }
+        return tPartnership;
+    }
+    
 }

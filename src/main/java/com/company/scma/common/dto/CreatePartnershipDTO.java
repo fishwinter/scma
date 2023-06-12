@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class CreatePartnershipDTO {
@@ -112,7 +113,7 @@ public class CreatePartnershipDTO {
     /**
      * 合作项目，1-协办，2-广告，3-活动
      */
-    private Integer projectType;
+    private List<Integer> projectType;
 
     /**
      * 首次加入协办单位时间

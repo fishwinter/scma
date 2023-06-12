@@ -120,9 +120,9 @@ public class TPartnership implements Serializable {
     private String contractTerm;
 
     /**
-     * 合作项目，1-协办，2-广告，3-活动
+     * 合作项目，1-协办，2-广告，3-活动，多个同时存在时使用逗号隔开
      */
-    private Integer projectType;
+    private String projectType;
 
     /**
      * 首次加入协办单位时间
@@ -138,6 +138,11 @@ public class TPartnership implements Serializable {
      * 当前活动id
      */
     private Integer operationId;
+
+    /**
+     * 当前绑定活动状态：0-未开始，1-正常，2-已结束
+     */
+    private Integer operationStatus;
 
     /**
      * 管理员userid
