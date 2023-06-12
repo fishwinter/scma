@@ -71,15 +71,15 @@ admin 密码 $2a$10$9EOfxf2jHSH0Lgg/N6Noe.4TK.p4JR55jr6Q7fvqqFVqc5qoJ2lsi
 
 
 会员数据库只能查看当前登录用户对应的合作单位创建的管理员账号和子账号创建的会员，如果是普通用户就是全量会员
-会员数据库的权限怎么划分，单独的菜单包括visit和adopt权限么
+会员数据库的权限怎么划分，单独的菜单包括visit和adopt权限么 会员数据库单独的visit权限，adopt由member:add权限决定
 合作企业的搜索条件未定,列表展示内容未定，详情页展示内容未定
 供应商需求同上
 合作企业的合作项目projectType字段由string改为integer
 合作企业的协办金额amount由bigDecimal修改为string
 
-系统参数设置的权限怎么划分，会员类型权限单独设置还是归并在系统参数权限中
+系统参数设置的权限怎么划分，会员类型权限单独设置还是归并在系统参数权限中 合并
 系统参数是否还需要一个提交按钮
-系统参数的初始值是多少
+系统参数的初始值是多少 按照原型决定，释放到公司会员数据库
 
 
 apifox:APS-RM63iwXq1rtxoRmif3qWD9eQLCtp0tKp
