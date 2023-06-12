@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.scma.mapper.SysConfigMapper">
+  <resultMap id="BaseResultMap" type="com.company.scma.common.po.TSysConfig">
+    <id column="serialno" jdbcType="INTEGER" property="serialno" />
+    <result column="cust_code" jdbcType="VARCHAR" property="custCode" />
+    <result column="cust_value" jdbcType="VARCHAR" property="custValue" />
+    <result column="build_date" jdbcType="TIMESTAMP" property="buildDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="modify_userid" jdbcType="INTEGER" property="modifyUserid" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    serialno, cust_code, cust_value, build_date, modify_date, modify_userid, introduction, 
+    deleteflag
+  </sql>
+</mapper>
