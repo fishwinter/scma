@@ -93,5 +93,5 @@ admin 密码 $2a$10$9EOfxf2jHSH0Lgg/N6Noe.4TK.p4JR55jr6Q7fvqqFVqc5qoJ2lsi
 系统参数初始化
 
 apifox:APS-RM63iwXq1rtxoRmif3qWD9eQLCtp0tKp
-github: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
+github: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
 shareUrl https://apifox.com/apidoc/shared-8b4c805d-cbbf-4342-936f-3efa28d95905
