@@ -179,13 +179,12 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         }
         //修改合作企业
         Integer operationStatus = (Integer) result.getData();
-        TPartnership tPartnership = GenerateUtil.getTPartnership(editPartnershipDTO,operationStatus);
-        //修改主账号
-        partnershipService.saveOrUpdate(tPartnership);
+        TPartnership inputTPartnership = GenerateUtil.getTPartnership(editPartnershipDTO,operationStatus);
+        partnershipService.saveOrUpdate(inputTPartnership);
         //查询当前管理员账号
         Integer partnershipId = editPartnershipDTO.getPartnershipId();
-        TPartnership tPartnershipById = partnershipService.getTPartnershipById(partnershipId);
-        Integer managerUserid = tPartnershipById.getManagerUserid();
+        TPartnership selectTPartnership = partnershipService.getTPartnershipById(partnershipId);
+        Integer managerUserid = selectTPartnership.getManagerUserid();
         TUser manager = userService.getUserByUserid(managerUserid);
         //查询当前子账号数量
         List<TUser> tUserList = userService.getUserByTypeAndBuildId(Constant.UserType.SUB_ACCOUNT_USER, partnershipId);
@@ -206,20 +205,34 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
                 //生成方法中会将密码加密，这里从数据库中取出的密码本身就已经加密过，不用再次加密，这里重新设置一下
                 subAccount.setPassword(manager.getPassword());
                 //子账号授权
-
+                
                 subAccountList.add(subAccount);
             }
             //子账号入库
             userService.saveBatch(subAccountList);
         }
         //删除绑定关系
-        
-        
-        return null;
+        Integer operationId = editPartnershipDTO.getOperationId();
+        if(ObjectUtil.isEmpty(operationId) || !operationId.equals(selectTPartnership.getOperationId())){
+            operationOtmPartnershipService.deleteByPartnershipIdAndOperationId(partnershipId,selectTPartnership.getOperationId());
+            //生成新的关联关系
+            TOperationOtmPartnership tOperationOtmPartnership = GenerateUtil.getTOperationOtmPartnership(operationId, partnershipId);
+            operationOtmPartnershipService.save(tOperationOtmPartnership);
+        }
+        return Result.success();
     }
 
     @Override
     public Result deletePartnership(Integer partnershipId) {
-        return null;
+        //参数校验
+        if(ObjectUtil.isEmpty(partnershipId)){
+            return Result.getResult(ResultEnum.ERROR_PARAM);
+        }
+        //删除合作企业
+        partnershipService.deleteByPartnershipId(partnershipId);
+        //删除对应关系
+        operationOtmPartnershipService.deleteByPartnershipId(partnershipId);
+        //返回
+        return Result.success();
     }
 }

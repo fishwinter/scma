@@ -17,19 +17,19 @@ public class MemberTypeController {
     private MemberTypeBizService memberTypeBizService;
 
     @RequestMapping(value = "/getAllMemberType", method = RequestMethod.POST)
-    @RequiresPermissions("member:visit")
+    @RequiresPermissions(value = {"member:add","sysConfig:visit"})
     public Result getAllMemberType(){
         return memberTypeBizService.getAllMemberType();
     }
 
     @RequestMapping(value = "/createMemberType", method = RequestMethod.POST)
-    @RequiresPermissions("member:add")
+    @RequiresPermissions("sysConfig:add")
     public Result createMemberType(@RequestBody List<String> memberTypeNameList){
         return memberTypeBizService.createMemberType(memberTypeNameList);
     }
 
     @RequestMapping(value = "/deleteMemberType", method = RequestMethod.POST)
-    @RequiresPermissions("member:delete")
+    @RequiresPermissions("sysConfig:delete")
     public Result deleteMemberType(@RequestParam Integer memberTypeId){
         return memberTypeBizService.deleteMemberType(memberTypeId);
     }

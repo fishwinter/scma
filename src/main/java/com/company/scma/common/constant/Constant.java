@@ -86,5 +86,8 @@ public interface Constant {
     public interface SysConfigCustCode{
         String PARTNERSHIP_TYPE = "PARTNERSHIP_TYPE";
         String PARTNERSHIP_PROJECT_TYPE = "PARTNERSHIP_PROJECT_TYPE";
+        String SUSPENDED_TERM = "SUSPENDED_TERM";
+        String RELEASE_TERM = "RELEASE_TERM";
+        String RELEASE_WAY = "RELEASE_WAY";
     }
 }

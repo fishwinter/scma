@@ -20,7 +20,7 @@ public class MemberDataBaseController {
         return memberDataBaseBizService.getMyMemberDataBase(getMemberDataBaseDTO);
     }
 
-    @RequiresPermissions("memberDataBase:adopt")
+    @RequiresPermissions("member:add")
     @RequestMapping(value = "/adoptMember", method = RequestMethod.POST)
     public Result adoptMember(@RequestParam Integer memberId){
         return memberDataBaseBizService.adoptMember(memberId);

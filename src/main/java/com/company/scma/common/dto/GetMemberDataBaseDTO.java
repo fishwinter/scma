@@ -1,10 +1,12 @@
 package com.company.scma.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Data
 public class GetMemberDataBaseDTO {
     /**
      * 会员名称

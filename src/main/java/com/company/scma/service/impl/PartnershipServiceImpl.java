@@ -2,6 +2,7 @@ package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PartnershipServiceImpl extends ServiceImpl<PartnershipMapper, TPartnership> implements PartnershipService {
@@ -61,5 +64,21 @@ public class PartnershipServiceImpl extends ServiceImpl<PartnershipMapper, TPart
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES); 
         queryWrapper.eq(Constant.ColumnName.PARTNERSHIP_ID, partnershipId);
         return partnershipMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public void deleteByPartnershipId(Integer partnershipId) {
+        UpdateWrapper<TPartnership> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(Constant.ColumnName.DELETEFLAG,Constant.Judge.NO);
+        updateWrapper.eq(Constant.ColumnName.PARTNERSHIP_ID,partnershipId);
+        partnershipMapper.update(null,updateWrapper);
+    }
+
+    @Override
+    public List<TPartnership> fuzzQueryTPartnershipByPartnershipName(String partnershipName) {
+        QueryWrapper<TPartnership> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES); 
+        queryWrapper.like(Constant.ColumnName.PARTNERSHIP_NAME,partnershipName);
+        return partnershipMapper.selectList(queryWrapper);
     }
 }

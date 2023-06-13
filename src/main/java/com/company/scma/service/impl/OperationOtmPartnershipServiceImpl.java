@@ -20,4 +20,21 @@ public class OperationOtmPartnershipServiceImpl extends ServiceImpl<OperationOtm
         updateWrapper.eq(Constant.ColumnName.OPERATION_ID,operationId);
         operationOtmPartnershipMapper.update(null,updateWrapper);
     }
+
+    @Override
+    public void deleteByPartnershipIdAndOperationId(Integer partnershipId, Integer operationId) {
+        UpdateWrapper<TOperationOtmPartnership> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(Constant.ColumnName.DELETEFLAG,Constant.Judge.NO);
+        updateWrapper.eq(Constant.ColumnName.PARTNERSHIP_ID,partnershipId);
+        updateWrapper.eq(Constant.ColumnName.OPERATION_ID,operationId);
+        operationOtmPartnershipMapper.update(null,updateWrapper);
+    }
+
+    @Override
+    public void deleteByPartnershipId(Integer partnershipId) {
+        UpdateWrapper<TOperationOtmPartnership> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(Constant.ColumnName.DELETEFLAG,Constant.Judge.NO);
+        updateWrapper.eq(Constant.ColumnName.PARTNERSHIP_ID,partnershipId);
+        operationOtmPartnershipMapper.update(null,updateWrapper);
+    }
 }

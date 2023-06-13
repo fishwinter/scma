@@ -19,4 +19,8 @@ public interface UserService extends IService<TUser> {
     public TUser getUserByUserid(Integer userid);
     
     public List<TUser> getUserByTypeAndBuildId(Integer userType,Integer buildId);
+    
+    public List<TUser> getUserByTypeAndBuildId(Integer userType,List<Integer> buildIdList);
+    
+    public List<TUser> fuzzGetTUserByUsername(String username);
 }

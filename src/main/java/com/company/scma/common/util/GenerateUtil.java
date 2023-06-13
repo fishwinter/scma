@@ -476,5 +476,28 @@ public class GenerateUtil {
         }
         return tPartnership;
     }
+
+    public static MemberDataBaseListVO getMemberDataBaseListVO(IPage<TMember> iPage){
+        MemberDataBaseListVO memberDataBaseListVO = new MemberDataBaseListVO();
+        if(ObjectUtil.isEmpty(iPage)){
+            return memberDataBaseListVO;
+        }
+        memberDataBaseListVO.setMemberDataBaseTotal(iPage.getTotal());
+        List<TMember> tMemberList = iPage.getRecords();
+        if(ObjectUtil.isNotEmpty(tMemberList)){
+            List<MemberDataBaseListRowVO> collect = tMemberList.stream().map(GenerateUtil::getMemberDataBaseListRowVO).collect(Collectors.toList());
+            memberDataBaseListVO.setMemberDataBaseListRowVOList(collect);
+        }
+        return memberDataBaseListVO;
+    }
+
+    public static MemberDataBaseListRowVO getMemberDataBaseListRowVO(TMember tMember){
+        MemberDataBaseListRowVO memberDataBaseListRowVO = new MemberDataBaseListRowVO();
+        if(ObjectUtil.isEmpty(tMember)){
+            return memberDataBaseListRowVO;
+        }
+        BeanUtils.copyProperties(tMember,memberDataBaseListRowVO);
+        return memberDataBaseListRowVO;
+    }
     
 }

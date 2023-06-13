@@ -5,4 +5,8 @@ import com.company.scma.common.po.TOperationOtmPartnership;
 
 public interface OperationOtmPartnershipService extends IService<TOperationOtmPartnership> {
     public void deleteByOperationId (Integer operationId);
+    
+    public void deleteByPartnershipIdAndOperationId(Integer partnershipId, Integer operationId);
+    
+    public void deleteByPartnershipId(Integer partnershipId);
 }
