@@ -38,6 +38,7 @@ public interface Constant {
         String CUSTCODE = "CUSTCODE";
         String BUILD_USERID = "BUILD_USERID";
         String BUILD_PARTNERSHIPID = "BUILD_PARTNERSHIPID";
+        String CUSTVALUE = "CUSTVALUE";
     }
     
     //常用常数

@@ -7,7 +7,7 @@ import java.util.List;
 public interface MemberTypeBizService {
     public Result getAllMemberType();
 
-    public Result createMemberType(List<String> memberTypeName);
+    public Result createMemberType(List<String> memberTypeNameList);
 
     public Result deleteMemberType(Integer memberTypeId);
 }

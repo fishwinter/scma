@@ -499,5 +499,24 @@ public class GenerateUtil {
         BeanUtils.copyProperties(tMember,memberDataBaseListRowVO);
         return memberDataBaseListRowVO;
     }
+
+    public static List<TMemberType> getTMemberTypeList(List<String> memberTypeNameList){
+        List<TMemberType> tMemberTypeList = new ArrayList<>();
+        if(ObjectUtil.isNotEmpty(memberTypeNameList)){
+            return tMemberTypeList;
+        }
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        Integer userid = tUser.getUserid();
+        memberTypeNameList.stream().forEach(memberTypeName -> {
+            TMemberType tMemberType = new TMemberType();
+            tMemberType.setMemberTypeName(memberTypeName);
+            tMemberType.setBuildUserid(userid);
+            tMemberType.setBuildDate(new Date());
+            tMemberType.setDeleteflag(Constant.Judge.YES);
+            tMemberTypeList.add(tMemberType);
+        });
+
+        return tMemberTypeList;
+    }
     
 }

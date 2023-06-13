@@ -6,6 +6,8 @@ import com.company.scma.common.dto.GetMemberDataBaseDTO;
 import com.company.scma.common.dto.GetMyMemberDTO;
 import com.company.scma.common.po.TMember;
 
+import java.util.List;
+
 public interface MemberService extends IService<TMember> {
     public TMember getMemberByMemberName(String memberName);
     
@@ -14,6 +16,8 @@ public interface MemberService extends IService<TMember> {
     public IPage<TMember> getMemberByCondition(GetMemberDataBaseDTO getMemberDataBaseDTO);
     
     public TMember getMemberByMemberId(Integer memberId);
+
+    public List<TMember> getMemberByMemberType(Integer memberTypeId);
     
     public void deleteMemberByMemberId(Integer memberId);
 }

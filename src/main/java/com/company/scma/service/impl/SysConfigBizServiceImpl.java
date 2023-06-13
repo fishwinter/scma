@@ -8,6 +8,7 @@ import com.company.scma.common.vo.SysConfigDetailVO;
 import com.company.scma.service.bizservice.SysConfigBizService;
 import com.company.scma.service.mapperservice.MemberTypeService;
 import com.company.scma.service.mapperservice.SysConfigService;
+import com.company.scma.service.validateservice.SysConfigValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
     private SysConfigService sysConfigService;
     @Autowired
     private MemberTypeService memberTypeService;
+    @Autowired
+    private SysConfigValidateService sysConfigValidateService;
     @Override
     public Result getSysConfig() {
         //查询配置
@@ -39,10 +42,15 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
     @Override
     public Result editSysConfig(SysConfigDTO sysConfigDTO) {
         //参数校验
-        
+        Result result = sysConfigValidateService.validateSysConfigDTO(sysConfigDTO);
+        if(!Result.isSuccess(result)){
+            return result;
+        }
         //更新数据
-        
+        sysConfigService.updateCustValueByCustCode(String.valueOf(sysConfigDTO.getSuspendedTerm()),Constant.SysConfigCustCode.SUSPENDED_TERM);
+        sysConfigService.updateCustValueByCustCode(String.valueOf(sysConfigDTO.getReleaseTerm()),Constant.SysConfigCustCode.RELEASE_TERM);
+        sysConfigService.updateCustValueByCustCode(String.valueOf(sysConfigDTO.getReleaseWay()),Constant.SysConfigCustCode.RELEASE_WAY);
         //返回
-        return null;
+        return Result.success();
     }
 }

@@ -9,4 +9,6 @@ public interface MemberTypeService extends IService<TMemberType> {
     public TMemberType getMemberTypeByMemberTypeId(Integer memberTypeId);
     
     public List<TMemberType> getAllType();
+
+    public void deleteMemberTypeById(Integer memberTypeId);
 }

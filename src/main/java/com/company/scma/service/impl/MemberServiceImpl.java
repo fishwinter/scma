@@ -156,6 +156,15 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, TMember> implem
     }
 
     @Override
+    public List<TMember> getMemberByMemberType(Integer memberTypeId) {
+        QueryWrapper<TMember> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.MEMBER_TYPE_ID,memberTypeId);
+        List<TMember> tMemberList = memberMapper.selectList(queryWrapper);
+        return tMemberList;
+    }
+
+    @Override
     public void deleteMemberByMemberId(Integer memberId) {
         UpdateWrapper<TMember> updateWrapper = new UpdateWrapper<>();
         updateWrapper.set(Constant.ColumnName.DELETEFLAG,Constant.Judge.NO);

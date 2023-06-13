@@ -26,6 +26,7 @@ public enum ResultEnum {
     EXIST_MEMBER_NAME(431,"会员名已存在"),
     ERROR_MEMBER_ID(432,"会员id错误"),
     USER_CANNOT_OPERATE_MEMBER(433,"当前用户无法编辑该会员"),
+    EXIST_MEMBER_TYPE_MEBER(434,"当前会员类型存在已有会员"),
     
     //合作企业模块错误
     ERROR_OPERATION_STATUS(441,"绑定活动状态错误"),
