@@ -113,5 +113,5 @@ admin 密码 $2a$10$9EOfxf2jHSH0Lgg/N6Noe.4TK.p4JR55jr6Q7fvqqFVqc5qoJ2lsi
 会员数据库搜素，所属单位对于子账号没有用,另外总部单独处理，不放入模糊查询
 
 apifox:APS-RM63iwXq1rtxoRmif3qWD9eQLCtp0tKp
-github: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
+github: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
 shareUrl https://apifox.com/apidoc/shared-8b4c805d-cbbf-4342-936f-3efa28d95905
