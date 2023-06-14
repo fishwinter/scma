@@ -2,6 +2,7 @@ package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.po.TMemberType;
@@ -34,5 +35,13 @@ public class MemberTypeServiceImpl extends ServiceImpl<MemberTypeMapper, TMember
         QueryWrapper<TMemberType> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES);
         return memberTypeMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public void deleteMemberTypeById(Integer memberTypeId) {
+        UpdateWrapper<TMemberType> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(Constant.ColumnName.DELETEFLAG,Constant.Judge.NO);
+        updateWrapper.eq(Constant.ColumnName.MEMBER_TYPE_ID,memberTypeId);
+        memberTypeMapper.update(null,updateWrapper);
     }
 }

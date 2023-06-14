@@ -22,6 +22,7 @@ public class SysConfigValidateServiceImpl implements SysConfigValidateService {
         if(!commonValidateService.validateAnnotation(sysConfigDTO)){
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
+
         return Result.success();
     }
 }

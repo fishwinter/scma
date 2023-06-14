@@ -16,6 +16,8 @@ public interface MemberService extends IService<TMember> {
     public IPage<TMember> getMemberByCondition(GetMemberDataBaseDTO getMemberDataBaseDTO);
     
     public TMember getMemberByMemberId(Integer memberId);
+
+    public List<TMember> getMemberByMemberType(Integer memberTypeId);
     
     public void deleteMemberByMemberId(Integer memberId);
     
