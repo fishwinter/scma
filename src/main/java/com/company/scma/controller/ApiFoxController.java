@@ -133,4 +133,9 @@ public class ApiFoxController {
     public SysConfigDetailVO login22(MemberDetailVO memberDetailVO) {
         return null;
     }
+
+    @PostMapping("/login23")
+    public PartnershipConfigVO login23(MemberDetailVO memberDetailVO) {
+        return null;
+    }
 }
