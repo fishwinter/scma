@@ -109,6 +109,21 @@ public class TMember implements Serializable {
     private Integer ownerUserid;
 
     /**
+     * 所属用户名称
+     */
+    private String ownerUsername;
+
+    /**
+     * 所属合作企业id
+     */
+    private Integer ownerPartnershipId;
+
+    /**
+     * 所属合作企业名称
+     */
+    private String ownerPartnershipName;
+
+    /**
      * 状态：0-已释放为公共资源，1-正常，2-已释放到公司会员数据库
      */
     private Integer status;

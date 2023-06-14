@@ -199,6 +199,7 @@ public class GenerateUtil {
         tMember.setModifyUserid(currentUser.getUserid());
         tMember.setDeleteflag(Constant.Judge.YES);
         tMember.setOwnerUserid(currentUser.getUserid());
+        tMember.setOwnerUsername(currentUser.getUsername());
         tMember.setStatus(Constant.MemberStatus.NORMAL);
         return tMember;
     }
@@ -246,6 +247,17 @@ public class GenerateUtil {
         Map<Integer, String> typeMap = tMemberTypeList.stream().collect(Collectors.toMap(TMemberType::getMemberTypeId, TMemberType::getMemberTypeName));
         memberListRowVOList.stream().forEach(memberListRowVO -> {
             MemberTypeVO memberTypeVO = memberListRowVO.getMemberTypeVO();
+            memberTypeVO.setMemberTypeName(typeMap.get(memberTypeVO.getMemberTypeId()));
+        });
+    }
+
+    public static void setMemberTypeName2(List<MemberDataBaseListRowVO> memberDataBaseListRowVOList,List<TMemberType> tMemberTypeList){
+        if(ObjectUtil.isEmpty(memberDataBaseListRowVOList) || ObjectUtil.isEmpty(tMemberTypeList)){
+            return;
+        }
+        Map<Integer, String> typeMap = tMemberTypeList.stream().collect(Collectors.toMap(TMemberType::getMemberTypeId, TMemberType::getMemberTypeName));
+        memberDataBaseListRowVOList.stream().forEach(memberDataBaseListRowVO -> {
+            MemberTypeVO memberTypeVO = memberDataBaseListRowVO.getMemberTypeVO();
             memberTypeVO.setMemberTypeName(typeMap.get(memberTypeVO.getMemberTypeId()));
         });
     }
@@ -497,6 +509,10 @@ public class GenerateUtil {
             return memberDataBaseListRowVO;
         }
         BeanUtils.copyProperties(tMember,memberDataBaseListRowVO);
+        memberDataBaseListRowVO.setPartnershipName(tMember.getOwnerPartnershipName());
+        MemberTypeVO memberTypeVO = new MemberTypeVO();
+        memberDataBaseListRowVO.setMemberTypeVO(memberTypeVO);
+        memberTypeVO.setMemberTypeId(tMember.getMemberTypeId());
         return memberDataBaseListRowVO;
     }
     

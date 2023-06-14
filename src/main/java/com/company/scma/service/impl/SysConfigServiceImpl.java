@@ -2,6 +2,7 @@ package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.po.TSysConfig;
@@ -26,5 +27,14 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, TSysConfi
             return tSysConfigList.get(0).getCustValue();
         }
         return null;
+    }
+
+    @Override
+    public void setCustValueByCustCode(String custCode, String custValue) {
+        UpdateWrapper<TSysConfig> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set(Constant.ColumnName.CUSTVALUE,custValue);
+        updateWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        updateWrapper.eq(Constant.ColumnName.CUSTCODE,custCode);
+        sysConfigMapper.update(null,updateWrapper);
     }
 }

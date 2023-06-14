@@ -22,13 +22,16 @@
     <result column="modify_date" jdbcType="DATE" property="modifyDate" />
     <result column="modify_userid" jdbcType="INTEGER" property="modifyUserid" />
     <result column="owner_userid" jdbcType="INTEGER" property="ownerUserid" />
+    <result column="owner_username" jdbcType="VARCHAR" property="ownerUsername" />
+    <result column="owner_partnership_id" jdbcType="INTEGER" property="ownerPartnershipId" />
+    <result column="owner_partnership_name" jdbcType="VARCHAR" property="ownerPartnershipName" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
   </resultMap>
   <sql id="Base_Column_List">
     member_id, mermber_name, mermber_type_id, corporation, reg_address, steupdate, creditno, 
     regstock, contacts, contact_title, contact_tel, contact_addr, province_code, city_code, 
-    introduction, build_date, build_userid, modify_date, modify_userid, owner_userid, 
-    `status`, deleteflag
+    introduction, build_date, build_userid, modify_date, modify_userid, owner_userid,owner_username, 
+    owner_partnership_id,owner_partnership_name,`status`, deleteflag
   </sql>
 </mapper>

@@ -92,14 +92,10 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, TMember> implem
         }
         Integer buildPartnershipid = currentUser.getBuildPartnershipid();
         Integer currentUserType = currentUser.getType();
-        Integer currentUserUserid = currentUser.getUserid();
         if(ObjectUtil.isNotEmpty(buildPartnershipid) && Constant.UserType.SUB_ACCOUNT_USER.equals(currentUserType)){
-            //查询该合作企业下所有用户
-            List<TUser> tUserList = userService.getUserByTypeAndBuildId(Constant.UserType.SUB_ACCOUNT_USER, buildPartnershipid);
-            List<Integer> useridList = tUserList.stream().map(TUser::getUserid).collect(Collectors.toList());
-            queryWrapper.in(Constant.ColumnName.OWNER_USERID,useridList);
+            queryWrapper.eq(Constant.ColumnName.OWNER_PARTNERSHIP_ID,buildPartnershipid);
         }
-        queryWrapper.eq(Constant.ColumnName.STATUS,Constant.MemberStatus.NORMAL);
+        queryWrapper.ne(Constant.ColumnName.STATUS,Constant.MemberStatus.RELEASED_PUBLIC_RESOURCE);
         queryWrapper.orderByDesc(Constant.ColumnName.MEMBER_ID);
 
         if (StringUtils.isNotEmpty(getMemberDataBaseDTO.getMemberName())) {
@@ -107,27 +103,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, TMember> implem
         }
 
         if (StringUtils.isNotEmpty(getMemberDataBaseDTO.getPartnershipName())) {
-            //子账号用户只能查询本企业下的会员，因此所属单位名称对其相当于没有用，这里直接跳过
-            if(Constant.UserType.COMMON_USER.equals(currentUserType)){
-                //模糊查询企业名字
-                List<TPartnership> tPartnershipList = partnershipService.fuzzQueryTPartnershipByPartnershipName(getMemberDataBaseDTO.getPartnershipName());
-                if(ObjectUtil.isNotEmpty(tPartnershipList)){
-                    List<Integer> partnershipIdList = tPartnershipList.stream().map(TPartnership::getPartnershipId).collect(Collectors.toList());
-                    //查询这些企业下所有子用户
-                    List<TUser> subAccountList = userService.getUserByTypeAndBuildId(Constant.UserType.SUB_ACCOUNT_USER, partnershipIdList);
-                    //查询这些子用户下所有的会员
-                    queryWrapper.in(Constant.ColumnName.OWNER_USERID,subAccountList);
-                }
-            }
+            queryWrapper.like(Constant.ColumnName.OWNER_PARTNERSHIP_NAME,getMemberDataBaseDTO.getPartnershipName());
         }
 
         if (StringUtils.isNotEmpty(getMemberDataBaseDTO.getUsername())) {
-            //模糊查询用户名称
-            List<TUser> tUserList = userService.fuzzGetTUserByUsername(getMemberDataBaseDTO.getUsername());
-            if(ObjectUtil.isNotEmpty(tUserList)){
-                List<Integer> useridList = tUserList.stream().map(TUser::getUserid).collect(Collectors.toList());
-                queryWrapper.in(Constant.ColumnName.OWNER_USERID,useridList);
-            }
+            queryWrapper.like(Constant.ColumnName.OWNER_USERNAME,getMemberDataBaseDTO.getUsername());
         }
 
         if (ObjectUtil.isNotEmpty(getMemberDataBaseDTO.getStartDate())) {
@@ -161,5 +141,23 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, TMember> implem
         updateWrapper.set(Constant.ColumnName.DELETEFLAG,Constant.Judge.NO);
         updateWrapper.eq(Constant.ColumnName.MEMBER_ID,memberId);
         memberMapper.update(null,updateWrapper);
+    }
+
+    @Override
+    public List<TMember> getMemberByOwnerUserid(Integer ownerUserid) {
+        QueryWrapper<TMember> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.OWNER_USERID,ownerUserid);
+        List<TMember> tMemberList = memberMapper.selectList(queryWrapper);
+        return tMemberList;
+    }
+
+    @Override
+    public List<TMember> getMemberByOwnerPartnershipId(Integer ownerPartnershipId) {
+        QueryWrapper<TMember> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.OWNER_PARTNERSHIP_ID,ownerPartnershipId);
+        List<TMember> tMemberList = memberMapper.selectList(queryWrapper);
+        return tMemberList;
     }
 }

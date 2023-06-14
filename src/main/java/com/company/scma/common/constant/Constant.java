@@ -38,6 +38,10 @@ public interface Constant {
         String CUSTCODE = "CUSTCODE";
         String BUILD_USERID = "BUILD_USERID";
         String BUILD_PARTNERSHIPID = "BUILD_PARTNERSHIPID";
+        String OWNER_PARTNERSHIP_ID = "OWNER_PARTNERSHIP_ID";
+        String OWNER_PARTNERSHIP_NAME = "OWNER_PARTNERSHIP_NAME";
+        String OWNER_USERNAME = "OWNER_USERNAME";
+        String CUSTVALUE = "CUSTVALUE";
     }
     
     //常用常数
@@ -46,6 +50,8 @@ public interface Constant {
         String SESSION_KEY = "scma-user";
         //登录拦截器忽略的url
         String[] IGNORE_URL = {"/login"};
+        //会员默认所属合作企业名称
+        String DEFAULT_PARTNERSHIP_NAME = "总部";
     }
     
     //用户类型
@@ -89,5 +95,9 @@ public interface Constant {
         String SUSPENDED_TERM = "SUSPENDED_TERM";
         String RELEASE_TERM = "RELEASE_TERM";
         String RELEASE_WAY = "RELEASE_WAY";
+    }
+    
+    public interface CommonRoleId{
+        Integer ADMIN_USER = 1;
     }
 }

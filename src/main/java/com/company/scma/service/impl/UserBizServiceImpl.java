@@ -9,6 +9,7 @@ import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreateUserDTO;
 import com.company.scma.common.dto.EditUserDTO;
 import com.company.scma.common.dto.GetUserDTO;
+import com.company.scma.common.po.TMember;
 import com.company.scma.common.po.TRole;
 import com.company.scma.common.po.TUser;
 import com.company.scma.common.util.GenerateUtil;
@@ -17,6 +18,7 @@ import com.company.scma.common.vo.RoleListVO;
 import com.company.scma.common.vo.UserDetailVO;
 import com.company.scma.common.vo.UserListVO;
 import com.company.scma.service.bizservice.UserBizService;
+import com.company.scma.service.mapperservice.MemberService;
 import com.company.scma.service.mapperservice.RoleService;
 import com.company.scma.service.mapperservice.UserService;
 import com.company.scma.service.validateservice.UserValidateService;
@@ -40,6 +42,8 @@ public class UserBizServiceImpl implements UserBizService {
     private UserValidateService userValidateService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private MemberService memberService;
 
     @Override
     public Result getUser(GetUserDTO getUserDTO) {
@@ -142,8 +146,21 @@ public class UserBizServiceImpl implements UserBizService {
         if(!Result.isSuccess(result)){
             return result;
         }
-        //更新user表
+        //生成实体类
         TUser tUser = GenerateUtil.getTUser(editUserDTO);
+        //密码加密
+        String password = tUser.getPassword();
+        String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        tUser.setPassword(hashPassword);
+        //修改member表所属人名称,由于已经失效的会员ownerUserid会被清空，这里不用单独对会员状态进行筛选
+        List<TMember> tMemberList = memberService.getMemberByOwnerUserid(tUser.getUserid());
+        if(ObjectUtil.isNotEmpty(tMemberList)){
+            tMemberList.stream().forEach(tMember -> {
+                tMember.setOwnerUsername(tUser.getUsername());
+            });
+            memberService.saveOrUpdateBatch(tMemberList);
+        }
+        //保存用户
         userService.saveOrUpdate(tUser);
         //返回
         return Result.success();
@@ -153,8 +170,9 @@ public class UserBizServiceImpl implements UserBizService {
     @Transactional
     public Result deleteUser(Integer userid) {
         //校验参数
-        if(ObjectUtil.isEmpty(userid)){
-            return Result.getResult(ResultEnum.ERROR_PARAM);
+        Result result = userValidateService.validateDeleteUserid(userid);
+        if(!Result.isSuccess(result)){
+            return result;
         }
         //删除用户
         userService.deleteUserByUserid(userid);

@@ -14,4 +14,6 @@ public interface UserValidateService {
     public boolean validateGetUserDTO(GetUserDTO getUserDTO);
     
     public Result validateEditUserDTO(EditUserDTO editUserDTO);
+    
+    public Result validateDeleteUserid(Integer userid);
 }

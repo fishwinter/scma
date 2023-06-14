@@ -30,4 +30,10 @@ public class SysConfigController {
         return sysConfigBizService.editSysConfig(sysConfigDTO);
     }
 
+    @RequestMapping(value = "/getPartnershipConfig", method = RequestMethod.POST)
+    @RequiresPermissions("partnership:add")
+    public Result getPartnershipConfig(){
+        return sysConfigBizService.getPartnershipConfig();
+    }
+
 }

@@ -1,17 +1,22 @@
 package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.company.scma.common.constant.Constant;
 import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreateUserDTO;
 import com.company.scma.common.dto.EditUserDTO;
 import com.company.scma.common.dto.GetUserDTO;
+import com.company.scma.common.po.TMember;
 import com.company.scma.common.po.TUser;
 import com.company.scma.common.vo.Result;
+import com.company.scma.service.mapperservice.MemberService;
 import com.company.scma.service.mapperservice.UserService;
 import com.company.scma.service.validateservice.CommonValidateService;
 import com.company.scma.service.validateservice.UserValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserValidateServiceImpl implements UserValidateService {
@@ -20,6 +25,8 @@ public class UserValidateServiceImpl implements UserValidateService {
     
     @Autowired
     private UserService userService;
+    @Autowired
+    private MemberService memberService;
     
     @Override
     public Result validateCreateUserDTO(CreateUserDTO createUserDTO) {
@@ -85,6 +92,19 @@ public class UserValidateServiceImpl implements UserValidateService {
         TUser tUser = userService.selectUserByUsername(editUserDTO.getUsername());
         if(ObjectUtil.isNotEmpty(tUser) && tUser.getUserid() != editUserDTO.getUserid()){
             return Result.getResult(ResultEnum.EXIST_USERNAME);
+        }
+        return Result.success();
+    }
+
+    @Override
+    public Result validateDeleteUserid(Integer userid) {
+        if(ObjectUtil.isEmpty(userid)){
+            return Result.getResult(ResultEnum.ERROR_PARAM);
+        }
+        //查询当前用户下是否由创建的有效的会员
+        List<TMember> tMemberList = memberService.getMemberByOwnerUserid(userid);
+        if(ObjectUtil.isNotEmpty(tMemberList)){
+            return Result.getResult(ResultEnum.EXIST_LINKED_MEMBER);
         }
         return Result.success();
     }

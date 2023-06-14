@@ -18,6 +18,7 @@ public enum ResultEnum {
     //用户模块错误
     EXIST_USERNAME(411,"用户名已存在"),
     ERROR_USERNAME(412,"用户名存在非法字符"),
+    EXIST_LINKED_MEMBER(413,"该用户下存在有效的会员"),
     
     //角色模块错误
     DELETED_ROLE_BIND_USER(421,"删除的角色有绑定的用户"),

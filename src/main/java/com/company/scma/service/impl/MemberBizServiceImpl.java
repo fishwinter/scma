@@ -7,16 +7,16 @@ import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreateMemberDTO;
 import com.company.scma.common.dto.EditMemberDTO;
 import com.company.scma.common.dto.GetMyMemberDTO;
-import com.company.scma.common.po.TItem;
-import com.company.scma.common.po.TMember;
-import com.company.scma.common.po.TMemberType;
+import com.company.scma.common.po.*;
 import com.company.scma.common.util.GenerateUtil;
 import com.company.scma.common.vo.*;
 import com.company.scma.service.bizservice.MemberBizService;
 import com.company.scma.service.mapperservice.ItemService;
 import com.company.scma.service.mapperservice.MemberService;
 import com.company.scma.service.mapperservice.MemberTypeService;
+import com.company.scma.service.mapperservice.PartnershipService;
 import com.company.scma.service.validateservice.MemberValidateService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +35,8 @@ public class MemberBizServiceImpl implements MemberBizService {
     private MemberTypeService memberTypeService;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private PartnershipService partnershipService;
 
     @Override
     public Result getMyMember(GetMyMemberDTO getMyMemberDTO) {
@@ -99,6 +101,20 @@ public class MemberBizServiceImpl implements MemberBizService {
         }
         //生成实体类
         TMember tMember = GenerateUtil.getTMember(createMemberDTO);
+        //配置所属合作企业信息
+        TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        Integer currentUserType = currentUser.getType();
+        if(Constant.UserType.COMMON_USER.equals(currentUserType)){
+            tMember.setOwnerPartnershipName(Constant.Common.DEFAULT_PARTNERSHIP_NAME);
+        }else if(Constant.UserType.SUB_ACCOUNT_USER.equals(currentUserType)){
+            Integer buildPartnershipid = currentUser.getBuildPartnershipid();
+            //查询当前用户对应的合作企业
+            TPartnership tPartnershipById = partnershipService.getTPartnershipById(buildPartnershipid);
+            if(ObjectUtil.isNotEmpty(tPartnershipById)){
+                tMember.setOwnerPartnershipId(currentUser.getBuildPartnershipid());
+                tMember.setOwnerPartnershipName(tPartnershipById.getPartnershipName());
+            }
+        }
         //入库
         memberService.save(tMember);
         //返回

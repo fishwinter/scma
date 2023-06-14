@@ -34,7 +34,7 @@ public class PartnershipValidateServiceImpl implements PartnershipValidateServic
         //校验绑定的活动状态
         Integer operationId = createPartnershipDTO.getOperationId();
         TOperation tOperationById = operationService.getTOperationById(operationId);
-        if(Constant.OperationStatus.NOT_STARTED.equals(tOperationById.getStatus())){
+        if(Constant.OperationStatus.FINISH.equals(tOperationById.getStatus())){
             return Result.getResult(ResultEnum.ERROR_OPERATION_STATUS);
         }
         return Result.success(tOperationById.getStatus());
@@ -65,7 +65,7 @@ public class PartnershipValidateServiceImpl implements PartnershipValidateServic
         //校验绑定的活动状态
         Integer operationId = editPartnershipDTO.getOperationId();
         TOperation tOperationById = operationService.getTOperationById(operationId);
-        if(Constant.OperationStatus.NOT_STARTED.equals(tOperationById.getStatus())){
+        if(Constant.OperationStatus.FINISH.equals(tOperationById.getStatus())){
             return Result.getResult(ResultEnum.ERROR_OPERATION_STATUS);
         }
         return Result.success(tOperationById.getStatus());

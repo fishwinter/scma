@@ -5,4 +5,5 @@ import com.company.scma.common.po.TSysConfig;
 
 public interface SysConfigService extends IService<TSysConfig> {
     public String getCustValueByCustCode(String custCode);
+    public void setCustValueByCustCode(String custCode,String custValue);
 }

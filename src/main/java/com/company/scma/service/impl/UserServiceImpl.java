@@ -43,15 +43,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, TUser> implements U
         queryWrapper.orderByDesc(Constant.ColumnName.USERID);
 
         if (StringUtils.isNotEmpty(getUserDTO.getUsername())) {
-            queryWrapper.eq(Constant.ColumnName.USERNAME, getUserDTO.getUsername());
+            queryWrapper.like(Constant.ColumnName.USERNAME, getUserDTO.getUsername());
         }
 
         if (StringUtils.isNotEmpty(getUserDTO.getName())) {
-            queryWrapper.eq(Constant.ColumnName.NAME, getUserDTO.getName());
+            queryWrapper.like(Constant.ColumnName.NAME, getUserDTO.getName());
         }
 
         if (StringUtils.isNotEmpty(getUserDTO.getTel())) {
-            queryWrapper.eq(Constant.ColumnName.TEL, getUserDTO.getTel());
+            queryWrapper.like(Constant.ColumnName.TEL, getUserDTO.getTel());
         }
 
         if (ObjectUtil.isNotEmpty(getUserDTO.getStartDate())) {
@@ -98,10 +98,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, TUser> implements U
     }
 
     @Override
-    public List<TUser> getUserByTypeAndBuildId(Integer userType, Integer buildId) {
+    public List<TUser> getUserByTypeAndBuildId(Integer userType, Integer buildId,Integer status) {
         QueryWrapper<TUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
-        queryWrapper.eq(Constant.ColumnName.STATUS, Constant.Judge.YES);
+        if(ObjectUtil.isNotEmpty(status)){
+            queryWrapper.eq(Constant.ColumnName.STATUS,status);
+        }
         queryWrapper.eq(Constant.ColumnName.TYPE,userType);
         queryWrapper.orderByDesc(Constant.ColumnName.USERID);
         if(Constant.UserType.COMMON_USER.equals(userType)){

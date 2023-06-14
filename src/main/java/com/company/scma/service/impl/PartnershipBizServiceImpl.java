@@ -8,10 +8,7 @@ import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreatePartnershipDTO;
 import com.company.scma.common.dto.EditPartnershipDTO;
 import com.company.scma.common.dto.GetPartnershipDTO;
-import com.company.scma.common.po.TOperation;
-import com.company.scma.common.po.TOperationOtmPartnership;
-import com.company.scma.common.po.TPartnership;
-import com.company.scma.common.po.TUser;
+import com.company.scma.common.po.*;
 import com.company.scma.common.util.GenerateUtil;
 import com.company.scma.common.vo.*;
 import com.company.scma.service.bizservice.PartnershipBizService;
@@ -22,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +40,8 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
     private SysConfigService sysConfigService;
     @Autowired
     private OperationService operationService;
+    @Autowired
+    private MemberService memberService;
 
     @Override
     public Result getPartnership(GetPartnershipDTO getPartnershipDTO) {
@@ -70,7 +68,7 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         TPartnership tPartnership = partnershipService.getTPartnershipById(partnershipId);
         //基础数据封装
         if(ObjectUtil.isEmpty(tPartnership)){
-            return null;
+            return Result.getResult(ResultEnum.ERROR_PARAM);
         }
         PartnershipDetailVO partnershipDetailVO = GenerateUtil.getPartnershipDetailVO(tPartnership);
         //查询所有企业性质
@@ -100,6 +98,11 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         if(ObjectUtil.isNotEmpty(allValidOperation)){
             allOperation = allValidOperation.stream().map(GenerateUtil::getOperationListRowVO).collect(Collectors.toList());
         }
+        //查询管理员账号
+        Integer managerUserid = tPartnership.getManagerUserid();
+        TUser manager = userService.getUserByUserid(managerUserid);
+        //查询所有子账号,包括已经失效的子账号
+        List<TUser> subAccountList = userService.getUserByTypeAndBuildId(Constant.UserType.SUB_ACCOUNT_USER, partnershipId, null);
         //封装
         partnershipDetailVO.setMyPartnershipType(myPartnershipType);
         partnershipDetailVO.setAllPartnershipType(allPartnershipType);
@@ -107,6 +110,12 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         partnershipDetailVO.setAllProjectType(allPartnershipProjectType);
         partnershipDetailVO.setMyOperation(myOperation);
         partnershipDetailVO.setAllOperation(allOperation);
+        if(ObjectUtil.isNotEmpty(manager)){
+            partnershipDetailVO.setUsername(manager.getUsername());
+        }
+        if(ObjectUtil.isNotEmpty(subAccountList)){
+            partnershipDetailVO.setSubAccountNum(subAccountList.size());
+        }
         //返回
         return Result.success(partnershipDetailVO);
     }
@@ -135,9 +144,12 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
             return managerResult;
         }
         //管理员授权
-        
-        //管理员账号入库
         TUser manager = (TUser) managerResult.getData();
+        manager.setRoleId(Constant.CommonRoleId.ADMIN_USER);
+        //管理员状态设置
+        Integer accountStatus = operationStatus.equals(Constant.OperationStatus.NORMAL) ? Constant.Judge.YES : Constant.Judge.NO;
+        manager.setStatus(accountStatus);
+        //管理员账号入库
         userService.save(manager);
         //合作企业更新
         tPartnership.setManagerUserid(manager.getUserid());
@@ -156,7 +168,9 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
                 }
                 TUser subAccount = (TUser) subAccountResult.getData();
                 //子账号授权
-                
+                subAccount.setRoleId(Constant.CommonRoleId.ADMIN_USER);
+                //子账号状态设置
+                subAccount.setStatus(accountStatus);
                 subAccountList.add(subAccount);
             }
         }
@@ -181,20 +195,22 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         Integer operationStatus = (Integer) result.getData();
         TPartnership inputTPartnership = GenerateUtil.getTPartnership(editPartnershipDTO,operationStatus);
         partnershipService.saveOrUpdate(inputTPartnership);
+        //设置子账号状态
+        Integer accountStatus = operationStatus.equals(Constant.OperationStatus.NORMAL) ? Constant.Judge.YES : Constant.Judge.NO;
         //查询当前管理员账号
         Integer partnershipId = editPartnershipDTO.getPartnershipId();
         TPartnership selectTPartnership = partnershipService.getTPartnershipById(partnershipId);
         Integer managerUserid = selectTPartnership.getManagerUserid();
         TUser manager = userService.getUserByUserid(managerUserid);
-        //查询当前子账号数量
-        List<TUser> tUserList = userService.getUserByTypeAndBuildId(Constant.UserType.SUB_ACCOUNT_USER, partnershipId);
+        //查询当前子账号数量,包括已经失效的账号
+        List<TUser> tUserList = userService.getUserByTypeAndBuildId(Constant.UserType.SUB_ACCOUNT_USER, partnershipId,null);
         int currentSubAccountNum = tUserList.size();
         //生成子账号
         Integer inputSubAccountNum = editPartnershipDTO.getSubAccountNum();
         if(inputSubAccountNum > currentSubAccountNum){
             String partnershipName = editPartnershipDTO.getPartnershipName();
             List<TUser> subAccountList = new ArrayList<>();
-            for (int i = currentSubAccountNum;i<=inputSubAccountNum;i++){
+            for (int i = currentSubAccountNum + 1;i<=inputSubAccountNum;i++){
                 String subAccountUsername = partnershipName + "-" + i;
                 Result subAccountResult = userBizService.
                         createUserByPartnership(subAccountUsername, manager.getPassword(), partnershipId,Constant.SubAccountType.SUB_ACCOUNT);
@@ -205,7 +221,9 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
                 //生成方法中会将密码加密，这里从数据库中取出的密码本身就已经加密过，不用再次加密，这里重新设置一下
                 subAccount.setPassword(manager.getPassword());
                 //子账号授权
-                
+                subAccount.setRoleId(Constant.CommonRoleId.ADMIN_USER);
+                //子账号状态设置
+                subAccount.setStatus(accountStatus);
                 subAccountList.add(subAccount);
             }
             //子账号入库
@@ -217,7 +235,16 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
             operationOtmPartnershipService.deleteByPartnershipIdAndOperationId(partnershipId,selectTPartnership.getOperationId());
             //生成新的关联关系
             TOperationOtmPartnership tOperationOtmPartnership = GenerateUtil.getTOperationOtmPartnership(operationId, partnershipId);
+            //插入绑定关系
             operationOtmPartnershipService.save(tOperationOtmPartnership);
+        }
+        //处理会员所属企业名称
+        List<TMember> tMemberList = memberService.getMemberByOwnerPartnershipId(partnershipId);
+        if(ObjectUtil.isNotEmpty(tMemberList)){
+            tMemberList.stream().forEach(tMember -> {
+                tMember.setOwnerPartnershipName(editPartnershipDTO.getPartnershipName());
+            });
+            memberService.saveOrUpdateBatch(tMemberList);
         }
         return Result.success();
     }
@@ -230,8 +257,8 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         }
         //删除合作企业
         partnershipService.deleteByPartnershipId(partnershipId);
-        //删除对应关系
-        operationOtmPartnershipService.deleteByPartnershipId(partnershipId);
+//        //删除合作企业不删除对应关系，这样定时任务在遍历时可以找到这个合作企业
+//        operationOtmPartnershipService.deleteByPartnershipId(partnershipId);
         //返回
         return Result.success();
     }

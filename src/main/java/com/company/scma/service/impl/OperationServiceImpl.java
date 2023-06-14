@@ -37,15 +37,15 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, TOperatio
         queryWrapper.orderByDesc(Constant.ColumnName.OPERATION_ID);
 
         if (StringUtils.isNotEmpty(getOperationDTO.getOperationName())) {
-            queryWrapper.eq(Constant.ColumnName.OPERATION_NAME, getOperationDTO.getOperationName());
+            queryWrapper.like(Constant.ColumnName.OPERATION_NAME, getOperationDTO.getOperationName());
         }
 
         if (StringUtils.isNotEmpty(getOperationDTO.getDirector())) {
-            queryWrapper.eq(Constant.ColumnName.DIRECTOR, getOperationDTO.getDirector());
+            queryWrapper.like(Constant.ColumnName.DIRECTOR, getOperationDTO.getDirector());
         }
 
         if (StringUtils.isNotEmpty(getOperationDTO.getContactTel())) {
-            queryWrapper.eq(Constant.ColumnName.CONTACT_TEL, getOperationDTO.getContactTel());
+            queryWrapper.like(Constant.ColumnName.CONTACT_TEL, getOperationDTO.getContactTel());
         }
 
         if (ObjectUtil.isNotEmpty(getOperationDTO.getStartDate())) {
