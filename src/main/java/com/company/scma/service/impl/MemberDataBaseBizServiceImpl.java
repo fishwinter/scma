@@ -2,6 +2,7 @@ package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.company.scma.common.constant.Constant;
 import com.company.scma.common.dto.GetMemberDataBaseDTO;
 import com.company.scma.common.po.TMember;
 import com.company.scma.common.po.TMemberType;
@@ -59,7 +60,10 @@ public class MemberDataBaseBizServiceImpl implements MemberDataBaseBizService {
         tMember.setOwnerUserid(currentUser.getUserid());
         tMember.setOwnerUsername(currentUser.getUsername());
         tMember.setModifyDate(new Date());
-        tMember.setMemberId(currentUser.getUserid());
+        tMember.setModifyUserid(currentUser.getUserid());
+        tMember.setStatus(Constant.MemberStatus.NORMAL);
+        //入库
+        memberService.saveOrUpdate(tMember);
         //返回
         return Result.success();
     }

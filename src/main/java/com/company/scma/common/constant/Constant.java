@@ -35,13 +35,13 @@ public interface Constant {
         String PARTNERSHIP_ID = "PARTNERSHIP_ID";
         String PARTNERSHIP_NAME = "PARTNERSHIP_NAME";
         String CONTACT_NAME = "CONTACT_NAME";
-        String CUSTCODE = "CUSTCODE";
+        String CUST_CODE = "CUST_CODE";
         String BUILD_USERID = "BUILD_USERID";
         String BUILD_PARTNERSHIPID = "BUILD_PARTNERSHIPID";
         String OWNER_PARTNERSHIP_ID = "OWNER_PARTNERSHIP_ID";
         String OWNER_PARTNERSHIP_NAME = "OWNER_PARTNERSHIP_NAME";
         String OWNER_USERNAME = "OWNER_USERNAME";
-        String CUSTVALUE = "CUSTVALUE";
+        String CUST_VALUE = "CUST_VALUE";
     }
     
     //常用常数
@@ -52,6 +52,8 @@ public interface Constant {
         String[] IGNORE_URL = {"/login"};
         //会员默认所属合作企业名称
         String DEFAULT_PARTNERSHIP_NAME = "总部";
+        //子账号默认密码
+        String DEFAULT_SUB_ACCOUNT_PASSWORD = "123456";
     }
     
     //用户类型
@@ -73,8 +75,8 @@ public interface Constant {
     }
     
     public interface MemberStatus{
-        Integer RELEASED_PUBLIC_RESOURCE = 1;
-        Integer NORMAL = 2;
+        Integer RELEASED_PUBLIC_RESOURCE = 0;
+        Integer NORMAL = 1;
         Integer RELEASED_MEMBER_DATABASE = 2;
     }
     

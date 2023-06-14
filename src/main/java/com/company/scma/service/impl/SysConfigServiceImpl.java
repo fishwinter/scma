@@ -21,9 +21,9 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, TSysConfi
     public String getCustValueByCustCode(String custCode) {
         QueryWrapper<TSysConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
-        queryWrapper.eq(Constant.ColumnName.CUSTCODE,custCode);
+        queryWrapper.eq(Constant.ColumnName.CUST_CODE,custCode);
         List<TSysConfig> tSysConfigList = sysConfigMapper.selectList(queryWrapper);
-        if(ObjectUtil.isEmpty(tSysConfigList)){
+        if(ObjectUtil.isNotEmpty(tSysConfigList)){
             return tSysConfigList.get(0).getCustValue();
         }
         return null;
@@ -32,9 +32,9 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, TSysConfi
     @Override
     public void setCustValueByCustCode(String custCode, String custValue) {
         UpdateWrapper<TSysConfig> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set(Constant.ColumnName.CUSTVALUE,custValue);
+        updateWrapper.set(Constant.ColumnName.CUST_VALUE,custValue);
         updateWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
-        updateWrapper.eq(Constant.ColumnName.CUSTCODE,custCode);
+        updateWrapper.eq(Constant.ColumnName.CUST_CODE,custCode);
         sysConfigMapper.update(null,updateWrapper);
     }
 }

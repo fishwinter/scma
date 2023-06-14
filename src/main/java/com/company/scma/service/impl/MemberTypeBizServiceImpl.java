@@ -9,6 +9,7 @@ import com.company.scma.service.mapperservice.MemberTypeService;
 import com.company.scma.service.validateservice.MemberTypeValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class MemberTypeBizServiceImpl implements MemberTypeBizService {
     }
 
     @Override
+    @Transactional
     public Result createMemberType(List<String> memberTypeNameList) {
         //创建实体
         List<TMemberType> tMemberTypeList = GenerateUtil.getTMemberTypeList(memberTypeNameList);
@@ -38,6 +40,7 @@ public class MemberTypeBizServiceImpl implements MemberTypeBizService {
     }
 
     @Override
+    @Transactional
     public Result deleteMemberType(Integer memberTypeId) {
         //参数校验
         Result result = memberTypeValidateService.validateDeleteMemberTypeId(memberTypeId);

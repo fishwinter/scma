@@ -114,7 +114,12 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
             partnershipDetailVO.setUsername(manager.getUsername());
         }
         if(ObjectUtil.isNotEmpty(subAccountList)){
-            partnershipDetailVO.setSubAccountNum(subAccountList.size());
+            int size = subAccountList.size();
+            if(ObjectUtil.isNotEmpty(manager)){
+                //如果有管理员，去除管理员数量
+                size = size - 1;
+            }
+            partnershipDetailVO.setSubAccountNum(size);
         }
         //返回
         return Result.success(partnershipDetailVO);
@@ -210,16 +215,24 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         if(inputSubAccountNum > currentSubAccountNum){
             String partnershipName = editPartnershipDTO.getPartnershipName();
             List<TUser> subAccountList = new ArrayList<>();
+            String subAccountPassword = null;
+            if(ObjectUtil.isNotEmpty(manager)){
+                //不为空时查询出来的子账号数量会加上管理员本身
+                subAccountPassword = manager.getPassword();
+                currentSubAccountNum = currentSubAccountNum - 1;
+            }else{
+                subAccountPassword = Constant.Common.DEFAULT_SUB_ACCOUNT_PASSWORD;
+            }
             for (int i = currentSubAccountNum + 1;i<=inputSubAccountNum;i++){
                 String subAccountUsername = partnershipName + "-" + i;
                 Result subAccountResult = userBizService.
-                        createUserByPartnership(subAccountUsername, manager.getPassword(), partnershipId,Constant.SubAccountType.SUB_ACCOUNT);
+                        createUserByPartnership(subAccountUsername, subAccountPassword, partnershipId,Constant.SubAccountType.SUB_ACCOUNT);
                 if(!Result.isSuccess(subAccountResult)){
                     return subAccountResult;
                 }
                 TUser subAccount = (TUser) subAccountResult.getData();
                 //生成方法中会将密码加密，这里从数据库中取出的密码本身就已经加密过，不用再次加密，这里重新设置一下
-                subAccount.setPassword(manager.getPassword());
+                subAccount.setPassword(subAccountPassword);
                 //子账号授权
                 subAccount.setRoleId(Constant.CommonRoleId.ADMIN_USER);
                 //子账号状态设置

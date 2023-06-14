@@ -518,7 +518,7 @@ public class GenerateUtil {
 
     public static List<TMemberType> getTMemberTypeList(List<String> memberTypeNameList){
         List<TMemberType> tMemberTypeList = new ArrayList<>();
-        if(ObjectUtil.isNotEmpty(memberTypeNameList)){
+        if(ObjectUtil.isEmpty(memberTypeNameList)){
             return tMemberTypeList;
         }
         TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
