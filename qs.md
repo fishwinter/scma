@@ -133,5 +133,5 @@ admin 密码 $2a$10$9EOfxf2jHSH0Lgg/N6Noe.4TK.p4JR55jr6Q7fvqqFVqc5qoJ2lsi
 生成子账号时管理员被删除了，则设置默认密码123456
 
 apifox:APS-RM63iwXq1rtxoRmif3qWD9eQLCtp0tKp
-github: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
+github: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
 shareUrl https://apifox.com/apidoc/shared-8b4c805d-cbbf-4342-936f-3efa28d95905
