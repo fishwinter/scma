@@ -138,4 +138,19 @@ public class ApiFoxController {
     public PartnershipConfigVO login23(MemberDetailVO memberDetailVO) {
         return null;
     }
+
+    @PostMapping("/login24")
+    public SupplierListVO login24(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login25")
+    public SupplierListRowVO login25(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login26")
+    public SupplierDetailVO login26(MemberDetailVO memberDetailVO) {
+        return null;
+    }
 }
