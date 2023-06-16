@@ -5,8 +5,8 @@ import com.company.scma.common.util.Base64Util;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.bizservice.FileBizService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
 
@@ -31,16 +31,16 @@ public class FileBizServiceImpl implements FileBizService {
         String randomFilename = UUID.randomUUID() + ext;
         randomFilename = randomFilename.replace("-", "");
         //获取根目录
-        File path = new File(ResourceUtils.getURL("classpath:").getPath());
-        //获取存储目录
-        File upload = new File(path.getAbsoluteFile(), fileuploadPath);
-        if (!upload.exists()) {
-            upload.mkdirs();
+        ApplicationHome applicationHome = new ApplicationHome(getClass());
+        File source = applicationHome.getSource();
+        //生成存储目录
+        String dirPath = source.getParentFile().toString() + fileuploadPath;
+        File dirFile = new File(dirPath);
+        if(!dirFile.exists()){
+            dirFile.mkdirs();
         }
-        //String fileLocalPath = fileuploadPath + "commentImage/" + randomFilename;
-        String filePath = upload.getPath() + "\\" + randomFilename;
-        //替换一下符号，linux平台也可以使用
-        filePath = filePath.replace("\\", "/");
+        String filePath = dirPath + randomFilename;
+        filePath = filePath.replace("\\","/");
         File localFile = new File(filePath);
         multipartFile.transferTo(localFile);
         //返回路径

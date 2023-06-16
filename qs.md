@@ -132,6 +132,9 @@ admin 密码 $2a$10$9EOfxf2jHSH0Lgg/N6Noe.4TK.p4JR55jr6Q7fvqqFVqc5qoJ2lsi
 子账号创建的账号不属于子账号，应该通过权限来控制
 生成子账号时管理员被删除了，则设置默认密码123456
 
+性别枚举
+普通用户只能查看普通用户，子账号只能查看子账号
+
 apifox:APS-RM63iwXq1rtxoRmif3qWD9eQLCtp0tKp
 github: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
 shareUrl https://apifox.com/apidoc/shared-8b4c805d-cbbf-4342-936f-3efa28d95905
