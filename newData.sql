@@ -1,0 +1,73 @@
+#初始化权限
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (1,'role','visit',NOW(),1,1,1);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (2,'role','add',NOW(),1,1,2);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (3,'role','edit',NOW(),1,1,3);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (4,'role','delete',NOW(),1,1,4);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (5,'user','visit',NOW(),1,2,1);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (6,'user','add',NOW(),1,2,2);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (7,'user','edit',NOW(),1,2,3);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (8,'user','delete',NOW(),1,2,4);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (9,'member','visit',NOW(),1,3,1);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (10,'member','add',NOW(),1,3,2);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (11,'member','edit',NOW(),1,3,3);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (12,'member','delete',NOW(),1,3,4);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (13,'operation','visit',NOW(),1,4,1);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (14,'operation','add',NOW(),1,4,2);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (15,'operation','edit',NOW(),1,4,3);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (16,'operation','delete',NOW(),1,4,4);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (17,'partnership','visit',NOW(),1,5,1);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (18,'partnership','add',NOW(),1,5,2);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (19,'partnership','edit',NOW(),1,5,3);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (20,'partnership','delete',NOW(),1,5,4);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (21,'sysConfig','visit',NOW(),1,6,1);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (22,'sysConfig','add',NOW(),1,6,2);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (23,'sysConfig','edit',NOW(),1,6,3);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (24,'sysConfig','delete',NOW(),1,6,4);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (25,'memberDataBase','visit',NOW(),1,7,1);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (26,'supplier','visit',NOW(),1,8,1);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (27,'supplier','add',NOW(),1,8,1);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (28,'supplier','edit',NOW(),1,8,3);
+INSERT into T_PERMISSION(permission_id,menu_name,permission_name,build_date,deleteflag,menu_sort,permission_sort) values (29,'supplier','delete',NOW(),1,8,4);
+#初始化角色
+INSERT INTO T_ROLE(role_id,role_name,introduction,build_date,deleteflag) VALUES (1,'管理员','系统管理员',NOW(),1);
+#初始化权限和角色关联
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (1,1,1,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (2,1,2,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (3,1,3,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (4,1,4,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (5,1,5,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (6,1,6,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (7,1,7,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (8,1,8,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (9,1,9,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (10,1,10,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (11,1,11,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (12,1,12,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (13,1,13,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (14,1,14,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (15,1,15,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (16,1,16,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (17,1,17,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (18,1,18,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (19,1,19,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (20,1,20,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (21,1,21,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (22,1,22,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (23,1,23,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (24,1,24,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (25,1,25,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (26,1,26,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (27,1,27,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (28,1,28,1);
+INSERT INTO T_ROLE_MTM_PERMISSION(serialno,role_id,permission_id,deleteflag) values (29,1,29,1);
+#初始化用户
+INSERT INTO T_USER(userid,username,password,name,type,build_date,role_id,status,deleteflag) VALUES (1,'admin','$2a$10$jvWioa4/4dwNWP9yQfqw/.zh8.ZDQQ6po4QootAIlBnRmYQlpmVd6','管理员',1,NOW(),1,1,1);
+#初始化系统配置
+INSERT INTO T_SYSCONFIG (SERIALNO,CUST_CODE,CUST_VALUE,BUILD_DATE,INTRODUCTION,DELETEFLAG) VALUES (1,'SUSPENDED_TERM','10',NOW(),'活动结束后，合作单位账号经过多少天冻结',1);
+INSERT INTO T_SYSCONFIG (SERIALNO,CUST_CODE,CUST_VALUE,BUILD_DATE,INTRODUCTION,DELETEFLAG) VALUES (2,'RELEASE_TERM','10',NOW(),'合作单位账号冻结后，会员经过多少天释放',1);
+INSERT INTO T_SYSCONFIG (SERIALNO,CUST_CODE,CUST_VALUE,BUILD_DATE,INTRODUCTION,DELETEFLAG) VALUES (3,'RELEASE_WAY','1',NOW(),'账号释放方式，1-释放到公司会员库，2-释放为公共资源',1);
+INSERT INTO T_SYSCONFIG (SERIALNO,CUST_CODE,CUST_VALUE,BUILD_DATE,INTRODUCTION,DELETEFLAG) VALUES (4,'PARTNERSHIP_TYPE','[{"partnershipTypeId": "1","partnershipName": "国企"},{"partnershipTypeId": "2","partnershipName": "民企"},{"partnershipTypeId": "3","partnershipName": "外企"}]',NOW(),'合作企业企业性质',1);
+INSERT INTO T_SYSCONFIG (SERIALNO,CUST_CODE,CUST_VALUE,BUILD_DATE,INTRODUCTION,DELETEFLAG) VALUES (5,'PARTNERSHIP_PROJECT_TYPE','[{"partnershipProjectTypeId": "1","partnershipProjectTypeName": "协办"},{"partnershipProjectTypeId": "2","partnershipProjectTypeName": "广告"},{"partnershipProjectTypeId": "3","partnershipProjectTypeName": "活动"}]',NOW(),'合作企业企业项目',1);
+#初始化省市配置
+INSERT INTO T_ITEM (ITEM_CODE,ITEM_NAME,PARENT_CODE,TYPE) VALUES (13,'河北省',NULL,1);
+INSERT INTO T_ITEM (ITEM_CODE,ITEM_NAME,PARENT_CODE,TYPE) VALUES (1301,'石家庄市',13,2);

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
  * @author 
  */
 @Data
+@TableName("T_OPERATION_OTM_PARTNERSHIP")
 public class TOperationOtmPartnership implements Serializable {
     /**
      * 序号

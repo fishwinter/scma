@@ -5,6 +5,7 @@ import com.company.scma.common.dto.EditMemberDTO;
 import com.company.scma.common.dto.GetMyMemberDTO;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.bizservice.MemberBizService;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,7 +23,7 @@ public class MemberController {
         return memberBizService.getMyMember(getMyMemberDTO);
     }
 
-    @RequiresPermissions(value = {"member:visit","memberDataBase:visit"})
+    @RequiresPermissions(value = {"member:visit","memberDataBase:visit"},logical = Logical.OR)
     @RequestMapping(value = "/getMemberDetail", method = RequestMethod.POST)
     public Result getMemberDetail(@RequestParam Integer memberId){
         return memberBizService.getMemberDetail(memberId);

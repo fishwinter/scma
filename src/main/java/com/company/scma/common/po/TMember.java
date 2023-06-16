@@ -1,6 +1,7 @@
 package com.company.scma.common.po;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.util.Date;
  * @author 
  */
 @Data
+@TableName("T_MEMBER")
 public class TMember implements Serializable {
     /**
      * 会员id

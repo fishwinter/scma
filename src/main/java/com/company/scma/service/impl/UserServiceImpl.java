@@ -12,6 +12,7 @@ import com.company.scma.common.po.TUser;
 import com.company.scma.mapper.UserMapper;
 import com.company.scma.service.mapperservice.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, TUser> implements U
         QueryWrapper<TUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES);
         queryWrapper.orderByDesc(Constant.ColumnName.USERID);
+        
+        TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        if(ObjectUtil.isEmpty(currentUser) || ObjectUtil.isEmpty(currentUser.getUserid())){
+            return null;
+        }
+
+        //如果是子账号用户，只能查询当前公司下的子账号
+        Integer currentUserType = currentUser.getType();
+        Integer buildPartnershipid = currentUser.getBuildPartnershipid();
+        if(Constant.UserType.SUB_ACCOUNT_USER.equals(currentUserType) && ObjectUtil.isNotEmpty(buildPartnershipid)){
+            queryWrapper.eq(Constant.ColumnName.TYPE,Constant.UserType.SUB_ACCOUNT_USER);
+            queryWrapper.eq(Constant.ColumnName.BUILD_PARTNERSHIPID,buildPartnershipid);
+        }
+        
 
         if (StringUtils.isNotEmpty(getUserDTO.getUsername())) {
             queryWrapper.like(Constant.ColumnName.USERNAME, getUserDTO.getUsername());

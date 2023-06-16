@@ -3,6 +3,7 @@ package com.company.scma.controller;
 import com.company.scma.common.dto.SysConfigDTO;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.bizservice.SysConfigBizService;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,7 +32,7 @@ public class SysConfigController {
     }
 
     @RequestMapping(value = "/getPartnershipConfig", method = RequestMethod.POST)
-    @RequiresPermissions("partnership:add")
+    @RequiresPermissions(value = {"partnership:add","supplier:add"},logical = Logical.OR)
     public Result getPartnershipConfig(){
         return sysConfigBizService.getPartnershipConfig();
     }

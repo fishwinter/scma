@@ -1,6 +1,8 @@
 package com.company.scma.common.po;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -8,6 +10,7 @@ import lombok.Data;
  * @author 
  */
 @Data
+@TableName("T_ITEM")
 public class TItem implements Serializable {
     /**
      * 主体编码

@@ -85,7 +85,7 @@ public class MemberValidateServiceImpl implements MemberValidateService {
             return Result.getResult(ResultEnum.EXIST_MEMBER_NAME);
         }
         //校验会员类型是否正确
-        TMemberType tMemberType = memberTypeService.getMemberTypeByMemberTypeId(editMemberDTO.getMemberId());
+        TMemberType tMemberType = memberTypeService.getMemberTypeByMemberTypeId(editMemberDTO.getMemberTypeId());
         if(ObjectUtil.isEmpty(tMemberType)){
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }

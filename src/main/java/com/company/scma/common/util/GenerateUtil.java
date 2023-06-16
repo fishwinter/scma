@@ -535,4 +535,65 @@ public class GenerateUtil {
         return tMemberTypeList;
     }
     
+    public static TSupplier getTSupplier(CreateSupplierDTO createSupplierDTO){
+        TSupplier tSupplier = new TSupplier();
+        if(ObjectUtil.isEmpty(createSupplierDTO)){
+            return tSupplier;
+        }
+        BeanUtils.copyProperties(createSupplierDTO,tSupplier);
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tSupplier.setBuildDate(new Date());
+        tSupplier.setBuildUserid(tUser.getUserid());
+        tSupplier.setModifyDate(new Date());
+        tSupplier.setModifyUserid(tUser.getUserid());
+        tSupplier.setDeleteflag(Constant.Judge.YES);
+        return tSupplier;
+    }
+    
+    public static SupplierDetailVO getSupplierDetailVO(TSupplier tSupplier){
+        SupplierDetailVO supplierDetailVO = new SupplierDetailVO();
+        if(ObjectUtil.isEmpty(tSupplier)){
+            return supplierDetailVO;
+        }
+        BeanUtils.copyProperties(tSupplier,supplierDetailVO);
+        return supplierDetailVO;
+    }
+
+    public static TSupplier getTSupplier(EditSupplierDTO editSupplierDTO){
+        TSupplier tSupplier = new TSupplier();
+        if(ObjectUtil.isEmpty(editSupplierDTO)){
+            return tSupplier;
+        }
+        BeanUtils.copyProperties(editSupplierDTO,tSupplier);
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tSupplier.setModifyDate(new Date());
+        tSupplier.setModifyUserid(tUser.getUserid());
+        return tSupplier;
+    }
+    
+    public static SupplierListVO getSupplierListVO(IPage<TSupplier> tSupplierIPage){
+        SupplierListVO supplierListVO = new SupplierListVO();
+        if(ObjectUtil.isEmpty(tSupplierIPage)){
+            return supplierListVO;
+        }
+        supplierListVO.setSupplierTotal(tSupplierIPage.getTotal());
+        List<TSupplier> tSupplierList = tSupplierIPage.getRecords();
+        if(ObjectUtil.isEmpty(tSupplierList)){
+            return supplierListVO;
+        }
+        List<SupplierListRowVO> collect = tSupplierList.stream().map(GenerateUtil::getSupplierListRowVO).collect(Collectors.toList());
+        supplierListVO.setSupplierListRowVOList(collect);
+        return supplierListVO;
+    }
+    
+    public static SupplierListRowVO getSupplierListRowVO(TSupplier tSupplier){
+        SupplierListRowVO supplierListRowVO = new SupplierListRowVO();
+        if(ObjectUtil.isEmpty(tSupplier)){
+            return supplierListRowVO;
+        }
+        BeanUtils.copyProperties(tSupplier,supplierListRowVO);
+        return supplierListRowVO;
+    }
+    
+    
 }

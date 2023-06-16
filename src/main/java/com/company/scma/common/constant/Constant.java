@@ -42,6 +42,9 @@ public interface Constant {
         String OWNER_PARTNERSHIP_NAME = "OWNER_PARTNERSHIP_NAME";
         String OWNER_USERNAME = "OWNER_USERNAME";
         String CUST_VALUE = "CUST_VALUE";
+        String SUPPLIER_ID = "SUPPLIER_ID";
+        String SUPPLIER_NAME = "SUPPLIER_NAME";
+        
     }
     
     //常用常数

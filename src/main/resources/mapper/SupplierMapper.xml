@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.scma.mapper.SupplierMapper">
+  <resultMap id="BaseResultMap" type="com.company.scma.common.po.TSupplier">
+    <id column="supplier_id" jdbcType="INTEGER" property="supplierId" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="contact_tel" jdbcType="VARCHAR" property="contactTel" />
+    <result column="contact_addr" jdbcType="VARCHAR" property="contactAddr" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="member_type_id" jdbcType="INTEGER" property="memberTypeId" />
+    <result column="partnership_type" jdbcType="INTEGER" property="partnershipType" />
+    <result column="wechat_account" jdbcType="VARCHAR" property="wechatAccount" />
+    <result column="video_account" jdbcType="VARCHAR" property="videoAccount" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="director_name" jdbcType="VARCHAR" property="directorName" />
+    <result column="director_position" jdbcType="VARCHAR" property="directorPosition" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
+    <result column="contacts_position" jdbcType="VARCHAR" property="contactsPosition" />
+    <result column="join_logistics_fair" jdbcType="INTEGER" property="joinLogisticsFair" />
+    <result column="service_provider" jdbcType="VARCHAR" property="serviceProvider" />
+    <result column="director_tel" jdbcType="VARCHAR" property="directorTel" />
+    <result column="cooperation_cases" jdbcType="VARCHAR" property="cooperationCases" />
+    <result column="build_userid" jdbcType="INTEGER" property="buildUserid" />
+    <result column="build_date" jdbcType="TIMESTAMP" property="buildDate" />
+    <result column="modify_userid" jdbcType="INTEGER" property="modifyUserid" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    supplier_id, supplier_name, contacts, contact_tel, contact_addr, introduction, member_type_id, 
+    partnership_type, wechat_account, video_account, email, director_name, director_position, 
+    logo_url, contacts_position, join_logistics_fair, service_provider, director_tel, 
+    cooperation_cases, build_userid, build_date, modify_userid, modify_date, deleteflag
+  </sql>
+</mapper>
