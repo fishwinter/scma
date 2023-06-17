@@ -1,5 +1,6 @@
 package com.company.scma.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -98,6 +99,7 @@ public class CreatePartnershipDTO {
     /**
      * 进账时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date paymentTime;
 
     /**
@@ -118,6 +120,7 @@ public class CreatePartnershipDTO {
     /**
      * 首次加入协办单位时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date firstJoinTime;
 
     /**
