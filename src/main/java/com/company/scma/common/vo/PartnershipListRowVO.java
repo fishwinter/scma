@@ -7,6 +7,10 @@ import java.util.Date;
 @Data
 public class PartnershipListRowVO {
     /**
+     * 合作企业id
+     */
+    private Integer partnershipId;
+    /**
      * 单位名称
      */
     private String partnershipName;
