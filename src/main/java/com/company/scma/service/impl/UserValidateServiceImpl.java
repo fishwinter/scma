@@ -34,7 +34,7 @@ public class UserValidateServiceImpl implements UserValidateService {
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
         
-        if(commonValidateService.validateAnnotation(createUserDTO)){
+        if(!commonValidateService.validateAnnotation(createUserDTO)){
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
         
@@ -81,7 +81,7 @@ public class UserValidateServiceImpl implements UserValidateService {
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
 
-        if(commonValidateService.validateAnnotation(editUserDTO)){
+        if(!commonValidateService.validateAnnotation(editUserDTO)){
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
 
