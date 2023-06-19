@@ -7,12 +7,16 @@ import com.company.scma.common.dto.CreatePartnershipDTO;
 import com.company.scma.common.dto.EditPartnershipDTO;
 import com.company.scma.common.dto.GetPartnershipDTO;
 import com.company.scma.common.po.TOperation;
+import com.company.scma.common.po.TPartnership;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.mapperservice.OperationService;
+import com.company.scma.service.mapperservice.PartnershipService;
 import com.company.scma.service.validateservice.CommonValidateService;
 import com.company.scma.service.validateservice.PartnershipValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -21,6 +25,8 @@ public class PartnershipValidateServiceImpl implements PartnershipValidateServic
     private CommonValidateService commonValidateService;
     @Autowired
     private OperationService operationService;
+    @Autowired
+    private PartnershipService partnershipService;
     @Override
     public Result validateCreatePartnershipDTO(CreatePartnershipDTO createPartnershipDTO) {
         if(ObjectUtil.isEmpty(createPartnershipDTO)){
@@ -31,6 +37,13 @@ public class PartnershipValidateServiceImpl implements PartnershipValidateServic
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
         
+        //校验partnershipName名字是否重复
+        String partnershipName = createPartnershipDTO.getPartnershipName();
+        List<TPartnership> tPartnershipList = partnershipService.getTPartnershipByName(partnershipName);
+        if(ObjectUtil.isNotEmpty(tPartnershipList)){
+            return Result.getResult(ResultEnum.EXIST_PARTNERSHIP_NAME);
+        }
+
         //校验绑定的活动状态
         Integer operationId = createPartnershipDTO.getOperationId();
         TOperation tOperationById = operationService.getTOperationById(operationId);

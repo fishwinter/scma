@@ -14,6 +14,7 @@ public class CreatePartnershipDTO {
     /**
      * 单位名称
      */
+    @NotBlank
     private String partnershipName;
 
     /**

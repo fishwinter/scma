@@ -150,7 +150,7 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         }
         //管理员授权
         TUser manager = (TUser) managerResult.getData();
-        manager.setRoleId(Constant.CommonRoleId.ADMIN_USER);
+        manager.setRoleId(Constant.CommonRoleId.PARTNERSHIP_MANAGER);
         //管理员状态设置
         Integer accountStatus = operationStatus.equals(Constant.OperationStatus.NORMAL) ? Constant.Judge.YES : Constant.Judge.NO;
         manager.setStatus(accountStatus);
@@ -173,7 +173,7 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
                 }
                 TUser subAccount = (TUser) subAccountResult.getData();
                 //子账号授权
-                subAccount.setRoleId(Constant.CommonRoleId.ADMIN_USER);
+                subAccount.setRoleId(Constant.CommonRoleId.PARTNERSHIP_USER);
                 //子账号状态设置
                 subAccount.setStatus(accountStatus);
                 subAccountList.add(subAccount);

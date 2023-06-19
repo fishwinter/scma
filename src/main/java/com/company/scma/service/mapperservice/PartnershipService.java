@@ -14,5 +14,9 @@ public interface PartnershipService extends IService<TPartnership> {
     
     public void deleteByPartnershipId(Integer partnershipId);
     
+    public List<TPartnership> getTPartnershipByName(String partnershipName);
+    
+    public List<TPartnership> getTPartnershipByOperationId(Integer operationId,Integer deleteflag);
+    
     public List<TPartnership> fuzzQueryTPartnershipByPartnershipName(String partnershipName);
 }

@@ -104,5 +104,12 @@ public interface Constant {
     
     public interface CommonRoleId{
         Integer ADMIN_USER = 1;
+        Integer PARTNERSHIP_MANAGER = 4;
+        Integer PARTNERSHIP_USER = 5;
+    }
+    
+    public interface ReleaseWay{
+        String RELEASE_TO_MEMBER_DATABASE = "1";
+        String RELEASE_TO_PUBLIC_RESOURCE = "2";
     }
 }

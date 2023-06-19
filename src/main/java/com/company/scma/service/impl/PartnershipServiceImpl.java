@@ -75,6 +75,24 @@ public class PartnershipServiceImpl extends ServiceImpl<PartnershipMapper, TPart
     }
 
     @Override
+    public List<TPartnership> getTPartnershipByName(String partnershipName) {
+        QueryWrapper<TPartnership> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.PARTNERSHIP_NAME,partnershipName);
+        return partnershipMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<TPartnership> getTPartnershipByOperationId(Integer operationId,Integer deleteflag) {
+        QueryWrapper<TPartnership> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.OPERATION_ID,operationId);
+        if(ObjectUtil.isNotEmpty(deleteflag)){
+            queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES);
+        }
+        return partnershipMapper.selectList(queryWrapper);
+    }
+
+    @Override
     public List<TPartnership> fuzzQueryTPartnershipByPartnershipName(String partnershipName) {
         QueryWrapper<TPartnership> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES); 

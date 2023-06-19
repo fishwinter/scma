@@ -33,6 +33,7 @@ public enum ResultEnum {
     ERROR_OPERATION_STATUS(441,"绑定活动状态错误"),
     ERROR_MANAGER_USERNAME(442,"管理员账号名存在非法字符"),
     EXIST_MANAGER_USERNAME(443,"管理员账号名已存在"),
+    EXIST_PARTNERSHIP_NAME(445,"合作企业账名称已存在"),
     
     //其他错误
     UNKNOWN_ERROR(500,"未知错误");

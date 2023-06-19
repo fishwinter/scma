@@ -162,6 +162,17 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, TMember> implem
     }
 
     @Override
+    public List<TMember> getMemberByOwnerUserid(List<Integer> ownerUseridList, Integer deleteflag) {
+        QueryWrapper<TMember> queryWrapper = new QueryWrapper<>();
+        if(ObjectUtil.isNotEmpty(deleteflag)){
+            queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        }
+        queryWrapper.in(Constant.ColumnName.OWNER_USERID,ownerUseridList);
+        List<TMember> tMemberList = memberMapper.selectList(queryWrapper);
+        return tMemberList;
+    }
+
+    @Override
     public List<TMember> getMemberByOwnerPartnershipId(Integer ownerPartnershipId) {
         QueryWrapper<TMember> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);

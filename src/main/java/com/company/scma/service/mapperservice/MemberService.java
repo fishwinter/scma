@@ -23,5 +23,7 @@ public interface MemberService extends IService<TMember> {
     
     public List<TMember> getMemberByOwnerUserid(Integer ownerUserid);
     
+    public List<TMember> getMemberByOwnerUserid(List<Integer> ownerUseridList,Integer deleteflag);
+    
     public List<TMember> getMemberByOwnerPartnershipId(Integer ownerPartnershipId);
 }

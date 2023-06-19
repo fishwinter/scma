@@ -136,6 +136,8 @@ admin 密码 $2a$10$9EOfxf2jHSH0Lgg/N6Noe.4TK.p4JR55jr6Q7fvqqFVqc5qoJ2lsi
 普通用户只能查看普通用户，子账号只能查看子账号
 partnershipName增加一个不重名校验，同时修改为必填项
 活动简介容量放大一点
+增加一个头像接口
+作者发文权限合并到编辑权限中
 
 apifox:APS-RM63iwXq1rtxoRmif3qWD9eQLCtp0tKp
 github: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
