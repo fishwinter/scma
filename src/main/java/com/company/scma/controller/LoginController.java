@@ -53,13 +53,5 @@ public class LoginController {
         subject.logout();
         return Result.success();
     }
-
-    @PostMapping("/getHeadUrl")
-    public Result getHeadUrl(){
-        Subject subject = SecurityUtils.getSubject();
-        TUser tUser = (TUser) subject.getPrincipal();
-        return Result.success(tUser.getImageUrl());
-    }
-    
     
 }
