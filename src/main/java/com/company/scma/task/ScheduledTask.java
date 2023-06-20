@@ -40,48 +40,66 @@ public class ScheduledTask {
                 continue;
             }
             if(Constant.Judge.NO.equals(tOperation.getDeleteflag())){
-                //删除的活动
-                List<TPartnership> tPartnershipList = partnershipService.getTPartnershipByOperationId(tOperation.getOperationId(),null);
-                if(ObjectUtil.isEmpty(tPartnershipList)){
-                    continue;
-                }
-                List<Integer> partnershipIdList = tPartnershipList.stream().map(TPartnership::getPartnershipId).collect(Collectors.toList());
-                List<TUser> userList = userService.getUserByTypeAndBuildId(Constant.UserType.SUB_ACCOUNT_USER, partnershipIdList,null,null);
-                if(ObjectUtil.isEmpty(userList)){
-                    continue;
-                }
-                //将所有未被删除的用户的状态置为失效
-                ArrayList<TUser> tempUserLIst = new ArrayList<>();
-                for (TUser tUser : userList) {
-                    if(Constant.Judge.YES.equals(tUser.getDeleteflag()) && Constant.Judge.YES.equals(tUser.getStatus())){
-                        tUser.setStatus(Constant.Judge.NO);
-                        tempUserLIst.add(tUser);
-                    }
-                }
-                //更新用户状态
-                userService.saveOrUpdateBatch(tempUserLIst);
-                //查询所有会员
-                List<Integer> useridList = userList.stream().map(TUser::getUserid).collect(Collectors.toList());
-                List<TMember> tMemberList = memberService.getMemberByOwnerUserid(useridList, null);
-                //查询系统配置
-                String releaseWay = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.RELEASE_WAY);
-                //所有未被删除的会员置为释放状态，清除所属人和所属合作企业
-                for (TMember tMember : tMemberList) {
-                    if(Constant.Judge.NO.equals(tMember.getDeleteflag())){
+                this.operateDeletedOperation(tOperation);
+            }else{
+                if(Constant.OperationStatus.FINISH.equals(tOperation.getStatus())){
+                    //已经结束的活动
+                    List<TPartnership> tPartnershipList = partnershipService.getTPartnershipByOperationId(tOperation.getOperationId(),null);
+                    if(ObjectUtil.isEmpty(tPartnershipList)){
                         continue;
                     }
-                    tMember.setOwnerUsername(null);
-                    tMember.setOwnerUserid(null);
-                    tMember.setOwnerPartnershipName(null);
-                    tMember.setOwnerPartnershipId(null);
-                    //如果释放到公司会员数据库，设置名字和状态
-                    if(Constant.ReleaseWay.RELEASE_TO_MEMBER_DATABASE.equals(releaseWay)){
-                        tMember.setOwnerPartnershipName(Constant.Common.DEFAULT_PARTNERSHIP_NAME);
-                        tMember.setStatus(Constant.MemberStatus.RELEASED_MEMBER_DATABASE);
-                    }else{
-                        tMember.setStatus(Constant.MemberStatus.RELEASED_PUBLIC_RESOURCE);
-                    }
+                    
                 }
+            }
+        }
+    }
+    
+    //活动删除时的处理方法
+    private void operateDeletedOperation(TOperation tOperation){
+        List<TPartnership> tPartnershipList = partnershipService.getTPartnershipByOperationId(tOperation.getOperationId(),null);
+        if(ObjectUtil.isEmpty(tPartnershipList)){
+            return;
+        }
+        List<Integer> partnershipIdList = tPartnershipList.stream().map(TPartnership::getPartnershipId).collect(Collectors.toList());
+        this.operationDeletedPartnership(partnershipIdList);
+    }
+    
+    //合作企业删除时的处理方法
+    private void operationDeletedPartnership(List<Integer> partnershipIdList){
+        List<TUser> userList = userService.getUserByTypeAndBuildId(Constant.UserType.SUB_ACCOUNT_USER, partnershipIdList,null,null);
+        if(ObjectUtil.isEmpty(userList)){
+            return;
+        }
+        //将所有未被删除的用户的状态置为失效
+        ArrayList<TUser> tempUserLIst = new ArrayList<>();
+        for (TUser tUser : userList) {
+            if(Constant.Judge.YES.equals(tUser.getDeleteflag()) && Constant.Judge.YES.equals(tUser.getStatus())){
+                tUser.setStatus(Constant.Judge.NO);
+                tempUserLIst.add(tUser);
+            }
+        }
+        //更新用户状态
+        userService.saveOrUpdateBatch(tempUserLIst);
+        //查询所有会员
+        List<Integer> useridList = userList.stream().map(TUser::getUserid).collect(Collectors.toList());
+        List<TMember> tMemberList = memberService.getMemberByOwnerUserid(useridList, null);
+        //查询系统配置
+        String releaseWay = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.RELEASE_WAY);
+        //所有未被删除的会员置为释放状态，清除所属人和所属合作企业
+        for (TMember tMember : tMemberList) {
+            if(Constant.Judge.NO.equals(tMember.getDeleteflag())){
+                continue;
+            }
+            tMember.setOwnerUsername(null);
+            tMember.setOwnerUserid(null);
+            tMember.setOwnerPartnershipName(null);
+            tMember.setOwnerPartnershipId(null);
+            //如果释放到公司会员数据库，设置名字和状态
+            if(Constant.ReleaseWay.RELEASE_TO_MEMBER_DATABASE.equals(releaseWay)){
+                tMember.setOwnerPartnershipName(Constant.Common.DEFAULT_PARTNERSHIP_NAME);
+                tMember.setStatus(Constant.MemberStatus.RELEASED_MEMBER_DATABASE);
+            }else{
+                tMember.setStatus(Constant.MemberStatus.RELEASED_PUBLIC_RESOURCE);
             }
         }
     }
