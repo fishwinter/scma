@@ -614,4 +614,30 @@ public class DateUtil {
         }
     }
 
+    /**
+     * 获取sourceDate开始，days天后的时间
+     * @param days
+     * @param sourceDate
+     * @return
+     */
+    public static Date getDaysDateFromSource(Integer days,Date sourceDate){
+        Calendar now = Calendar.getInstance();
+        now.setTime(sourceDate);
+        now.set(Calendar.DATE,now.get(Calendar.DATE) + days);
+        return now.getTime();
+    }
+    
+    public static boolean isSourceDateBeforeComparedDate(Date sourceDate,Date comparedDate){
+        Calendar source = Calendar.getInstance();
+        source.setTime(sourceDate);
+
+        Calendar compared = Calendar.getInstance();
+        compared.setTime(comparedDate);
+        
+        if(source.before(compared)){
+            return true;
+        }
+        return false;
+    }
+
 }

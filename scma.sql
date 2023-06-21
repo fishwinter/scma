@@ -66,7 +66,33 @@ CREATE TABLE `T_PARTNERSHIP_OLD` (
 PRIMARY KEY (`partnership_id`) 
 );
 
-CREATE TABLE `T_SUPPLIER` (`supplier_id` int(12) NOT NULL AUTO_INCREMENT COMMENT '供应商id',`supplier_name` varchar(50) NULL COMMENT '供应商名称',`contacts` varchar(50) NULL COMMENT '联系人',`contact_tel` varchar(30) NULL COMMENT '联系电话',`contact_addr` varchar(100) NULL COMMENT '联系地址',`introduction` varchar(2000) NULL COMMENT '简介',`member_type_id` int(2) NULL COMMENT '企业类型，字典同会员类型',`partnership_type` int(2) NULL COMMENT '企业性质，字典同合作企业企业性质',`wechat_account` varchar(100) NULL COMMENT '企业微信号',`video_account` varchar(100) NULL COMMENT '企业视频号',`email` varchar(100) NULL COMMENT '企业邮箱',`director_name` varchar(50) NULL COMMENT '负责人姓名',`director_position` varchar(50) NULL COMMENT '负责人职务',`logo_url` varchar(1000) NULL COMMENT '企业logo url',`contacts_position` varchar(50) NULL COMMENT '联系人职务',`join_logistics_fair` int(2) NULL COMMENT '是否参加过物博会，0-否，1-是',`service_provider` varchar(50) NULL COMMENT '服务对接人',`director_tel` varchar(50) NULL COMMENT '负责人手机号',`cooperation_cases` varchar(2000) NULL COMMENT '合作案例',`build_userid` int(12) NULL COMMENT '创建用户userid',`build_date` datetime NULL COMMENT '创建时间',`modify_userid` int(12) NULL COMMENT '修改用户userid',`modify_date` datetime NULL COMMENT '修改时间',`deleteflag` int(2) NULL COMMENT '删除标记：0-删除，1-正常',PRIMARY KEY (`supplier_id`) );
+CREATE TABLE `T_SUPPLIER` (
+`supplier_id` int(12) NOT NULL AUTO_INCREMENT COMMENT '供应商id',
+`supplier_name` varchar(50) NULL COMMENT '供应商名称',
+`contacts` varchar(50) NULL COMMENT '联系人',
+`contact_tel` varchar(30) NULL COMMENT '联系电话',
+`contact_addr` varchar(100) NULL COMMENT '联系地址',
+`introduction` varchar(2000) NULL COMMENT '简介',
+`member_type_id` int(2) NULL COMMENT '企业类型，字典同会员类型',
+`partnership_type` int(2) NULL COMMENT '企业性质，字典同合作企业企业性质',
+`wechat_account` varchar(100) NULL COMMENT '企业微信号',
+`video_account` varchar(100) NULL COMMENT '企业视频号',
+`email` varchar(100) NULL COMMENT '企业邮箱',
+`director_name` varchar(50) NULL COMMENT '负责人姓名',
+`director_position` varchar(50) NULL COMMENT '负责人职务',
+`logo_url` varchar(1000) NULL COMMENT '企业logo url',
+`contacts_position` varchar(50) NULL COMMENT '联系人职务',
+`join_logistics_fair` int(2) NULL COMMENT '是否参加过物博会，0-否，1-是',
+`service_provider` varchar(50) NULL COMMENT '服务对接人',
+`director_tel` varchar(50) NULL COMMENT '负责人手机号',
+`cooperation_cases` varchar(2000) NULL COMMENT '合作案例',
+`build_userid` int(12) NULL COMMENT '创建用户userid',
+`build_date` datetime NULL COMMENT '创建时间',
+`modify_userid` int(12) NULL COMMENT '修改用户userid',
+`modify_date` datetime NULL COMMENT '修改时间',
+`deleteflag` int(2) NULL COMMENT '删除标记：0-删除，1-正常',
+PRIMARY KEY (`supplier_id`) 
+);
 
 CREATE TABLE `T_OPERATION` (
 `operation_id` int(12) NOT NULL AUTO_INCREMENT COMMENT '活动id',
@@ -76,7 +102,7 @@ CREATE TABLE `T_OPERATION` (
 `address` varchar(100) NULL COMMENT '活动地址',
 `start_date` datetime NULL COMMENT '活动开始时间',
 `end_date` datetime NULL COMMENT '活动结束时间',
-`introduction` text NULL COMMENT '简介',
+`introduction` longtext NULL COMMENT '简介',
 `status` int(2) NULL COMMENT '活动状态：0-未开始，1-正常，2-已结束',
 `build_date` datetime NULL COMMENT '创建时间',
 `build_userid` int(12) NULL COMMENT '创建者userid',
