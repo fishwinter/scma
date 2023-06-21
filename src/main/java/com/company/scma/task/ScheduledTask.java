@@ -12,12 +12,14 @@ import com.company.scma.service.mapperservice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ScheduledTask {
     @Autowired
     private OperationService operationService;
@@ -30,7 +32,8 @@ public class ScheduledTask {
     @Autowired
     private SysConfigService sysConfigService;
 
-    @Scheduled(fixedRate = 3000)
+    @Scheduled(cron = "0 0 */1 * * ?")
+    @Transactional
     public void scheduledTask() {
         //查询系统配置
         String releaseWay = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.RELEASE_WAY);
@@ -46,12 +49,20 @@ public class ScheduledTask {
                 continue;
             }
             if (Constant.Judge.NO.equals(tOperation.getDeleteflag())) {
+                //删除状态活动
                 this.operateDeletedOperation(tOperation, releaseWay);
             } else {
                 //更新活动状态
                 tOperation.setStatus(DateUtil.nowBelongCalendar(tOperation.getStartDate(), tOperation.getEndDate()));
+                operationService.saveOrUpdate(tOperation);
                 if (Constant.OperationStatus.FINISH.equals(tOperation.getStatus())) {
-                    //活动结束
+                    //结束状态活动
+                    this.operateFinishOperation(tOperation, releaseWay, suspendedTermStr, releaseTermStr);
+                }else if(Constant.OperationStatus.NOT_STARTED.equals(tOperation.getStatus())){
+                    //未开始状态活动，和处理被删除活动的状态相同
+                    this.operateDeletedOperation(tOperation, releaseWay);
+                }else if(Constant.OperationStatus.NORMAL.equals(tOperation.getStatus())){
+                    //正常状态的活动,和处理结束状态活动的逻辑相同
                     this.operateFinishOperation(tOperation, releaseWay, suspendedTermStr, releaseTermStr);
                 }
             }
@@ -78,12 +89,11 @@ public class ScheduledTask {
         //筛选出被删除的合作企业和正常的合作企业
         List<Integer> deletedPartnershipIdList = new ArrayList<>();
         List<Integer> commonPartnershipIdList = new ArrayList<>();
-        List<Integer> partnershipIdList = tPartnershipList.stream().map(TPartnership::getPartnershipId).collect(Collectors.toList());
-        for (Integer partnershipId : partnershipIdList) {
-            if (Constant.Judge.YES.equals(partnershipId)) {
-                commonPartnershipIdList.add(partnershipId);
+        for (TPartnership tPartnership : tPartnershipList) {
+            if (Constant.Judge.YES.equals(tPartnership.getDeleteflag())) {
+                commonPartnershipIdList.add(tPartnership.getPartnershipId());
             } else {
-                deletedPartnershipIdList.add(partnershipId);
+                deletedPartnershipIdList.add(tPartnership.getPartnershipId());
             }
         }
         //处理被删除的合作企业
@@ -97,7 +107,6 @@ public class ScheduledTask {
         List<Integer> commonUseridList = new ArrayList<>();
         List<TUser> commonUserList = new ArrayList<>();
         for (TUser tUser : userList) {
-            Integer status = tUser.getStatus();
             Integer deleteflag = tUser.getDeleteflag();
             if (Constant.Judge.NO.equals(deleteflag)) {
                 //删除用户id
@@ -159,6 +168,8 @@ public class ScheduledTask {
                 tMember.setStatus(Constant.MemberStatus.RELEASED_PUBLIC_RESOURCE);
             }
         }
+        //更新会员状态
+        memberService.saveOrUpdateBatch(tMemberList);
     }
 
     //处理需要重新设置生效和失效的用户及其会员
@@ -174,15 +185,17 @@ public class ScheduledTask {
         boolean suspendFlag = DateUtil.isSourceDateBeforeComparedDate(suspendTime, new Date());
         if (suspendFlag) {
             //冻结
-            userList.stream().filter(user -> Constant.Judge.YES.equals(user)).forEach(user -> {
+            userList.stream().filter(user -> Constant.Judge.YES.equals(user.getStatus())).forEach(user -> {
                 user.setStatus(Constant.Judge.NO);
             });
         } else {
             //激活
-            userList.stream().filter(user -> Constant.Judge.NO.equals(user)).forEach(user -> {
+            userList.stream().filter(user -> Constant.Judge.NO.equals(user.getStatus())).forEach(user -> {
                 user.setStatus(Constant.Judge.YES);
             });
         }
+        //入库
+        userService.saveOrUpdateBatch(userList);
         //更新会员
         List<TMember> tMemberList = memberService.getMemberByOwnerUserid(useridList, Constant.Judge.YES);
         if (ObjectUtil.isEmpty(tMemberList)) {
@@ -200,6 +213,8 @@ public class ScheduledTask {
                     forEach(tMember -> {
                         tMember.setStatus(releaseStatus);
                     });
+            //入库
+            memberService.saveOrUpdateBatch(tMemberList);
         }
     }
 

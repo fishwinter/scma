@@ -163,6 +163,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, TMember> implem
 
     @Override
     public List<TMember> getMemberByOwnerUserid(List<Integer> ownerUseridList, Integer deleteflag) {
+        if(ObjectUtil.isEmpty(ownerUseridList)){
+            return null;
+        }
         QueryWrapper<TMember> queryWrapper = new QueryWrapper<>();
         if(ObjectUtil.isNotEmpty(deleteflag)){
             queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);

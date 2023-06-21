@@ -14,6 +14,7 @@ public enum ResultEnum {
     NO_LOGIN(402,"用户未登录"),
     ERROR_PARAM(403,"参数错误"),
     NO_PERMISSION(405,"没有权限"),
+    ERROR_PASSWORD(406,"原密码错误"),
     
     //用户模块错误
     EXIST_USERNAME(411,"用户名已存在"),

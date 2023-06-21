@@ -1,5 +1,7 @@
 package com.company.scma.common.po;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -108,21 +110,25 @@ public class TMember implements Serializable {
     /**
      * 所属用户id
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Integer ownerUserid;
 
     /**
      * 所属用户名称
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String ownerUsername;
 
     /**
      * 所属合作企业id
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Integer ownerPartnershipId;
 
     /**
      * 所属合作企业名称
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String ownerPartnershipName;
 
     /**

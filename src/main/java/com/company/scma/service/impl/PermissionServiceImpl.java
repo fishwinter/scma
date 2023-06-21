@@ -1,5 +1,6 @@
 package com.company.scma.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.company.scma.common.constant.Constant;
@@ -26,6 +27,9 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper,TPermiss
 
     @Override
     public List<TPermission> getPermissionByIdList(List<Integer> permissionIdList) {
+        if(ObjectUtil.isEmpty(permissionIdList)){
+            return null;
+        }
         QueryWrapper<TPermission> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
         queryWrapper.in(Constant.ColumnName.PERMISSION_ID,permissionIdList);

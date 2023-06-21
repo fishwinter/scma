@@ -132,6 +132,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, TUser> implements U
 
     @Override
     public List<TUser> getUserByTypeAndBuildId(Integer userType, List<Integer> buildIdList) {
+        if(ObjectUtil.isEmpty(buildIdList)){
+            return null;
+        }
         QueryWrapper<TUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
         queryWrapper.eq(Constant.ColumnName.STATUS, Constant.Judge.YES);
@@ -148,6 +151,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, TUser> implements U
 
     @Override
     public List<TUser> getUserByTypeAndBuildId(Integer userType, List<Integer> buildIdList, Integer deleteflag,Integer status) {
+        if(ObjectUtil.isEmpty(buildIdList)){
+            return null;
+        }
         QueryWrapper<TUser> queryWrapper = new QueryWrapper<>();
         if(ObjectUtil.isNotEmpty(deleteflag)){
             queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
@@ -156,12 +162,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, TUser> implements U
             queryWrapper.eq(Constant.ColumnName.STATUS, Constant.Judge.YES);
         }
         queryWrapper.eq(Constant.ColumnName.TYPE,userType);
-        queryWrapper.orderByDesc(Constant.ColumnName.USERID);
         if(Constant.UserType.COMMON_USER.equals(userType)){
             queryWrapper.in(Constant.ColumnName.BUILD_USERID,buildIdList);
         }else {
             queryWrapper.in(Constant.ColumnName.BUILD_PARTNERSHIPID,buildIdList);
         }
+        queryWrapper.orderByDesc(Constant.ColumnName.USERID);
         List<TUser> tUserList = userMapper.selectList(queryWrapper);
         return tUserList;    }
 
