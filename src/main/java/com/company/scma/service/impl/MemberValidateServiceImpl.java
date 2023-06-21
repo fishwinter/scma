@@ -73,12 +73,12 @@ public class MemberValidateServiceImpl implements MemberValidateService {
         if(ObjectUtil.isEmpty(tMemberById)){
             return Result.getResult(ResultEnum.ERROR_MEMBER_ID);
         }
-        Integer ownerUserid = tMemberById.getOwnerUserid();
-        TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
-        Integer currentUserid = currentUser.getUserid();
-        if(!currentUserid.equals(ownerUserid)){
-            return Result.getResult(ResultEnum.USER_CANNOT_OPERATE_MEMBER);
-        }
+//        Integer ownerUserid = tMemberById.getOwnerUserid();
+//        TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+//        Integer currentUserid = currentUser.getUserid();
+//        if(!currentUserid.equals(ownerUserid)){
+//            return Result.getResult(ResultEnum.USER_CANNOT_OPERATE_MEMBER);
+//        }
         //校验memberName是否重复
         TMember tMemberByMemberName = memberService.getMemberByMemberName(editMemberDTO.getMemberName());
         if(ObjectUtil.isNotEmpty(tMemberByMemberName) && !tMemberByMemberName.getMemberId().equals(editMemberDTO.getMemberId())){

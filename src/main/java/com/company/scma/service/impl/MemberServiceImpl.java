@@ -58,15 +58,15 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, TMember> implem
         queryWrapper.orderByDesc(Constant.ColumnName.MEMBER_ID);
 
         if (StringUtils.isNotEmpty(getMyMemberDTO.getMemberName())) {
-            queryWrapper.eq(Constant.ColumnName.MEMBER_NAME, getMyMemberDTO.getMemberName());
+            queryWrapper.like(Constant.ColumnName.MEMBER_NAME, getMyMemberDTO.getMemberName());
         }
 
         if (StringUtils.isNotEmpty(getMyMemberDTO.getContacts())) {
-            queryWrapper.eq(Constant.ColumnName.CONTACTS, getMyMemberDTO.getContacts());
+            queryWrapper.like(Constant.ColumnName.CONTACTS, getMyMemberDTO.getContacts());
         }
 
         if (StringUtils.isNotEmpty(getMyMemberDTO.getTel())) {
-            queryWrapper.eq(Constant.ColumnName.TEL, getMyMemberDTO.getTel());
+            queryWrapper.like(Constant.ColumnName.TEL, getMyMemberDTO.getTel());
         }
 
         if (ObjectUtil.isNotEmpty(getMyMemberDTO.getStartDate())) {
