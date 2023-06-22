@@ -9,6 +9,7 @@ import com.company.scma.common.po.TPartnership;
 import com.company.scma.common.po.TUser;
 import com.company.scma.common.util.DateUtil;
 import com.company.scma.service.mapperservice.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class ScheduledTask {
     @Autowired
     private OperationService operationService;
@@ -35,6 +37,7 @@ public class ScheduledTask {
     @Scheduled(cron = "0 0 */1 * * ?")
     @Transactional
     public void scheduledTask() {
+        log.info("-----------------------开始执行定时任务--------------------------");
         //查询系统配置
         String releaseWay = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.RELEASE_WAY);
         String suspendedTermStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.SUSPENDED_TERM);
@@ -67,6 +70,7 @@ public class ScheduledTask {
                 }
             }
         }
+        log.info("-----------------------结束执行定时任务--------------------------");
     }
 
     //活动删除时的处理方法

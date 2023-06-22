@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BizException.class)
     @ResponseBody
     public Result bizExceptionHandler(BizException e){
-        return Result.getResult(ResultEnum.NO_LOGIN);
+        return new Result(e.getErrorCode(),e.getErrorMsg(),null);
     }
 
     /**

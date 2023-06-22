@@ -8,6 +8,7 @@ import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreatePartnershipDTO;
 import com.company.scma.common.dto.EditPartnershipDTO;
 import com.company.scma.common.dto.GetPartnershipDTO;
+import com.company.scma.common.exception.BizException;
 import com.company.scma.common.po.*;
 import com.company.scma.common.util.GenerateUtil;
 import com.company.scma.common.vo.*;
@@ -146,7 +147,7 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         Result managerResult = userBizService.
                 createUserByPartnership(managerUsername, managerPassword,partnershipId, Constant.SubAccountType.MANAGER);
         if(!Result.isSuccess(managerResult)){
-            return managerResult;
+            throw new BizException(managerResult.getCode(),managerResult.getMsg());
         }
         //管理员授权
         TUser manager = (TUser) managerResult.getData();
@@ -169,7 +170,7 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
                 Result subAccountResult = userBizService.
                         createUserByPartnership(subAccountUsername, managerPassword, partnershipId,Constant.SubAccountType.SUB_ACCOUNT);
                 if(!Result.isSuccess(subAccountResult)){
-                    return subAccountResult;
+                    throw new BizException(subAccountResult.getCode(),subAccountResult.getMsg());
                 }
                 TUser subAccount = (TUser) subAccountResult.getData();
                 //子账号授权
@@ -228,7 +229,7 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
                 Result subAccountResult = userBizService.
                         createUserByPartnership(subAccountUsername, subAccountPassword, partnershipId,Constant.SubAccountType.SUB_ACCOUNT);
                 if(!Result.isSuccess(subAccountResult)){
-                    return subAccountResult;
+                    throw new BizException(subAccountResult.getCode(),subAccountResult.getMsg());
                 }
                 TUser subAccount = (TUser) subAccountResult.getData();
                 //生成方法中会将密码加密，这里从数据库中取出的密码本身就已经加密过，不用再次加密，这里重新设置一下

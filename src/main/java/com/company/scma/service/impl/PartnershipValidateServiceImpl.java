@@ -74,6 +74,13 @@ public class PartnershipValidateServiceImpl implements PartnershipValidateServic
         if(!commonValidateService.validateAnnotation(editPartnershipDTO)){
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
+
+        //校验partnershipName名字是否重复
+        String partnershipName = editPartnershipDTO.getPartnershipName();
+        List<TPartnership> tPartnershipList = partnershipService.getTPartnershipByName(partnershipName);
+        if(ObjectUtil.isNotEmpty(tPartnershipList)){
+            return Result.getResult(ResultEnum.EXIST_PARTNERSHIP_NAME);
+        }
         
         //校验绑定的活动状态
         Integer operationId = editPartnershipDTO.getOperationId();

@@ -1,7 +1,13 @@
 package com.company.scma.common.exception;
 
 import com.company.scma.common.constant.ResultEnum;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BizException extends RuntimeException {
     
     private static final long serialVersionUID = 1L;
@@ -9,11 +15,11 @@ public class BizException extends RuntimeException {
     /**
      * 错误码
      */
-    protected Integer errorCode;
+    private Integer errorCode;
     /**
      * 错误信息
      */
-    protected String errorMsg;
+    private String errorMsg;
     
     public BizException(ResultEnum resultEnum){
         super(resultEnum.getMsg());

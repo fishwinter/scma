@@ -3,6 +3,7 @@ package com.company.scma.controller;
 import com.company.scma.common.po.TUser;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.bizservice.CommonBizService;
+import com.company.scma.task.ScheduledTask;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommonController {
     @Autowired
     private CommonBizService commonBizService;
+    @Autowired
+    private ScheduledTask scheduledTask;
     @PostMapping("/getHeadUrl")
     public Result getHeadUrl(){
         Subject subject = SecurityUtils.getSubject();
@@ -27,6 +30,17 @@ public class CommonController {
     @PostMapping("/editPassword")
     public Result editPassword(@RequestParam String oldPassword,@RequestParam String newPassword){
         return commonBizService.editPassword(oldPassword,newPassword);
+    }
+
+    @PostMapping("/getUsername")
+    public Result getUsername(){
+        return commonBizService.getUsername();
+    }
+
+    @PostMapping("/operateTask")
+    public Result operateTask(){
+        scheduledTask.scheduledTask();
+        return Result.success();
     }
 }
 

@@ -29,4 +29,11 @@ public class CommonBizServiceImpl implements CommonBizService {
         userService.saveOrUpdate(tUser);
         return Result.success();
     }
+
+    @Override
+    public Result getUsername() {
+        Subject subject = SecurityUtils.getSubject();
+        TUser tUser = (TUser) subject.getPrincipal();
+        return Result.success(tUser.getUsername());
+    }
 }
