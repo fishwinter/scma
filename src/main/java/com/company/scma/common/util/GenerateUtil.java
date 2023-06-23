@@ -234,6 +234,7 @@ public class GenerateUtil {
             return memberListRowVO;
         }
         BeanUtils.copyProperties(tMember,memberListRowVO);
+        memberListRowVO.setTel(tMember.getContactTel());
         MemberTypeVO memberTypeVO = new MemberTypeVO();
         memberListRowVO.setMemberTypeVO(memberTypeVO);
         memberTypeVO.setMemberTypeId(tMember.getMemberTypeId());

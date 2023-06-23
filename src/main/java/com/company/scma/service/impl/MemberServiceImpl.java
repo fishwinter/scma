@@ -66,7 +66,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, TMember> implem
         }
 
         if (StringUtils.isNotEmpty(getMyMemberDTO.getTel())) {
-            queryWrapper.like(Constant.ColumnName.TEL, getMyMemberDTO.getTel());
+            queryWrapper.like(Constant.ColumnName.CONTACT_TEL, getMyMemberDTO.getTel());
         }
 
         if (ObjectUtil.isNotEmpty(getMyMemberDTO.getStartDate())) {
