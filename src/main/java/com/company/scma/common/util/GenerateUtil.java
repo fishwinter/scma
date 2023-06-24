@@ -169,7 +169,7 @@ public class GenerateUtil {
         return tUser;
     }
 
-    public static TUser getPartnerShipUser(String username, String password, Integer partnershipId){
+    public static TUser getPartnerShipUser(String username, String name, String password, Integer partnershipId){
         TUser tUser = new TUser();
         if(ObjectUtil.isEmpty(username) || ObjectUtil.isEmpty(password)){
             return tUser;
@@ -179,6 +179,7 @@ public class GenerateUtil {
         tUser.setPassword(hashPassword);
         TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
         tUser.setType(Constant.UserType.SUB_ACCOUNT_USER);
+        tUser.setName(name);
         tUser.setBuildDate(new Date());
         tUser.setBuildUserid(currentUser.getUserid());
         tUser.setBuildPartnershipid(partnershipId);
@@ -204,12 +205,16 @@ public class GenerateUtil {
         return tMember;
     }
 
-    public static TMember getTMember(EditMemberDTO editMemberDTO){
+    public static TMember getTMember(EditMemberDTO editMemberDTO, TMember selectMember){
         TMember tMember = new TMember();
         BeanUtils.copyProperties(editMemberDTO,tMember);
         TUser currentUser = (TUser) SecurityUtils.getSubject().getPrincipal();
         tMember.setModifyDate(new Date());
         tMember.setModifyUserid(currentUser.getUserid());
+        tMember.setOwnerPartnershipName(selectMember.getOwnerPartnershipName());
+        tMember.setOwnerPartnershipId(selectMember.getOwnerPartnershipId());
+        tMember.setOwnerUsername(selectMember.getOwnerUsername());
+        tMember.setOwnerUserid(selectMember.getOwnerUserid());
         return tMember;
     }
     

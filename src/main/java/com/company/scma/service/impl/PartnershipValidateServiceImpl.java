@@ -6,9 +6,11 @@ import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreatePartnershipDTO;
 import com.company.scma.common.dto.EditPartnershipDTO;
 import com.company.scma.common.dto.GetPartnershipDTO;
+import com.company.scma.common.po.TMember;
 import com.company.scma.common.po.TOperation;
 import com.company.scma.common.po.TPartnership;
 import com.company.scma.common.vo.Result;
+import com.company.scma.service.mapperservice.MemberService;
 import com.company.scma.service.mapperservice.OperationService;
 import com.company.scma.service.mapperservice.PartnershipService;
 import com.company.scma.service.validateservice.CommonValidateService;
@@ -27,6 +29,8 @@ public class PartnershipValidateServiceImpl implements PartnershipValidateServic
     private OperationService operationService;
     @Autowired
     private PartnershipService partnershipService;
+    @Autowired
+    private MemberService memberService;
     @Override
     public Result validateCreatePartnershipDTO(CreatePartnershipDTO createPartnershipDTO) {
         if(ObjectUtil.isEmpty(createPartnershipDTO)){
@@ -89,5 +93,18 @@ public class PartnershipValidateServiceImpl implements PartnershipValidateServic
             return Result.getResult(ResultEnum.ERROR_OPERATION_STATUS);
         }
         return Result.success(tOperationById.getStatus());
+    }
+
+    @Override
+    public Result validateDeletePartnershipId(Integer partnershipId) {
+        if(ObjectUtil.isEmpty(partnershipId)){
+            return Result.getResult(ResultEnum.ERROR_PARAM);
+        }
+        //查询是否有未释放的会员，如果有，不允许删除
+        List<TMember> tMemberList = memberService.getMemberByOwnerPartnershipId(partnershipId);
+        if(ObjectUtil.isNotEmpty(tMemberList)){
+            return Result.getResult(ResultEnum.EXIST_MEMBER);
+        }
+        return Result.success();
     }
 }

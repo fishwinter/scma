@@ -128,7 +128,7 @@ public class ScheduledTask {
     }
 
     //合作企业删除时的处理方法
-    private void operateDeletedPartnership(List<Integer> partnershipIdList, String releaseWay) {
+    public void operateDeletedPartnership(List<Integer> partnershipIdList, String releaseWay) {
         List<TUser> userList = userService.getUserByTypeAndBuildId(Constant.UserType.SUB_ACCOUNT_USER, partnershipIdList, null, null);
         if (ObjectUtil.isEmpty(userList)) {
             return;

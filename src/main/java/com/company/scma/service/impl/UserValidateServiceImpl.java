@@ -43,7 +43,7 @@ public class UserValidateServiceImpl implements UserValidateService {
         }
         
         //查询数据库，另外这里由于没办法引入redis做锁，所以直接在数据库中对username建立了唯一索引
-        TUser tUser = userService.selectUserByUsername(createUserDTO.getUsername());
+        TUser tUser = userService.selectUserByUsername(createUserDTO.getUsername(),null,null);
         if(ObjectUtil.isNotEmpty(tUser)){
             return Result.getResult(ResultEnum.EXIST_USERNAME);
         }
@@ -60,7 +60,7 @@ public class UserValidateServiceImpl implements UserValidateService {
             return Result.getResult(ResultEnum.ERROR_MANAGER_USERNAME);
         }
 
-        TUser tUser = userService.selectUserByUsername(username);
+        TUser tUser = userService.selectUserByUsername(username,null,null);
         if(ObjectUtil.isNotEmpty(tUser)){
             return Result.getResult(ResultEnum.EXIST_MANAGER_USERNAME);
         }
@@ -89,7 +89,7 @@ public class UserValidateServiceImpl implements UserValidateService {
             return Result.getResult(ResultEnum.ERROR_USERNAME);
         }
 
-        TUser tUser = userService.selectUserByUsername(editUserDTO.getUsername());
+        TUser tUser = userService.selectUserByUsername(editUserDTO.getUsername(),null,null);
         if(ObjectUtil.isNotEmpty(tUser) && tUser.getUserid() != editUserDTO.getUserid()){
             return Result.getResult(ResultEnum.EXIST_USERNAME);
         }

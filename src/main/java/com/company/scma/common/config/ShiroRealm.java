@@ -1,6 +1,7 @@
 package com.company.scma.common.config;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.company.scma.common.constant.Constant;
 import com.company.scma.common.po.TPermission;
 import com.company.scma.common.po.TUser;
 import com.company.scma.service.mapperservice.PermissionService;
@@ -62,7 +63,7 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
         //判断账号是否存在
-        TUser tUser = userService.selectUserByUsername(username);
+        TUser tUser = userService.selectUserByUsername(username, Constant.Judge.YES,Constant.Judge.YES);
         if(ObjectUtil.isEmpty(tUser)){
             throw new AuthenticationException();
         }

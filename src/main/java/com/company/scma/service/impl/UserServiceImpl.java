@@ -25,11 +25,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, TUser> implements U
     UserMapper userMapper;
 
     @Override
-    public TUser selectUserByUsername(String username) {
+    public TUser selectUserByUsername(String username,Integer deleteflag,Integer status) {
         QueryWrapper<TUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.ColumnName.USERNAME, username);
-        queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES);
-        queryWrapper.eq(Constant.ColumnName.STATUS, Constant.Judge.YES);
+        if(ObjectUtil.isNotEmpty(deleteflag)){
+            queryWrapper.eq(Constant.ColumnName.DELETEFLAG, Constant.Judge.YES);
+        }
+        if(ObjectUtil.isNotEmpty(status)){
+            queryWrapper.eq(Constant.ColumnName.STATUS, Constant.Judge.YES);
+        }
         List<TUser> tUserList = userMapper.selectList(queryWrapper);
         if (ObjectUtil.isNotEmpty(tUserList)) {
             return tUserList.get(0);

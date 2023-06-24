@@ -16,6 +16,7 @@ import com.company.scma.service.bizservice.PartnershipBizService;
 import com.company.scma.service.bizservice.UserBizService;
 import com.company.scma.service.mapperservice.*;
 import com.company.scma.service.validateservice.PartnershipValidateService;
+import com.company.scma.task.ScheduledTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,9 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
     private OperationService operationService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private ScheduledTask scheduledTask;
+
 
     @Override
     public Result getPartnership(GetPartnershipDTO getPartnershipDTO) {
@@ -143,9 +147,10 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         String managerUsername = createPartnershipDTO.getManagerUsername();
         String managerPassword = createPartnershipDTO.getManagerPassword();
         Integer partnershipId = tPartnership.getPartnershipId();
+        String partnershipName = createPartnershipDTO.getPartnershipName();
 
         Result managerResult = userBizService.
-                createUserByPartnership(managerUsername, managerPassword,partnershipId, Constant.SubAccountType.MANAGER);
+                createUserByPartnership(managerUsername, partnershipName ,managerPassword,partnershipId, Constant.SubAccountType.MANAGER);
         if(!Result.isSuccess(managerResult)){
             throw new BizException(managerResult.getCode(),managerResult.getMsg());
         }
@@ -164,11 +169,11 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         Integer subAccountNum = createPartnershipDTO.getSubAccountNum();
         List<TUser> subAccountList = new ArrayList<>();
         if(ObjectUtil.isNotEmpty(subAccountNum) && 0 != subAccountNum){
-            String partnershipName = createPartnershipDTO.getPartnershipName();
             for(int i = 1;i<=subAccountNum;i++){
-                String subAccountUsername = partnershipName + "-" + i;
+                String subAccountUsername = managerUsername + "-" + i;
+                String subAccountName = partnershipName + "-" + i;
                 Result subAccountResult = userBizService.
-                        createUserByPartnership(subAccountUsername, managerPassword, partnershipId,Constant.SubAccountType.SUB_ACCOUNT);
+                        createUserByPartnership(subAccountUsername, subAccountName, managerPassword, partnershipId,Constant.SubAccountType.SUB_ACCOUNT);
                 if(!Result.isSuccess(subAccountResult)){
                     throw new BizException(subAccountResult.getCode(),subAccountResult.getMsg());
                 }
@@ -217,17 +222,21 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
             String partnershipName = editPartnershipDTO.getPartnershipName();
             List<TUser> subAccountList = new ArrayList<>();
             String subAccountPassword = null;
+            String managerUsername = null;
             if(ObjectUtil.isNotEmpty(manager)){
                 //不为空时查询出来的子账号数量会加上管理员本身
                 subAccountPassword = manager.getPassword();
                 currentSubAccountNum = currentSubAccountNum - 1;
+                managerUsername = manager.getUsername();
             }else{
                 subAccountPassword = Constant.Common.DEFAULT_SUB_ACCOUNT_PASSWORD;
+                managerUsername = partnershipName;
             }
             for (int i = currentSubAccountNum + 1;i<=inputSubAccountNum;i++){
-                String subAccountUsername = partnershipName + "-" + i;
+                String subAccountUsername = managerUsername + "-" + i;
+                String subAccountName = partnershipName + i;
                 Result subAccountResult = userBizService.
-                        createUserByPartnership(subAccountUsername, subAccountPassword, partnershipId,Constant.SubAccountType.SUB_ACCOUNT);
+                        createUserByPartnership(subAccountUsername, subAccountName, subAccountPassword, partnershipId,Constant.SubAccountType.SUB_ACCOUNT);
                 if(!Result.isSuccess(subAccountResult)){
                     throw new BizException(subAccountResult.getCode(),subAccountResult.getMsg());
                 }
@@ -266,11 +275,17 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
     @Override
     public Result deletePartnership(Integer partnershipId) {
         //参数校验
-        if(ObjectUtil.isEmpty(partnershipId)){
-            return Result.getResult(ResultEnum.ERROR_PARAM);
+        Result result = partnershipValidateService.validateDeletePartnershipId(partnershipId);
+        if(!Result.isSuccess(result)){
+            return result;
         }
         //删除合作企业
         partnershipService.deleteByPartnershipId(partnershipId);
+        //设置对应的用户和会员
+        List permissionIdList = new ArrayList<>();
+        permissionIdList.add(partnershipId);
+        String releaseWay = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.RELEASE_WAY);
+        scheduledTask.operateDeletedPartnership(permissionIdList,releaseWay);
 //        //删除合作企业不删除对应关系，这样定时任务在遍历时可以找到这个合作企业
 //        operationOtmPartnershipService.deleteByPartnershipId(partnershipId);
         //返回

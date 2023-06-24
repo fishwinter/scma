@@ -22,7 +22,6 @@ public class EditRoleDTO {
     /**
      * 角色介绍
      */
-    @NotBlank
     private String introduction;
     /**
      * 权限id列表

@@ -16,7 +16,6 @@ public class CreateRoleDTO {
     /**
      * 权限简介
      */
-    @NotBlank
     private String introduction;
     /**
      * 权限id列表

@@ -11,4 +11,6 @@ public interface PartnershipValidateService {
     public Result validateGetPartnershipDTO(GetPartnershipDTO getPartnershipDTO);
     
     public Result validateEditPartnershipDTO(EditPartnershipDTO editPartnershipDTO);
+
+    public Result validateDeletePartnershipId(Integer partnershipId);
 }

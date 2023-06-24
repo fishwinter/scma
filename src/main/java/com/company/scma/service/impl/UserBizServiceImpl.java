@@ -91,7 +91,7 @@ public class UserBizServiceImpl implements UserBizService {
 
     @Override
     public Result checkUserName(String username) {
-        TUser tUser = userService.selectUserByUsername(username);
+        TUser tUser = userService.selectUserByUsername(username,null,null);
         if(ObjectUtil.isNotEmpty(tUser)){
             return Result.getResult(ResultEnum.EXIST_USERNAME);
         }
@@ -122,7 +122,7 @@ public class UserBizServiceImpl implements UserBizService {
 
     @Override
     @Transactional
-    public Result createUserByPartnership(String username, String password, Integer partnershipId, Integer subAccountType) {
+    public Result createUserByPartnership(String username, String name, String password, Integer partnershipId, Integer subAccountType) {
         //数据校验
         if(Constant.SubAccountType.MANAGER.equals(subAccountType)){
             Result result = userValidateService.validateCreateUserParam(username,password);
@@ -133,7 +133,7 @@ public class UserBizServiceImpl implements UserBizService {
         //密码解密
 
         //生成实体类
-        TUser tUser = GenerateUtil.getPartnerShipUser(username, password, partnershipId);
+        TUser tUser = GenerateUtil.getPartnerShipUser(username, name, password, partnershipId);
         //返回
         return Result.success(tUser);
     }

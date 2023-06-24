@@ -139,7 +139,8 @@ public class MemberBizServiceImpl implements MemberBizService {
             return result;
         }
         //修改数据
-        TMember tMember = GenerateUtil.getTMember(editMemberDTO);
+        TMember selectMember = (TMember) result.getData();
+        TMember tMember = GenerateUtil.getTMember(editMemberDTO,selectMember);
         //入库
         memberService.saveOrUpdate(tMember);
         //返回

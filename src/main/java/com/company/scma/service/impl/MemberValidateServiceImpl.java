@@ -95,7 +95,7 @@ public class MemberValidateServiceImpl implements MemberValidateService {
         if(ObjectUtil.isEmpty(provinceItem) || ObjectUtil.isEmpty(cityItem)){
             return Result.getResult(ResultEnum.ERROR_PARAM);
         }
-        return Result.success();
+        return Result.success(tMemberById);
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.company.scma.common.po.TUser;
 import java.util.List;
 
 public interface UserService extends IService<TUser> {
-    public TUser selectUserByUsername(String username);
+    public TUser selectUserByUsername(String username,Integer deleteflag,Integer status);
     
     public IPage<TUser> getUserByCondition(GetUserDTO getUserDTO);
     
