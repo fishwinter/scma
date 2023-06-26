@@ -153,4 +153,44 @@ public class ApiFoxController {
     public SupplierDetailVO login26(MemberDetailVO memberDetailVO) {
         return null;
     }
+
+    @PostMapping("/login27")
+    public ArticleListRowVO login27(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login28")
+    public AuthorDetailVO login28(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login29")
+    public AuthorListRowVO login29(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login30")
+    public AuthorListVO login30(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login31")
+    public CaseDetailVO login31(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login32")
+    public CaseListRowVO login32(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login33")
+    public CaseListVO login33(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login34")
+    public CaseTypeVO login34(MemberDetailVO memberDetailVO) {
+        return null;
+    }
 }

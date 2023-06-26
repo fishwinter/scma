@@ -44,6 +44,13 @@ public interface Constant {
         String CUST_VALUE = "CUST_VALUE";
         String SUPPLIER_ID = "SUPPLIER_ID";
         String SUPPLIER_NAME = "SUPPLIER_NAME";
+        String CASE_ID = "CASE_ID";
+        String KEYWORD = "KEYWORD";
+        String TITLE = "TITLE";
+        String PUBLISH_TIME = "PUBLISH_TIME";
+        String AUTHOR_ID = "AUTHOR_ID";
+        String WORK_UNIT = "WORK_UNIT";
+        String ARTICLE_ID = "ARTICLE_ID";
         
     }
     
@@ -100,6 +107,7 @@ public interface Constant {
         String SUSPENDED_TERM = "SUSPENDED_TERM";
         String RELEASE_TERM = "RELEASE_TERM";
         String RELEASE_WAY = "RELEASE_WAY";
+        String CASE_TYPE = "CASE_TYPE";
     }
     
     public interface CommonRoleId{

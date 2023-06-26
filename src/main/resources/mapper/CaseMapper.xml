@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.scma.mapper.CaseMapper">
+  <resultMap id="BaseResultMap" type="com.company.scma.common.po.TCase">
+    <id column="case_id" jdbcType="INTEGER" property="caseId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="file_url" jdbcType="VARCHAR" property="fileUrl" />
+    <result column="case_abstract" jdbcType="VARCHAR" property="caseAbstract" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="publish_time" jdbcType="VARCHAR" property="publishTime" />
+    <result column="num_of_words" jdbcType="INTEGER" property="numOfWords" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="build_date" jdbcType="TIMESTAMP" property="buildDate" />
+    <result column="build_userid" jdbcType="INTEGER" property="buildUserid" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="modify_userid" jdbcType="INTEGER" property="modifyUserid" />
+    <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    case_id, title, type_id, file_url, case_abstract, keyword, publish_time, num_of_words, 
+    remark, build_date, build_userid, modify_date, modify_userid, deleteflag
+  </sql>
+</mapper>

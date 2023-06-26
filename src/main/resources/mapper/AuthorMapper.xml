@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.scma.mapper.AuthorMapper">
+  <resultMap id="BaseResultMap" type="com.company.scma.common.po.TAuthor">
+    <id column="author_id" jdbcType="INTEGER" property="authorId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="work_unit" jdbcType="VARCHAR" property="workUnit" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="wechat_account" jdbcType="VARCHAR" property="wechatAccount" />
+    <result column="addr" jdbcType="VARCHAR" property="addr" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="build_date" jdbcType="TIMESTAMP" property="buildDate" />
+    <result column="build_userid" jdbcType="INTEGER" property="buildUserid" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="modify_userid" jdbcType="INTEGER" property="modifyUserid" />
+    <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    author_id, `name` ,tel, work_unit, `position`, wechat_account, addr, remark, build_date, 
+    build_userid, modify_date, modify_userid, deleteflag
+  </sql>
+</mapper>

@@ -20,6 +20,7 @@ public class CreatePartnershipDTO {
     /**
      * 企业性质，1-国企，2-民企，3-外企
      */
+    @NotNull
     private Integer partnershipType;
 
     /**

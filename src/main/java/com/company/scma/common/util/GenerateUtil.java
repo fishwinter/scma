@@ -601,5 +601,148 @@ public class GenerateUtil {
         return supplierListRowVO;
     }
     
+    public static TCase getTCase(CreateCaseDTO createCaseDTO){
+        TCase tCase = new TCase();
+        if(ObjectUtil.isEmpty(createCaseDTO)){
+            return tCase;
+        }
+        BeanUtils.copyProperties(createCaseDTO,tCase);
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tCase.setBuildDate(new Date());
+        tCase.setBuildUserid(tUser.getUserid());
+        tCase.setModifyDate(new Date());
+        tCase.setModifyUserid(tUser.getUserid());
+        tCase.setDeleteflag(Constant.Judge.YES);
+        return tCase;
+    }
+
+    public static TCase getTCase(EditCaseDTO editCaseDTO){
+        TCase tCase = new TCase();
+        if(ObjectUtil.isEmpty(editCaseDTO)){
+            return tCase;
+        }
+        BeanUtils.copyProperties(editCaseDTO,tCase);
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tCase.setModifyDate(new Date());
+        tCase.setModifyUserid(tUser.getUserid());
+        return tCase;
+    }
     
+    public static CaseListVO getCaseListVO(IPage<TCase> tCaseIPage){
+        CaseListVO caseListVO = new CaseListVO();
+        if(ObjectUtil.isEmpty(tCaseIPage)){
+            return caseListVO;
+        }
+        caseListVO.setCaseTotal(tCaseIPage.getTotal());
+        List<TCase> tCaseList = tCaseIPage.getRecords();
+        List<CaseListRowVO> caseListRowVOList = tCaseList.stream().map(GenerateUtil::getCaseListRowVO).collect(Collectors.toList());
+        caseListVO.setCaseListRowVOList(caseListRowVOList);
+        return caseListVO;
+    }
+    
+    public static CaseListRowVO getCaseListRowVO(TCase tCase){
+        CaseListRowVO caseListRowVO = new CaseListRowVO();
+        if(ObjectUtil.isEmpty(tCase)){
+            return caseListRowVO;
+        }
+        BeanUtils.copyProperties(tCase,caseListRowVO);
+        CaseTypeVO caseTypeVO = new CaseTypeVO();
+        caseListRowVO.setCaseTypeVO(caseTypeVO);
+        caseTypeVO.setCaseTypeId(tCase.getTypeId());
+        return caseListRowVO;
+    }
+    
+    public static void setCaseTypeName(List<CaseListRowVO> caseListRowVOList,List<CaseTypeVO> caseTypeVOList){
+        if(ObjectUtil.isEmpty(caseListRowVOList) || ObjectUtil.isEmpty(caseTypeVOList)){
+            return;
+        }
+        Map<Integer, String> map = caseTypeVOList.stream().collect(Collectors.toMap(CaseTypeVO::getCaseTypeId, CaseTypeVO::getCaseTypeName));
+        caseListRowVOList.stream().forEach(caseListRowVO -> {
+            CaseTypeVO caseTypeVO = caseListRowVO.getCaseTypeVO();
+            caseTypeVO.setCaseTypeName(map.get(caseTypeVO.getCaseTypeId()));
+        });
+    }
+    
+    public static CaseTypeVO getCaseTypeVO(List<CaseTypeVO> allCaseType,Integer myCaseTypeId){
+        if(ObjectUtil.isEmpty(allCaseType) || ObjectUtil.isEmpty(myCaseTypeId)){
+            return null;
+        }
+        CaseTypeVO caseTypeVO = new CaseTypeVO();
+        Map<Integer, String> map = allCaseType.stream().collect(Collectors.toMap(CaseTypeVO::getCaseTypeId, CaseTypeVO::getCaseTypeName));
+        caseTypeVO.setCaseTypeId(myCaseTypeId);
+        caseTypeVO.setCaseTypeName(map.get(myCaseTypeId));
+        return caseTypeVO;
+    }
+    
+    public static TAuthor getTAuthor(CreateAuthorDTO createAuthorDTO){
+        TAuthor tAuthor = new TAuthor();
+        if(ObjectUtil.isEmpty(createAuthorDTO)){
+            return tAuthor;
+        }
+        BeanUtils.copyProperties(createAuthorDTO,tAuthor);
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tAuthor.setBuildDate(new Date());
+        tAuthor.setBuildUserid(tUser.getUserid());
+        tAuthor.setModifyDate(new Date());
+        tAuthor.setModifyUserid(tUser.getUserid());
+        tAuthor.setDeleteflag(Constant.Judge.YES);
+        return tAuthor;
+    }
+    
+    public static TAuthor getTAuthor(EditAuthorDTO editAuthorDTO){
+        TAuthor tAuthor = new TAuthor();
+        if(ObjectUtil.isEmpty(editAuthorDTO)){
+            return tAuthor;
+        }
+        BeanUtils.copyProperties(editAuthorDTO,tAuthor);
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tAuthor.setModifyDate(new Date());
+        tAuthor.setModifyUserid(tUser.getUserid());
+        return tAuthor;
+    }
+    
+    public static AuthorListVO getAuthorListVO(IPage<TAuthor> iPage){
+        AuthorListVO authorListVO = new AuthorListVO();
+        if(ObjectUtil.isEmpty(iPage)){
+            return authorListVO;
+        }
+        authorListVO.setAuthorTotal(iPage.getTotal());
+        List<TAuthor> tAuthorList = iPage.getRecords();
+        List<AuthorListRowVO> authorListRowVOList = tAuthorList.stream().map(GenerateUtil::getAuthorListRowVO).collect(Collectors.toList());
+        authorListVO.setAuthorListRowVOList(authorListRowVOList);
+        return authorListVO;
+    }
+    
+    public static AuthorListRowVO getAuthorListRowVO(TAuthor tAuthor){
+        AuthorListRowVO authorListRowVO = new AuthorListRowVO();
+        if(ObjectUtil.isEmpty(tAuthor)){
+            return authorListRowVO;
+        }
+        BeanUtils.copyProperties(tAuthor,authorListRowVO);
+        return authorListRowVO;
+    }
+    
+    public static ArticleListRowVO getArticleListRowVO(TArticle tArticle){
+        ArticleListRowVO articleListRowVO = new ArticleListRowVO();
+        if(ObjectUtil.isEmpty(tArticle)){
+            return articleListRowVO;
+        }
+        BeanUtils.copyProperties(tArticle,articleListRowVO);
+        return articleListRowVO;
+    } 
+    
+    public static TArticle getTArticle(CreateArticleDTO createArticleDTO){
+        TArticle tArticle = new TArticle();
+        if(ObjectUtil.isEmpty(createArticleDTO)){
+            return tArticle;
+        }
+        BeanUtils.copyProperties(createArticleDTO,tArticle);
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tArticle.setBuildDate(new Date());
+        tArticle.setBuildUserid(tUser.getUserid());
+        tArticle.setModifyDate(new Date());
+        tArticle.setModifyUserid(tUser.getUserid());
+        tArticle.setDeleteflag(Constant.Judge.YES);
+        return tArticle;
+    }
 }

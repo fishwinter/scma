@@ -40,11 +40,13 @@ public class EditSupplierDTO {
     /**
      * 企业类型，字典同会员类型
      */
+    @NotNull
     private Integer memberTypeId;
 
     /**
      * 企业性质，字典同合作企业企业性质
      */
+    @NotNull
     private Integer partnershipType;
 
     /**
