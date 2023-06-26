@@ -37,4 +37,10 @@ public class SysConfigController {
         return sysConfigBizService.getPartnershipConfig();
     }
 
+    @RequestMapping(value = "/getCaseType", method = RequestMethod.POST)
+    @RequiresPermissions("case:add")
+    public Result getCaseType(){
+        return sysConfigBizService.getCaseType();
+    }
+
 }

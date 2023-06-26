@@ -14,6 +14,7 @@ import com.company.scma.service.validateservice.SysConfigValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -75,5 +76,15 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
             partnershipConfigVO.setPartnershipProjectTypeVOList(partnershipProjectTypeVOList);
         }
         return Result.success(partnershipConfigVO);
+    }
+
+    @Override
+    public Result getCaseType() {
+        List<CaseTypeVO> caseTypeVOList = new ArrayList<CaseTypeVO>();
+        String caseTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CASE_TYPE);
+        if(ObjectUtil.isNotEmpty(caseTypeStr)){
+            caseTypeVOList = JSON.parseArray(caseTypeStr, CaseTypeVO.class);
+        }
+        return Result.success(caseTypeVOList);
     }
 }

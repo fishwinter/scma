@@ -7,4 +7,5 @@ public interface SysConfigBizService {
     public Result getSysConfig();
     public Result editSysConfig(SysConfigDTO sysConfigDTO);
     public Result getPartnershipConfig();
+    public Result getCaseType();
 }
