@@ -1,6 +1,7 @@
 package com.company.scma.controller;
 
 import cn.hutool.core.util.NumberUtil;
+import com.company.scma.common.dto.UploadFileDTO;
 import com.company.scma.common.util.Base64Util;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.bizservice.FileBizService;
@@ -24,8 +25,8 @@ public class FileController {
     FileBizService fileBizService;
 
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public Result uploadFile(@RequestBody String fileBase64) throws IOException {
-        return fileBizService.uploadFile(fileBase64);
+    public Result uploadFile(@RequestBody UploadFileDTO uploadFileDTO) throws IOException {
+        return fileBizService.uploadFile(uploadFileDTO);
     }
 
     @RequestMapping(value = "/downloadFile", method = RequestMethod.POST)

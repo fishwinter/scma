@@ -3,6 +3,7 @@ package com.company.scma.common.vo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.UUID;
 
 public class BASE64DecodedMultipartFile implements MultipartFile {
 
@@ -11,7 +12,7 @@ public class BASE64DecodedMultipartFile implements MultipartFile {
 
     public BASE64DecodedMultipartFile(byte[] imgContent, String header) {
         this.imgContent = imgContent;
-        this.header = header.split(";")[0];
+        this.header = header;
     }
 
     @Override
@@ -21,7 +22,9 @@ public class BASE64DecodedMultipartFile implements MultipartFile {
 
     @Override
     public String getOriginalFilename() {
-        return System.currentTimeMillis() + (int) Math.random() * 10000 + "." + header.split("/")[1];
+        String suffix = header.substring(header.lastIndexOf("."));
+        String fileName = header.substring(0,header.lastIndexOf("."));
+        return String.valueOf(UUID.randomUUID()).replace("-","") + (int) Math.random() * 10000 + fileName + suffix;
     }
 
     @Override

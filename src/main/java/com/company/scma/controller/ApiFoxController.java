@@ -3,6 +3,7 @@ package com.company.scma.controller;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.SysConfigDTO;
+import com.company.scma.common.dto.UploadFileDTO;
 import com.company.scma.common.po.TUser;
 import com.company.scma.common.vo.*;
 import org.apache.shiro.SecurityUtils;
@@ -191,6 +192,16 @@ public class ApiFoxController {
 
     @PostMapping("/login34")
     public CaseTypeVO login34(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login35")
+    public UploadFileDTO login35(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login36")
+    public DownloadFileVO login36(MemberDetailVO memberDetailVO) {
         return null;
     }
 }

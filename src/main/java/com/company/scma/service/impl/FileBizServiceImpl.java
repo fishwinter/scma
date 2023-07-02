@@ -1,7 +1,9 @@
 package com.company.scma.service.impl;
 
 import com.company.scma.common.constant.ResultEnum;
+import com.company.scma.common.dto.UploadFileDTO;
 import com.company.scma.common.util.Base64Util;
+import com.company.scma.common.vo.DownloadFileVO;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.bizservice.FileBizService;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,17 +21,10 @@ public class FileBizServiceImpl implements FileBizService {
     private String fileuploadPath;
 
     @Override
-    public Result uploadFile(String fileBase64) throws IOException {
-        MultipartFile multipartFile = Base64Util.base64ToMultipart(fileBase64);
+    public Result uploadFile(UploadFileDTO uploadFileDTO) throws IOException {
+        MultipartFile multipartFile = Base64Util.base64ToMultipart(uploadFileDTO);
 
-        String originalFilename = multipartFile.getOriginalFilename();
-
-        // 文件扩展名
-        // image格式: "data:image/png;base64," + "图片的base64字符串"
-        String ext = originalFilename.substring(originalFilename.lastIndexOf(".")).trim();
-
-        String randomFilename = UUID.randomUUID() + ext;
-        randomFilename = randomFilename.replace("-", "");
+        String randomFilename = multipartFile.getOriginalFilename();
         //获取根目录
         ApplicationHome applicationHome = new ApplicationHome(getClass());
         File source = applicationHome.getSource();
@@ -50,6 +45,8 @@ public class FileBizServiceImpl implements FileBizService {
     @Override
     public Result downloadFile(String fileUrl) {
         File file = new File(fileUrl);
+        String fileName = file.getName();
+        fileName = fileName.substring(33);
         InputStream in = null;
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         try {
@@ -74,6 +71,9 @@ public class FileBizServiceImpl implements FileBizService {
         String encode = encoder.encode(bao.toByteArray());
         //去除换行符，否则解析有问题
         encode = encode.replaceAll("\r|\n", "");
-        return Result.success(encode);
+        DownloadFileVO downloadFileVO = new DownloadFileVO();
+        downloadFileVO.setFileName(fileName);
+        downloadFileVO.setFileBase64(encode);
+        return Result.success(downloadFileVO);
     }
 }

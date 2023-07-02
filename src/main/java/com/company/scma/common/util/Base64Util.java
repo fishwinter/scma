@@ -1,5 +1,6 @@
 package com.company.scma.common.util;
 
+import com.company.scma.common.dto.UploadFileDTO;
 import com.company.scma.common.vo.BASE64DecodedMultipartFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,8 +11,9 @@ import java.io.IOException;
 @Slf4j
 public class Base64Util {
 
-    public static MultipartFile base64ToMultipart(String base64) {
+    public static MultipartFile base64ToMultipart(UploadFileDTO uploadFileDTO) {
         try {
+            String base64 = uploadFileDTO.getFileBase64();
             String[] baseStr = base64.split(",");
 
             BASE64Decoder decoder = new BASE64Decoder();
@@ -24,7 +26,7 @@ public class Base64Util {
                 }
             }
 
-            return new BASE64DecodedMultipartFile(b, baseStr[0]);
+            return new BASE64DecodedMultipartFile(b, uploadFileDTO.getFileName());
         } catch (IOException e) {
             log.error(e.getMessage());
             return null;
