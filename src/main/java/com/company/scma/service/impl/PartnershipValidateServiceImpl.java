@@ -82,7 +82,7 @@ public class PartnershipValidateServiceImpl implements PartnershipValidateServic
         //校验partnershipName名字是否重复
         String partnershipName = editPartnershipDTO.getPartnershipName();
         List<TPartnership> tPartnershipList = partnershipService.getTPartnershipByName(partnershipName);
-        if(ObjectUtil.isNotEmpty(tPartnershipList)){
+        if(ObjectUtil.isNotEmpty(tPartnershipList) && tPartnershipList.get(0).getPartnershipId() != editPartnershipDTO.getOperationId()){
             return Result.getResult(ResultEnum.EXIST_PARTNERSHIP_NAME);
         }
         
