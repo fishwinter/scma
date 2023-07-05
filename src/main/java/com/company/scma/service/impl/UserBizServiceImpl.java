@@ -150,8 +150,10 @@ public class UserBizServiceImpl implements UserBizService {
         TUser tUser = GenerateUtil.getTUser(editUserDTO);
         //密码加密
         String password = tUser.getPassword();
-        String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        tUser.setPassword(hashPassword);
+        if(ObjectUtil.isNotEmpty(editUserDTO.getPassword())){
+            String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+            tUser.setPassword(hashPassword);
+        }
         //修改member表所属人名称,由于已经失效的会员ownerUserid会被清空，这里不用单独对会员状态进行筛选
         List<TMember> tMemberList = memberService.getMemberByOwnerUserid(tUser.getUserid());
         if(ObjectUtil.isNotEmpty(tMemberList)){

@@ -22,7 +22,6 @@ public class EditUserDTO {
     /**
      * 密码
      */
-    @NotBlank
     private String password;
 
     /**
