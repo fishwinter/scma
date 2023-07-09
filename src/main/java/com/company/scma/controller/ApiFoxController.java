@@ -2,8 +2,7 @@ package com.company.scma.controller;
 
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.constant.ResultEnum;
-import com.company.scma.common.dto.SysConfigDTO;
-import com.company.scma.common.dto.UploadFileDTO;
+import com.company.scma.common.dto.*;
 import com.company.scma.common.po.TUser;
 import com.company.scma.common.vo.*;
 import org.apache.shiro.SecurityUtils;
@@ -212,6 +211,51 @@ public class ApiFoxController {
 
     @PostMapping("/login38")
     public StockTypeVO login38(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login39")
+    public CreateArticleDTO login39(CreateArticleDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login40")
+    public CreateAuthorDTO login40(CreateArticleDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login41")
+    public CreateSupplierDTO login41(CreateSupplierDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login42")
+    public CreatePartnershipDTO login42(CreatePartnershipDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login43")
+    public EditAuthorDTO login43(EditAuthorDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login44")
+    public EditPartnershipDTO login44(CreateArticleDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login45")
+    public EditSupplierDTO login45(CreateArticleDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login46")
+    public GetPartnershipDTO login46(CreateArticleDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login47")
+    public GetSupplierDTO login47(CreateArticleDTO createArticleDTO) {
         return null;
     }
 }
