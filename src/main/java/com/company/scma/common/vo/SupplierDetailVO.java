@@ -2,6 +2,7 @@ package com.company.scma.common.vo;
 
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -72,9 +73,14 @@ public class SupplierDetailVO {
     private String directorName;
 
     /**
+     * 所有职务
+     */
+    private List<PositionVO> allPosition;
+
+    /**
      * 负责人职务
      */
-    private String directorPosition;
+    private PositionVO directorPosition;
 
     /**
      * 企业logo url
@@ -84,7 +90,7 @@ public class SupplierDetailVO {
     /**
      * 联系人职务
      */
-    private String contactsPosition;
+    private PositionVO contactsPosition;
 
     /**
      * 是否参加过物博会，0-否，1-是
@@ -105,4 +111,39 @@ public class SupplierDetailVO {
      * 合作案例
      */
     private String cooperationCases;
+
+    /**
+     * 当前合作企业合作项目类型，1-协办，2-广告，3-活动
+     */
+    private List<PartnershipProjectTypeVO> myProjectType;
+
+    /**
+     * 所有合作企业合作项目类型，1-协办，2-广告，3-活动
+     */
+    private List<PartnershipProjectTypeVO> allProjectType;
+
+    /**
+     * 首次加入协办单位时间
+     */
+    private Date firstJoinTime;
+
+    /**
+     * 会长名称
+     */
+    private String presidentName;
+
+    /**
+     * 会长电话
+     */
+    private String presidentTel;
+
+    /**
+     * 秘书长名称
+     */
+    private String secretaryName;
+
+    /**
+     * 秘书长电话
+     */
+    private String secretaryTel;
 }

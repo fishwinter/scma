@@ -9,6 +9,7 @@
     <result column="position" jdbcType="VARCHAR" property="position" />
     <result column="wechat_account" jdbcType="VARCHAR" property="wechatAccount" />
     <result column="addr" jdbcType="VARCHAR" property="addr" />
+    <result column="mail" jdbcType="VARCHAR" property="mail" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="build_date" jdbcType="TIMESTAMP" property="buildDate" />
     <result column="build_userid" jdbcType="INTEGER" property="buildUserid" />
@@ -17,7 +18,7 @@
     <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
   </resultMap>
   <sql id="Base_Column_List">
-    author_id, `name` ,tel, work_unit, `position`, wechat_account, addr, remark, build_date, 
+    author_id, `name` ,tel, work_unit, `position`, wechat_account, addr, mail, remark, build_date,
     build_userid, modify_date, modify_userid, deleteflag
   </sql>
 </mapper>

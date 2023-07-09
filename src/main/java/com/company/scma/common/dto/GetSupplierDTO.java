@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class GetSupplierDTO {
@@ -22,6 +23,16 @@ public class GetSupplierDTO {
      * 联系电话
      */
     private String contactTel;
+
+    /**
+     * 合作项目，1-协办，2-广告，3-活动
+     */
+    private List<Integer> projectType;
+
+    /**
+     * 对接服务人员
+     */
+    private String serviceProvider;
     
     /**
      * 开始时间

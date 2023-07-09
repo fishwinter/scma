@@ -66,6 +66,11 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
         String partnershipTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.PARTNERSHIP_TYPE);
         //获取合作企业项目性质
         String partnershipProjectTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.PARTNERSHIP_PROJECT_TYPE);
+        //获取股票类型
+        String stockTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.STOCK_TYPE);
+        //获取职务类型
+        String positionTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.POSITION_TYPE);
         //封装
         if(ObjectUtil.isNotEmpty(partnershipProjectTypeStr)){
             List<PartnershipTypeVO> partnershipTypeVOList = JSON.parseArray(partnershipTypeStr, PartnershipTypeVO.class);
@@ -74,6 +79,14 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
         if(ObjectUtil.isNotEmpty(partnershipProjectTypeStr)){
             List<PartnershipProjectTypeVO> partnershipProjectTypeVOList = JSON.parseArray(partnershipProjectTypeStr, PartnershipProjectTypeVO.class);
             partnershipConfigVO.setPartnershipProjectTypeVOList(partnershipProjectTypeVOList);
+        }
+        if(ObjectUtil.isNotEmpty(stockTypeStr)){
+            List<StockTypeVO> stockTypeVOList = JSON.parseArray(stockTypeStr, StockTypeVO.class);
+            partnershipConfigVO.setStockTypeVOList(stockTypeVOList);
+        }
+        if(ObjectUtil.isNotEmpty(positionTypeStr)){
+            List<PositionVO> positionVOList = JSON.parseArray(positionTypeStr, PositionVO.class);
+            partnershipConfigVO.setPositionVOList(positionVOList);
         }
         return Result.success(partnershipConfigVO);
     }

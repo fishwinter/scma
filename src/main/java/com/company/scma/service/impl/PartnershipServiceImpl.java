@@ -10,6 +10,7 @@ import com.company.scma.common.constant.Constant;
 import com.company.scma.common.dto.GetPartnershipDTO;
 import com.company.scma.common.po.TPartnership;
 import com.company.scma.common.po.TUser;
+import com.company.scma.common.util.GenerateUtil;
 import com.company.scma.mapper.PartnershipMapper;
 import com.company.scma.service.mapperservice.PartnershipService;
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +44,16 @@ public class PartnershipServiceImpl extends ServiceImpl<PartnershipMapper, TPart
 
         if (StringUtils.isNotEmpty(getPartnershipDTO.getContactTel())) {
             queryWrapper.like(Constant.ColumnName.CONTACT_TEL, getPartnershipDTO.getContactTel());
+        }
+
+        if (StringUtils.isNotEmpty(getPartnershipDTO.getServiceProvider())) {
+            queryWrapper.like(Constant.ColumnName.SERVICE_PROVIDER, getPartnershipDTO.getServiceProvider());
+        }
+
+        List<Integer> projectType = getPartnershipDTO.getProjectType();
+        if(ObjectUtil.isNotEmpty(projectType)){
+            String projectTypeStr = GenerateUtil.getTypeStr(projectType, ",");
+            queryWrapper.eq(Constant.ColumnName.PROJECT_TYPE,projectTypeStr);
         }
 
         if (ObjectUtil.isNotEmpty(getPartnershipDTO.getStartDate())) {

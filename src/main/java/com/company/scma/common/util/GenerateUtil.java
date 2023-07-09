@@ -553,6 +553,11 @@ public class GenerateUtil {
         tSupplier.setModifyDate(new Date());
         tSupplier.setModifyUserid(tUser.getUserid());
         tSupplier.setDeleteflag(Constant.Judge.YES);
+        List<Integer> projectType = createSupplierDTO.getProjectType();
+        if(ObjectUtil.isNotEmpty(projectType)){
+            String projectTypeStr = GenerateUtil.getTypeStr(projectType, ",");
+            tSupplier.setProjectType(projectTypeStr);
+        }
         return tSupplier;
     }
     
@@ -574,6 +579,11 @@ public class GenerateUtil {
         TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
         tSupplier.setModifyDate(new Date());
         tSupplier.setModifyUserid(tUser.getUserid());
+        List<Integer> projectType = editSupplierDTO.getProjectType();
+        if(ObjectUtil.isNotEmpty(projectType)){
+            String projectTypeStr = GenerateUtil.getTypeStr(projectType, ",");
+            tSupplier.setProjectType(projectTypeStr);
+        }
         return tSupplier;
     }
     
@@ -744,5 +754,50 @@ public class GenerateUtil {
         tArticle.setModifyUserid(tUser.getUserid());
         tArticle.setDeleteflag(Constant.Judge.YES);
         return tArticle;
+    }
+
+    public static StockTypeVO getStockTypeVO(List<StockTypeVO> stockTypeVOList,Integer stockTypeId){
+        StockTypeVO result = null;
+        if(ObjectUtil.isEmpty(stockTypeVOList) || ObjectUtil.isEmpty(stockTypeId)){
+            return result;
+        }
+        for (StockTypeVO stockTypeVO : stockTypeVOList) {
+            if(stockTypeVO.getStockTypeId()!= null && stockTypeVO.getStockTypeId() == stockTypeId){
+                result = stockTypeVO;
+                return result;
+            }
+        }
+        return null;
+    }
+
+    //将id用指定分隔符拼接成字符串，字符串最后没有符号
+    public static String getTypeStr(List<Integer> typeIdList,String separator){
+        String idStr = null;
+        if(ObjectUtil.isEmpty(typeIdList) || ObjectUtil.isEmpty(separator)){
+            return null;
+        }
+        StringBuffer sb = new StringBuffer();
+        if(ObjectUtil.isNotEmpty(typeIdList)){
+            for (Integer id : typeIdList) {
+                sb.append(id).append(separator);
+            }
+            idStr = sb.toString();
+            idStr = idStr.substring(0,idStr.length() - 1);
+        }
+        return idStr;
+    }
+
+    public static PositionVO getPositionVO(List<PositionVO> positionVOList,Integer positionId){
+        PositionVO result = null;
+        if(ObjectUtil.isEmpty(positionVOList) || ObjectUtil.isEmpty(positionId)){
+            return result;
+        }
+        for (PositionVO positionVO : positionVOList) {
+            if(positionVO.getPositionId()!= null && positionVO.getPositionId() == positionId){
+                result = positionVO;
+                return result;
+            }
+        }
+        return null;
     }
 }

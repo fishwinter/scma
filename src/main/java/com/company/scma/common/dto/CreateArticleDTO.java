@@ -23,6 +23,11 @@ public class CreateArticleDTO {
     private String frequency;
 
     /**
+     * 编辑名称
+     */
+    private String editorName;
+
+    /**
      * 文件url
      */
     private String fileUrl;

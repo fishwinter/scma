@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -104,11 +105,36 @@ public class SupplierBizServiceImpl implements SupplierBizService {
         List<PartnershipTypeVO> allPartnershipType = JSON.parseArray(partnershipTypeStr, PartnershipTypeVO.class);
         //查询当前企业性质
         PartnershipTypeVO myPartnershipType = GenerateUtil.getPartnershipTypeVO(allPartnershipType, tSupplier.getPartnershipType());
+        //查询所有活动类型
+        String partnershipProjectTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.PARTNERSHIP_PROJECT_TYPE);
+        List<PartnershipProjectTypeVO> allPartnershipProjectType = JSON.parseArray(partnershipProjectTypeStr, PartnershipProjectTypeVO.class);
+        //获取当前企业活动类型
+        String projectType = tSupplier.getProjectType();
+        List<PartnershipProjectTypeVO> myPartnershipProjectType = null;
+        if(ObjectUtil.isNotEmpty(projectType)){
+            String[] split = projectType.split(",");
+            List<String> projectTypeList = Arrays.asList(split);
+            myPartnershipProjectType = GenerateUtil.getPartnershipProjectTypeVO(allPartnershipProjectType, projectTypeList);
+        }
+        //查询所有职务类型
+        String positionTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.POSITION_TYPE);
+        List<PositionVO> allPositionList = JSON.parseArray(positionTypeStr, PositionVO.class);
+        //获取联系人职务类型
+        PositionVO contactPosition = GenerateUtil.getPositionVO(allPositionList, tSupplier.getContactsPositionId());
+        //获取负责人职务类型
+        PositionVO directorPosition = GenerateUtil.getPositionVO(allPositionList, tSupplier.getDirectorPositionId());
         //组装数据
         supplierDetailVO.setMyMemberType(myMemberTypeVO);
         supplierDetailVO.setAllMemberType(allMemberTypeVO);
         supplierDetailVO.setMyPartnershipType(myPartnershipType);
         supplierDetailVO.setAllPartnershipType(allPartnershipType);
+        supplierDetailVO.setMyProjectType(myPartnershipProjectType);
+        supplierDetailVO.setAllProjectType(allPartnershipProjectType);
+        supplierDetailVO.setContactsPosition(contactPosition);
+        supplierDetailVO.setDirectorPosition(directorPosition);
+        supplierDetailVO.setAllPosition(allPositionList);
         //返回
         return Result.success(supplierDetailVO);
     }

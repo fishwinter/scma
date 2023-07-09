@@ -9,11 +9,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.dto.GetSupplierDTO;
 import com.company.scma.common.po.TSupplier;
+import com.company.scma.common.util.GenerateUtil;
 import com.company.scma.mapper.SupplierMapper;
 import com.company.scma.service.mapperservice.SupplierService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, TSupplier> implements SupplierService {
@@ -46,6 +49,16 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, TSupplier> 
             queryWrapper.like(Constant.ColumnName.CONTACT_TEL, getSupplierDTO.getContactTel());
         }
 
+        if (StringUtils.isNotEmpty(getSupplierDTO.getServiceProvider())) {
+            queryWrapper.like(Constant.ColumnName.SERVICE_PROVIDER, getSupplierDTO.getServiceProvider());
+        }
+
+        List<Integer> projectType = getSupplierDTO.getProjectType();
+        if(ObjectUtil.isNotEmpty(projectType)){
+            String projectTypeStr = GenerateUtil.getTypeStr(projectType, ",");
+            queryWrapper.eq(Constant.ColumnName.PROJECT_TYPE,projectTypeStr);
+        }
+
         if (ObjectUtil.isNotEmpty(getSupplierDTO.getStartDate())) {
             queryWrapper.ge(Constant.ColumnName.BUILD_DATE, getSupplierDTO.getStartDate());
         }
@@ -66,4 +79,12 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, TSupplier> 
         updateWrapper.set(Constant.ColumnName.DELETEFLAG,Constant.Judge.NO);
         supplierMapper.update(null,updateWrapper);
     }
+
+    @Override
+    public TSupplier getTSupplierByName(String supplierName) {
+        QueryWrapper<TSupplier> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.ColumnName.DELETEFLAG,Constant.Judge.YES);
+        queryWrapper.eq(Constant.ColumnName.SUPPLIER_NAME,supplierName);
+        TSupplier tSupplier = supplierMapper.selectOne(queryWrapper);
+        return tSupplier;    }
 }

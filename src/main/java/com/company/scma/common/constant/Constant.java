@@ -51,6 +51,8 @@ public interface Constant {
         String AUTHOR_ID = "AUTHOR_ID";
         String WORK_UNIT = "WORK_UNIT";
         String ARTICLE_ID = "ARTICLE_ID";
+        String SERVICE_PROVIDER = "SERVICE_PROVIDER";
+        String PROJECT_TYPE = "PROJECT_TYPE";
         
     }
     
@@ -108,6 +110,8 @@ public interface Constant {
         String RELEASE_TERM = "RELEASE_TERM";
         String RELEASE_WAY = "RELEASE_WAY";
         String CASE_TYPE = "CASE_TYPE";
+        String STOCK_TYPE = "STOCK_TYPE";
+        String POSITION_TYPE = "POSITION_TYPE";
     }
     
     public interface CommonRoleId{

@@ -108,9 +108,14 @@ public class PartnershipDetailVO {
     private String contractNumber;
 
     /**
-     * 合同期限
+     * 合同开始时间
      */
-    private String contractTerm;
+    private Date contractStartDate;
+
+    /**
+     * 合同结束时间
+     */
+    private Date contractEndDate;
 
     /**
      * 当前合作企业合作项目类型，1-协办，2-广告，3-活动
@@ -133,6 +138,11 @@ public class PartnershipDetailVO {
     private String serviceProvider;
 
     /**
+     * 备注
+     */
+    private String remark;
+
+    /**
      * 当前参与的活动
      */
     private OperationListRowVO myOperation;
@@ -141,6 +151,21 @@ public class PartnershipDetailVO {
      * 所有合法的活动
      */
     private List<OperationListRowVO> allOperation;
+
+    /**
+     * 是否上市 0-否。1-是
+     */
+    private Integer isListed;
+
+    /**
+     * 当前股票类型
+     */
+    private StockTypeVO myStockType;
+
+    /**
+     * 所有股票类型
+     */
+    private List<StockTypeVO> allStockType;
 
     /**
      * 当前绑定活动状态：0-未开始，1-正常，2-已结束

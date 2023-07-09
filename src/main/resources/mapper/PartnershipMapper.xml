@@ -22,10 +22,14 @@
     <result column="amount" jdbcType="VARCHAR" property="amount" />
     <result column="payment_time" jdbcType="DATE" property="paymentTime" />
     <result column="contract_number" jdbcType="VARCHAR" property="contractNumber" />
-    <result column="contract_term" jdbcType="VARCHAR" property="contractTerm" />
+    <result column="contract_start_date" jdbcType="DATE" property="contractStartDate" />
+    <result column="contract_end_date" jdbcType="DATE" property="contractEndDate" />
     <result column="project_type" jdbcType="VARCHAR" property="projectType" />
     <result column="first_join_time" jdbcType="DATE" property="firstJoinTime" />
     <result column="service_provider" jdbcType="VARCHAR" property="serviceProvider" />
+    <result column="is_listed" jdbcType="INTEGER" property="isListed" />
+    <result column="stock_type_id" jdbcType="INTEGER" property="StockTypeId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="operation_id" jdbcType="INTEGER" property="operationId" />
     <result column="operation_status" jdbcType="INTEGER" property="operationStatus" />
     <result column="manager_userid" jdbcType="INTEGER" property="managerUserid" />
@@ -39,8 +43,8 @@
     partnership_id, partnership_name, partnership_type, logo_url, addr, email, web_addr, 
     wechat_account, video_account, director_name, director_position, director_tel, director_wechat, 
     contact_name, contact_postion, contact_tel, contact_wechat, amount, payment_time, 
-    contract_number, contract_term, project_type, first_join_time, service_provider, 
-    operation_id, operation_status, manager_userid, build_date, build_userid, modify_date, modify_userid, 
+    contract_number, contract_start_date, contract_end_date, project_type, first_join_time, service_provider, is_listed, stock_type_id,
+    remark, operation_id, operation_status, manager_userid, build_date, build_userid, modify_date, modify_userid,
     deleteflag
   </sql>
 </mapper>

@@ -117,9 +117,14 @@ public class TPartnership implements Serializable {
     private String contractNumber;
 
     /**
-     * 合同期限
+     * 合同开始时间
      */
-    private String contractTerm;
+    private Date contractStartDate;
+
+    /**
+     * 合同结束时间
+     */
+    private Date contractEndDate;
 
     /**
      * 合作项目，1-协办，2-广告，3-活动，多个同时存在时使用逗号隔开
@@ -135,6 +140,21 @@ public class TPartnership implements Serializable {
      * 对接服务人员
      */
     private String serviceProvider;
+
+    /**
+     * 是否上市 0-否。1-是
+     */
+    private Integer isListed;
+
+    /**
+     * 股票类型 1-A股票，2-港股，3-新三板，4-境外
+     */
+    private Integer StockTypeId;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     /**
      * 当前活动id

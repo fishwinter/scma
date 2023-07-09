@@ -113,9 +113,16 @@ public class EditPartnershipDTO {
     private String contractNumber;
 
     /**
-     * 合同期限
+     * 合同开始时间
      */
-    private String contractTerm;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date contractStartDate;
+
+    /**
+     * 合同结束时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date contractEndDate;
     
     /**
      * 合作项目，1-协办，2-广告，3-活动
@@ -134,14 +141,29 @@ public class EditPartnershipDTO {
     private String serviceProvider;
 
     /**
+     * 是否上市 0-否。1-是
+     */
+    private Integer isListed;
+
+    /**
+     * 股票类型 1-A股票，2-港股，3-新三板，4-境外
+     */
+    private Integer StockTypeId;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
      * 当前活动id
      */
-    @NotNull
+    //@NotNull
     private Integer operationId;
 
     /**
      * 子账号数量
      */
-    @NotNull
+    //@NotNull
     private Integer subAccountNum;
 }

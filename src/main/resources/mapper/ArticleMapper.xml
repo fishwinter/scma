@@ -6,6 +6,7 @@
     <result column="author_id" jdbcType="INTEGER" property="authorId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="frequency" jdbcType="VARCHAR" property="frequency" />
+    <result column="editor_name" jdbcType="VARCHAR" property="editorName" />
     <result column="file_url" jdbcType="VARCHAR" property="fileUrl" />
     <result column="build_date" jdbcType="TIMESTAMP" property="buildDate" />
     <result column="build_userid" jdbcType="INTEGER" property="buildUserid" />
@@ -14,7 +15,7 @@
     <result column="deleteflag" jdbcType="INTEGER" property="deleteflag" />
   </resultMap>
   <sql id="Base_Column_List">
-    article_id, author_id, title, frequency, file_url, build_date, build_userid, modify_date, 
+    article_id, author_id, title, frequency, editor_name, file_url, build_date, build_userid, modify_date,
     modify_userid, deleteflag
   </sql>
 </mapper>

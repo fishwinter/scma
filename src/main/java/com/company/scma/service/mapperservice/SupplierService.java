@@ -11,4 +11,6 @@ public interface SupplierService extends IService<TSupplier> {
     public IPage<TSupplier> getTSupplierByCondition(GetSupplierDTO getSupplierDTO);
     
     public void deleteSupplierById(Integer supplierId);
+
+    public TSupplier getTSupplierByName(String supplierName);
 }

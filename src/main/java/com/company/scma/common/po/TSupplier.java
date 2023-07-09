@@ -76,9 +76,9 @@ public class TSupplier implements Serializable {
     private String directorName;
 
     /**
-     * 负责人职务
+     * 负责人职务id
      */
-    private String directorPosition;
+    private Integer directorPositionId;
 
     /**
      * 企业logo url
@@ -86,9 +86,9 @@ public class TSupplier implements Serializable {
     private String logoUrl;
 
     /**
-     * 联系人职务
+     * 联系人职务id
      */
-    private String contactsPosition;
+    private Integer contactsPositionId;
 
     /**
      * 是否参加过物博会，0-否，1-是
@@ -109,6 +109,36 @@ public class TSupplier implements Serializable {
      * 合作案例
      */
     private String cooperationCases;
+
+    /**
+     * 合作项目，1-协办，2-广告，3-活动，多个同时存在时使用逗号隔开
+     */
+    private String projectType;
+
+    /**
+     * 首次加入协办单位时间
+     */
+    private Date firstJoinTime;
+
+    /**
+     * 会长名称
+     */
+    private String presidentName;
+
+    /**
+     * 会长电话
+     */
+    private String presidentTel;
+
+    /**
+     * 秘书长名称
+     */
+    private String secretaryName;
+
+    /**
+     * 秘书长电话
+     */
+    private String secretaryTel;
 
     /**
      * 创建用户userid
