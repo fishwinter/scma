@@ -204,4 +204,14 @@ public class ApiFoxController {
     public DownloadFileVO login36(MemberDetailVO memberDetailVO) {
         return null;
     }
+
+    @PostMapping("/login37")
+    public PositionVO login37(MemberDetailVO memberDetailVO) {
+        return null;
+    }
+
+    @PostMapping("/login38")
+    public StockTypeVO login38(MemberDetailVO memberDetailVO) {
+        return null;
+    }
 }
