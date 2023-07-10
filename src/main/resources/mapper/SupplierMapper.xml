@@ -14,9 +14,9 @@
     <result column="video_account" jdbcType="VARCHAR" property="videoAccount" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="director_name" jdbcType="VARCHAR" property="directorName" />
-    <result column="director_position_id" jdbcType="VARCHAR" property="directorPositionId" />
+    <result column="director_position_id" jdbcType="INTEGER" property="directorPositionId" />
     <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
-    <result column="contacts_position_id" jdbcType="VARCHAR" property="contactsPositionId" />
+    <result column="contacts_position_id" jdbcType="INTEGER" property="contactsPositionId" />
     <result column="join_logistics_fair" jdbcType="INTEGER" property="joinLogisticsFair" />
     <result column="service_provider" jdbcType="VARCHAR" property="serviceProvider" />
     <result column="director_tel" jdbcType="VARCHAR" property="directorTel" />

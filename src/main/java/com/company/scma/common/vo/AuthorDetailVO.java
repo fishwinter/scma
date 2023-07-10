@@ -37,6 +37,11 @@ public class AuthorDetailVO {
     private String addr;
 
     /**
+     * 邮箱
+     */
+    private String mail;
+
+    /**
      * 备注
      */
     private String remark;

@@ -62,9 +62,9 @@ public class EditPartnershipDTO {
     private String directorName;
 
     /**
-     * 负责人职务
+     * 负责人职务id
      */
-    private String directorPosition;
+    private Integer directorPositionId;
 
     /**
      * 负责人手机号
@@ -82,9 +82,9 @@ public class EditPartnershipDTO {
     private String contactName;
 
     /**
-     * 联系人职务
+     * 联系人职务id
      */
-    private String contactPosition;
+    private Integer contactPositionId;
 
     /**
      * 联系人手机
