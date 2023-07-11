@@ -65,7 +65,7 @@ public class PartnershipDetailVO {
     /**
      * 负责人职务
      */
-    private PositionVO directorPosition;
+    private String directorPosition;
 
     /**
      * 负责人手机号

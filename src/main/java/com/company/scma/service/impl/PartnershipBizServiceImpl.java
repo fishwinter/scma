@@ -145,15 +145,15 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         List<PositionVO> allPositionList = JSON.parseArray(positionTypeStr, PositionVO.class);
         //获取联系人职务类型
         PositionVO contactPosition = GenerateUtil.getPositionVO(allPositionList, tPartnership.getContactPositionId());
-        //获取负责人职务类型
-        PositionVO directorPosition = GenerateUtil.getPositionVO(allPositionList, tPartnership.getDirectorPositionId());
+//        //获取负责人职务类型
+//        PositionVO directorPosition = GenerateUtil.getPositionVO(allPositionList, tPartnership.getDirectorPositionId());
         //封装
         partnershipDetailVO.setMyPartnershipType(myPartnershipType);
         partnershipDetailVO.setAllPartnershipType(allPartnershipType);
         partnershipDetailVO.setMyProjectType(myPartnershipProjectType);
         partnershipDetailVO.setAllProjectType(allPartnershipProjectType);
         partnershipDetailVO.setAllPosition(allPositionList);
-        partnershipDetailVO.setDirectorPosition(directorPosition);
+//        partnershipDetailVO.setDirectorPosition(directorPosition);
         partnershipDetailVO.setContactPosition(contactPosition);
         //返回
         return Result.success(partnershipDetailVO);

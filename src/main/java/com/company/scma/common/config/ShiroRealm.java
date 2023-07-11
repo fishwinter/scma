@@ -41,7 +41,7 @@ public class ShiroRealm extends AuthorizingRealm {
         if(ObjectUtil.isEmpty(permissionIdList)){
             return authorizationInfo;
         }
-        List<TPermission> TPermissionList = permissionService.getBaseMapper().selectBatchIds(permissionIdList);
+        List<TPermission> TPermissionList = permissionService.getPermissionByIdList(permissionIdList);
         if(ObjectUtil.isEmpty(TPermissionList)){
             return authorizationInfo;
         }

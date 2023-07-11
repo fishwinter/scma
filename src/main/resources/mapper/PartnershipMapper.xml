@@ -12,6 +12,7 @@
     <result column="wechat_account" jdbcType="VARCHAR" property="wechatAccount" />
     <result column="video_account" jdbcType="VARCHAR" property="videoAccount" />
     <result column="director_name" jdbcType="VARCHAR" property="directorName" />
+    <result column="director_position" jdbcType="VARCHAR" property="directorPosition" />
     <result column="director_position_id" jdbcType="INTEGER" property="directorPositionId" />
     <result column="director_tel" jdbcType="VARCHAR" property="directorTel" />
     <result column="director_wechat" jdbcType="VARCHAR" property="directorWechat" />
@@ -41,7 +42,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     partnership_id, partnership_name, partnership_type, logo_url, addr, email, web_addr, 
-    wechat_account, video_account, director_name, director_position_id, director_tel, director_wechat, 
+    wechat_account, video_account, director_name, director_position, director_position_id, director_tel, director_wechat,
     contact_name, contact_position_id, contact_tel, contact_wechat, amount, payment_time, 
     contract_number, contract_start_date, contract_end_date, project_type, first_join_time, service_provider, is_listed, stock_type_id,
     remark, operation_id, operation_status, manager_userid, build_date, build_userid, modify_date, modify_userid,

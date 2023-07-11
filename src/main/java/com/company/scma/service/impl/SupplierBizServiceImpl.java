@@ -123,8 +123,8 @@ public class SupplierBizServiceImpl implements SupplierBizService {
         List<PositionVO> allPositionList = JSON.parseArray(positionTypeStr, PositionVO.class);
         //获取联系人职务类型
         PositionVO contactPosition = GenerateUtil.getPositionVO(allPositionList, tSupplier.getContactsPositionId());
-        //获取负责人职务类型
-        PositionVO directorPosition = GenerateUtil.getPositionVO(allPositionList, tSupplier.getDirectorPositionId());
+//        //获取负责人职务类型
+//        PositionVO directorPosition = GenerateUtil.getPositionVO(allPositionList, tSupplier.getDirectorPositionId());
         //组装数据
         supplierDetailVO.setMyMemberType(myMemberTypeVO);
         supplierDetailVO.setAllMemberType(allMemberTypeVO);
@@ -133,7 +133,7 @@ public class SupplierBizServiceImpl implements SupplierBizService {
         supplierDetailVO.setMyProjectType(myPartnershipProjectType);
         supplierDetailVO.setAllProjectType(allPartnershipProjectType);
         supplierDetailVO.setContactsPosition(contactPosition);
-        supplierDetailVO.setDirectorPosition(directorPosition);
+//        supplierDetailVO.setDirectorPosition(directorPosition);
         supplierDetailVO.setAllPosition(allPositionList);
         //返回
         return Result.success(supplierDetailVO);

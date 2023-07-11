@@ -14,6 +14,7 @@
     <result column="video_account" jdbcType="VARCHAR" property="videoAccount" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="director_name" jdbcType="VARCHAR" property="directorName" />
+    <result column="director_position" jdbcType="VARCHAR" property="directorPosition" />
     <result column="director_position_id" jdbcType="INTEGER" property="directorPositionId" />
     <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
     <result column="contacts_position_id" jdbcType="INTEGER" property="contactsPositionId" />
@@ -35,7 +36,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     supplier_id, supplier_name, contacts, contact_tel, contact_addr, introduction, member_type_id, 
-    partnership_type, wechat_account, video_account, email, director_name, director_position_id,
+    partnership_type, wechat_account, video_account, email, director_name, director_position_id, director_position,
     logo_url, contacts_position_id, join_logistics_fair, service_provider, director_tel,
     cooperation_cases, project_type, first_join_time, president_name, president_tel, secretary_name, secretary_tel,
     build_userid, build_date, modify_userid, modify_date, deleteflag

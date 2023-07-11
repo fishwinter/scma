@@ -80,7 +80,7 @@ public class SupplierDetailVO {
     /**
      * 负责人职务
      */
-    private PositionVO directorPosition;
+    private String directorPosition;
 
     /**
      * 企业logo url
