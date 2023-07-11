@@ -55,8 +55,14 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, TSupplier> 
 
         List<Integer> projectType = getSupplierDTO.getProjectType();
         if(ObjectUtil.isNotEmpty(projectType)){
-            String projectTypeStr = GenerateUtil.getTypeStr(projectType, ",");
-            queryWrapper.eq(Constant.ColumnName.PROJECT_TYPE,projectTypeStr);
+            queryWrapper.and(wrapper -> {
+                for (int i = 0; i < projectType.size(); i++) {
+                    wrapper.like(Constant.ColumnName.PROJECT_TYPE,projectType.get(i));
+                    if(i < projectType.size() - 1){
+                        wrapper.or();
+                    }
+                }
+            });
         }
 
         if (ObjectUtil.isNotEmpty(getSupplierDTO.getStartDate())) {
