@@ -34,7 +34,7 @@ public class ScheduledTask {
     @Autowired
     private SysConfigService sysConfigService;
 
-    @Scheduled(cron = "0 0 */1 * * ?")
+    //@Scheduled(cron = "0 0 */1 * * ?")
     @Transactional
     public void scheduledTask() {
         log.info("-----------------------开始执行定时任务--------------------------");

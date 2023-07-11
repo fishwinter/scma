@@ -156,7 +156,7 @@ public class CreatePartnershipDTO {
     /**
      * 股票类型 1-A股票，2-港股，3-新三板，4-境外
      */
-    private Integer StockTypeId;
+    private Integer stockTypeId;
 
     /**
      * 管理员账号
