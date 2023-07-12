@@ -13,6 +13,10 @@ public class PartnershipConfigVO {
     List<PartnershipProjectTypeVO> partnershipProjectTypeVOList;
     //所有股票类型
     List<StockTypeVO> stockTypeVOList;
-    //所有职务类型
-    List<PositionVO> positionVOList;
+    //所有负责人职务类型
+    List<PositionVO> directorPositionVOList;
+    //所有联系人职务类型
+    List<PositionVO> contactPositionVOList;
+    //所有单位类型
+    List<EnterpriseTypeVO> enterpriseTypeVOList;
 }

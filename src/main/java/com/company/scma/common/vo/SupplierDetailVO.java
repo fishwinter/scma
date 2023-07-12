@@ -33,22 +33,22 @@ public class SupplierDetailVO {
     private String introduction;
 
     /**
-     * 当前会员类型
+     * 当前单位类型
      */
-    private MemberTypeVO myMemberType;
+    private EnterpriseTypeVO myEnterpriseTypeVO;
 
     /**
-     * 所有会员类型
+     * 所有单位类型
      */
-    private List<MemberTypeVO> allMemberType;
+    private List<EnterpriseTypeVO> allEnterpriseType;
 
     /**
-     * 当前合作企业的企业性质，1-国企，2-民企，3-外企
+     * 当前单位性质
      */
     private PartnershipTypeVO myPartnershipType;
 
     /**
-     * 所有合作企业性质
+     * 所有单位性质
      */
     private List<PartnershipTypeVO> allPartnershipType;
 
@@ -73,19 +73,24 @@ public class SupplierDetailVO {
     private String directorName;
 
     /**
-     * 所有职务
+     * 所有负责人职务
      */
-    private List<PositionVO> allPosition;
+    private List<PositionVO> allDirectorPosition;
 
     /**
      * 负责人职务
      */
-    private String directorPosition;
+    private PositionVO directorPosition;
 
     /**
      * 企业logo url
      */
     private String logoUrl;
+
+    /**
+     * 所有联系人职务
+     */
+    private List<PositionVO> allContactPosition;
 
     /**
      * 联系人职务

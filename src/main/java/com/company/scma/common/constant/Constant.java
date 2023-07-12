@@ -111,7 +111,9 @@ public interface Constant {
         String RELEASE_WAY = "RELEASE_WAY";
         String CASE_TYPE = "CASE_TYPE";
         String STOCK_TYPE = "STOCK_TYPE";
-        String POSITION_TYPE = "POSITION_TYPE";
+        String DIRECTOR_POSITION_TYPE = "DIRECTOR_POSITION_TYPE";
+        String CONTACT_POSITION_TYPE = "CONTACT_POSITION_TYPE";
+        String ENTERPRISE_TYPE = "ENTERPRISE_TYPE";
     }
     
     public interface CommonRoleId{

@@ -94,12 +94,17 @@ public class SupplierBizServiceImpl implements SupplierBizService {
         }
         //生成实体
         SupplierDetailVO supplierDetailVO = GenerateUtil.getSupplierDetailVO(tSupplier);
-        //查询所有memberType
-        List<TMemberType> allType = memberTypeService.getAllType();
-        List<MemberTypeVO> allMemberTypeVO = GenerateUtil.getMemberTypeVOList(allType);
-        //查询当前memberType
-        TMemberType tMemberType = memberTypeService.getMemberTypeByMemberTypeId(tSupplier.getMemberTypeId());
-        MemberTypeVO myMemberTypeVO = GenerateUtil.getMemberTypeVO(tMemberType);
+//        //查询所有memberType
+//        List<TMemberType> allType = memberTypeService.getAllType();
+//        List<MemberTypeVO> allMemberTypeVO = GenerateUtil.getMemberTypeVOList(allType);
+//        //查询当前memberType
+//        TMemberType tMemberType = memberTypeService.getMemberTypeByMemberTypeId(tSupplier.getMemberTypeId());
+//        MemberTypeVO myMemberTypeVO = GenerateUtil.getMemberTypeVO(tMemberType);
+        //查询所有单位类型
+        String enterpriseTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.ENTERPRISE_TYPE);
+        List<EnterpriseTypeVO> allEnterpriseType = JSON.parseArray(enterpriseTypeStr, EnterpriseTypeVO.class);
+        //查询当前单位类型
+        EnterpriseTypeVO myEnterpriseType = GenerateUtil.getEnterpriseTypeVO(allEnterpriseType, tSupplier.getEnterpriseTypeId());
         //查询所有企业性质
         String partnershipTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.PARTNERSHIP_TYPE);
         List<PartnershipTypeVO> allPartnershipType = JSON.parseArray(partnershipTypeStr, PartnershipTypeVO.class);
@@ -117,24 +122,29 @@ public class SupplierBizServiceImpl implements SupplierBizService {
             List<String> projectTypeList = Arrays.asList(split);
             myPartnershipProjectType = GenerateUtil.getPartnershipProjectTypeVO(allPartnershipProjectType, projectTypeList);
         }
-        //查询所有职务类型
-        String positionTypeStr
-                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.POSITION_TYPE);
-        List<PositionVO> allPositionList = JSON.parseArray(positionTypeStr, PositionVO.class);
+        //查询所有负责人职务类型
+        String directorPositionTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.DIRECTOR_POSITION_TYPE);
+        List<PositionVO> allDirectorPositionList = JSON.parseArray(directorPositionTypeStr, PositionVO.class);
+        //查询所有联系人职务类型
+        String contactPositionTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CONTACT_POSITION_TYPE);
+        List<PositionVO> allContactPositionList = JSON.parseArray(contactPositionTypeStr, PositionVO.class);
         //获取联系人职务类型
-        PositionVO contactPosition = GenerateUtil.getPositionVO(allPositionList, tSupplier.getContactsPositionId());
-//        //获取负责人职务类型
-//        PositionVO directorPosition = GenerateUtil.getPositionVO(allPositionList, tSupplier.getDirectorPositionId());
+        PositionVO contactPosition = GenerateUtil.getPositionVO(allContactPositionList, tSupplier.getContactPositionId());
+        //获取负责人职务类型
+        PositionVO directorPosition = GenerateUtil.getPositionVO(allDirectorPositionList, tSupplier.getDirectorPositionId());
         //组装数据
-        supplierDetailVO.setMyMemberType(myMemberTypeVO);
-        supplierDetailVO.setAllMemberType(allMemberTypeVO);
+        supplierDetailVO.setAllEnterpriseType(allEnterpriseType);
+        supplierDetailVO.setMyEnterpriseTypeVO(myEnterpriseType);
         supplierDetailVO.setMyPartnershipType(myPartnershipType);
         supplierDetailVO.setAllPartnershipType(allPartnershipType);
         supplierDetailVO.setMyProjectType(myPartnershipProjectType);
         supplierDetailVO.setAllProjectType(allPartnershipProjectType);
+        supplierDetailVO.setAllContactPosition(allContactPositionList);
         supplierDetailVO.setContactsPosition(contactPosition);
-//        supplierDetailVO.setDirectorPosition(directorPosition);
-        supplierDetailVO.setAllPosition(allPositionList);
+        supplierDetailVO.setDirectorPosition(directorPosition);
+        supplierDetailVO.setAllDirectorPosition(allDirectorPositionList);
         //返回
         return Result.success(supplierDetailVO);
     }

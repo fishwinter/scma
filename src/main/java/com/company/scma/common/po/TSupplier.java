@@ -45,10 +45,15 @@ public class TSupplier implements Serializable {
      */
     private String introduction;
 
+//    /**
+//     * 企业类型，字典同会员类型
+//     */
+//    private Integer memberTypeId;
+
     /**
-     * 企业类型，字典同会员类型
+     * 单位类型id
      */
-    private Integer memberTypeId;
+    private Integer enterpriseTypeId;
 
     /**
      * 企业性质，字典同合作企业企业性质
@@ -75,10 +80,10 @@ public class TSupplier implements Serializable {
      */
     private String directorName;
 
-    /**
-     * 负责人职务
-     */
-    private String directorPosition;
+//    /**
+//     * 负责人职务
+//     */
+//    private String directorPosition;
 
     /**
      * 负责人职务id
@@ -93,7 +98,7 @@ public class TSupplier implements Serializable {
     /**
      * 联系人职务id
      */
-    private Integer contactsPositionId;
+    private Integer contactPositionId;
 
     /**
      * 是否参加过物博会，0-否，1-是

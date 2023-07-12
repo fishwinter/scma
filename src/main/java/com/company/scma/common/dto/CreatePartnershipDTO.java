@@ -58,10 +58,10 @@ public class CreatePartnershipDTO {
      */
     private String directorName;
 
-    /**
-     * 负责人职务
-     */
-    private String directorPosition;
+//    /**
+//     * 负责人职务
+//     */
+//    private String directorPosition;
 
     /**
      * 负责人职务id

@@ -139,21 +139,26 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
                 partnershipDetailVO.setSubAccountNum(size);
             }
         }
-        //查询所有职务类型
-        String positionTypeStr
-                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.POSITION_TYPE);
-        List<PositionVO> allPositionList = JSON.parseArray(positionTypeStr, PositionVO.class);
+        //查询所有负责人职务类型
+        String directorPositionTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.DIRECTOR_POSITION_TYPE);
+        List<PositionVO> allDirectorPositionList = JSON.parseArray(directorPositionTypeStr, PositionVO.class);
+        //查询所有联系人职务类型
+        String contactPositionTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CONTACT_POSITION_TYPE);
+        List<PositionVO> allContactPositionList = JSON.parseArray(contactPositionTypeStr, PositionVO.class);
         //获取联系人职务类型
-        PositionVO contactPosition = GenerateUtil.getPositionVO(allPositionList, tPartnership.getContactPositionId());
-//        //获取负责人职务类型
-//        PositionVO directorPosition = GenerateUtil.getPositionVO(allPositionList, tPartnership.getDirectorPositionId());
+        PositionVO contactPosition = GenerateUtil.getPositionVO(allContactPositionList, tPartnership.getContactPositionId());
+        //获取负责人职务类型
+        PositionVO directorPosition = GenerateUtil.getPositionVO(allDirectorPositionList, tPartnership.getDirectorPositionId());
         //封装
         partnershipDetailVO.setMyPartnershipType(myPartnershipType);
         partnershipDetailVO.setAllPartnershipType(allPartnershipType);
         partnershipDetailVO.setMyProjectType(myPartnershipProjectType);
         partnershipDetailVO.setAllProjectType(allPartnershipProjectType);
-        partnershipDetailVO.setAllPosition(allPositionList);
-//        partnershipDetailVO.setDirectorPosition(directorPosition);
+        partnershipDetailVO.setAllDirectorPosition(allDirectorPositionList);
+        partnershipDetailVO.setAllContactPosition(allContactPositionList);
+        partnershipDetailVO.setDirectorPosition(directorPosition);
         partnershipDetailVO.setContactPosition(contactPosition);
         //返回
         return Result.success(partnershipDetailVO);

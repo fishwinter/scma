@@ -68,9 +68,14 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
         String partnershipProjectTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.PARTNERSHIP_PROJECT_TYPE);
         //获取股票类型
         String stockTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.STOCK_TYPE);
-        //获取职务类型
-        String positionTypeStr
-                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.POSITION_TYPE);
+        //获取负责人职务类型
+        String directorPositionTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.DIRECTOR_POSITION_TYPE);
+        //获取联系人职务类型
+        String contactPositionTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CONTACT_POSITION_TYPE);
+        //获取单位类型
+        String enterpriseTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.ENTERPRISE_TYPE);
         //封装
         if(ObjectUtil.isNotEmpty(partnershipProjectTypeStr)){
             List<PartnershipTypeVO> partnershipTypeVOList = JSON.parseArray(partnershipTypeStr, PartnershipTypeVO.class);
@@ -84,9 +89,17 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
             List<StockTypeVO> stockTypeVOList = JSON.parseArray(stockTypeStr, StockTypeVO.class);
             partnershipConfigVO.setStockTypeVOList(stockTypeVOList);
         }
-        if(ObjectUtil.isNotEmpty(positionTypeStr)){
-            List<PositionVO> positionVOList = JSON.parseArray(positionTypeStr, PositionVO.class);
-            partnershipConfigVO.setPositionVOList(positionVOList);
+        if(ObjectUtil.isNotEmpty(directorPositionTypeStr)){
+            List<PositionVO> directorPositionVOList = JSON.parseArray(directorPositionTypeStr, PositionVO.class);
+            partnershipConfigVO.setDirectorPositionVOList(directorPositionVOList);
+        }
+        if(ObjectUtil.isNotEmpty(contactPositionTypeStr)){
+            List<PositionVO> contactPositionVOList = JSON.parseArray(contactPositionTypeStr, PositionVO.class);
+            partnershipConfigVO.setContactPositionVOList(contactPositionVOList);
+        }
+        if(ObjectUtil.isNotEmpty(enterpriseTypeStr)){
+            List<EnterpriseTypeVO> enterpriseTypeVOList = JSON.parseArray(enterpriseTypeStr, EnterpriseTypeVO.class);
+            partnershipConfigVO.setEnterpriseTypeVOList(enterpriseTypeVOList);
         }
         return Result.success(partnershipConfigVO);
     }

@@ -800,4 +800,18 @@ public class GenerateUtil {
         }
         return null;
     }
+
+    public static EnterpriseTypeVO getEnterpriseTypeVO(List<EnterpriseTypeVO> enterpriseTypeVOList,Integer enterpriseTypeId){
+        EnterpriseTypeVO result = null;
+        if(ObjectUtil.isEmpty(enterpriseTypeVOList) || ObjectUtil.isEmpty(enterpriseTypeId)){
+            return result;
+        }
+        for (EnterpriseTypeVO enterpriseTypeVO : enterpriseTypeVOList) {
+            if(enterpriseTypeVO.getEnterPriseId()!= null && enterpriseTypeVO.getEnterPriseId() == enterpriseTypeId){
+                result = enterpriseTypeVO;
+                return result;
+            }
+        }
+        return null;
+    }
 }

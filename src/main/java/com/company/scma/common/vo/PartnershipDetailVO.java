@@ -58,14 +58,14 @@ public class PartnershipDetailVO {
     private String directorName;
 
     /**
-     * 所有职务
+     * 所有负责人职务
      */
-    private List<PositionVO> allPosition;
+    private List<PositionVO> allDirectorPosition;
 
     /**
      * 负责人职务
      */
-    private String directorPosition;
+    private PositionVO directorPosition;
 
     /**
      * 负责人手机号
@@ -81,6 +81,11 @@ public class PartnershipDetailVO {
      * 联系人姓名
      */
     private String contactName;
+
+    /**
+     * 所有联系人职务
+     */
+    private List<PositionVO> allContactPosition;
 
     /**
      * 联系人职务
