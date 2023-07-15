@@ -9,13 +9,12 @@ import com.company.scma.common.dto.CreateCaseDTO;
 import com.company.scma.common.dto.EditCaseDTO;
 import com.company.scma.common.dto.GetCaseDTO;
 import com.company.scma.common.po.TCase;
+import com.company.scma.common.po.TDictionary;
 import com.company.scma.common.util.GenerateUtil;
-import com.company.scma.common.vo.CaseDetailVO;
-import com.company.scma.common.vo.CaseListVO;
-import com.company.scma.common.vo.CaseTypeVO;
-import com.company.scma.common.vo.Result;
+import com.company.scma.common.vo.*;
 import com.company.scma.service.bizservice.CaseBizService;
 import com.company.scma.service.mapperservice.CaseService;
+import com.company.scma.service.mapperservice.DictionaryService;
 import com.company.scma.service.mapperservice.SysConfigService;
 import com.company.scma.service.validateservice.CaseValidateService;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +32,8 @@ public class CaseBizServiceImpl implements CaseBizService {
     private CaseService caseService;
     @Autowired
     private SysConfigService sysConfigService;
+    @Autowired
+    private DictionaryService dictionaryService;
 
     @Override
     public Result getAllCase(GetCaseDTO getCaseDTO) {
@@ -68,8 +69,11 @@ public class CaseBizServiceImpl implements CaseBizService {
         //数据组装
         BeanUtils.copyProperties(tCaseById,caseDetailVO);
         //查询案列类别
-        String caseTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CASE_TYPE);
-        List<CaseTypeVO> caseTypeVOList = JSON.parseArray(caseTypeStr, CaseTypeVO.class);
+//        String caseTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CASE_TYPE);
+//        List<CaseTypeVO> caseTypeVOList = JSON.parseArray(caseTypeStr, CaseTypeVO.class);
+        List<TDictionary> tDictionaryListByCaseType
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.CASE_TYPE);
+        List<CaseTypeVO> caseTypeVOList = GenerateUtil.getDicDataVOList(CaseTypeVO.class, tDictionaryListByCaseType);
         //设置案列类别
         caseDetailVO.setAllCaseType(caseTypeVOList);
         caseDetailVO.setMyCaseType(GenerateUtil.getCaseTypeVO(caseTypeVOList,tCaseById.getTypeId()));
@@ -87,6 +91,13 @@ public class CaseBizServiceImpl implements CaseBizService {
         }
         //创建实体
         TCase tCase = GenerateUtil.getTCase(createCaseDTO);
+        //生成新的字典数据
+        String newCaseType = createCaseDTO.getNewCaseType();
+        if(ObjectUtil.isNotEmpty(newCaseType)){
+            Integer caseTypeId
+                    = dictionaryService.insertByDicType(newCaseType, Constant.DicType.CASE_TYPE);
+            tCase.setTypeId(caseTypeId);
+        }
         //入库
         caseService.save(tCase);
         //返回
@@ -103,6 +114,13 @@ public class CaseBizServiceImpl implements CaseBizService {
         }
         //创建实体
         TCase tCase = GenerateUtil.getTCase(editCaseDTO);
+        //生成新的字典数据
+        String newCaseType = editCaseDTO.getNewCaseType();
+        if(ObjectUtil.isNotEmpty(newCaseType)){
+            Integer caseTypeId
+                    = dictionaryService.insertByDicType(newCaseType, Constant.DicType.CASE_TYPE);
+            tCase.setTypeId(caseTypeId);
+        }
         //入库
         caseService.saveOrUpdate(tCase);
         //返回

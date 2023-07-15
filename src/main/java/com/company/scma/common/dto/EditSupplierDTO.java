@@ -76,10 +76,10 @@ public class EditSupplierDTO {
      */
     private String directorName;
 
-//    /**
-//     * 负责人职务
-//     */
-//    private String directorPosition;
+    /**
+     * 新建负责人职务类型名称
+     */
+    private String newDirectorPosition;
 
     /**
      * 负责人职务id
@@ -90,6 +90,11 @@ public class EditSupplierDTO {
      * 企业logo url
      */
     private String logoUrl;
+
+    /**
+     * 新建联系人职务类型名称
+     */
+    private String newContactPosition;
 
     /**
      * 联系人职务id

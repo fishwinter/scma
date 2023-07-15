@@ -53,6 +53,8 @@ public interface Constant {
         String ARTICLE_ID = "ARTICLE_ID";
         String SERVICE_PROVIDER = "SERVICE_PROVIDER";
         String PROJECT_TYPE = "PROJECT_TYPE";
+        String DIC_TYPE = "DIC_TYPE";
+        String CASE_ABSTRACT = "CASE_ABSTRACT";
         
     }
     
@@ -125,5 +127,11 @@ public interface Constant {
     public interface ReleaseWay{
         String RELEASE_TO_MEMBER_DATABASE = "1";
         String RELEASE_TO_PUBLIC_RESOURCE = "2";
+    }
+    
+    public interface DicType{
+        Integer DIRECTOR_POSITION_TYPE = 1;
+        Integer CONTACT_POSITION_TYPE = 2;
+        Integer CASE_TYPE = 3;
     }
 }

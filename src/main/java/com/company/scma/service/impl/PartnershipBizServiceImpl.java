@@ -46,6 +46,8 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
     private MemberService memberService;
     @Autowired
     private ScheduledTask scheduledTask;
+    @Autowired
+    private DictionaryService dictionaryService;
 
 
     @Override
@@ -140,13 +142,19 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
             }
         }
         //查询所有负责人职务类型
-        String directorPositionTypeStr
-                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.DIRECTOR_POSITION_TYPE);
-        List<PositionVO> allDirectorPositionList = JSON.parseArray(directorPositionTypeStr, PositionVO.class);
+//        String directorPositionTypeStr
+//                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.DIRECTOR_POSITION_TYPE);
+//        List<PositionVO> allDirectorPositionList = JSON.parseArray(directorPositionTypeStr, PositionVO.class);
+        List<TDictionary> tDictionaryListByDirectorPosition 
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.DIRECTOR_POSITION_TYPE);
+        List<PositionVO> allDirectorPositionList = GenerateUtil.getDicDataVOList(PositionVO.class, tDictionaryListByDirectorPosition);
         //查询所有联系人职务类型
-        String contactPositionTypeStr
-                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CONTACT_POSITION_TYPE);
-        List<PositionVO> allContactPositionList = JSON.parseArray(contactPositionTypeStr, PositionVO.class);
+//        String contactPositionTypeStr
+//                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CONTACT_POSITION_TYPE);
+//        List<PositionVO> allContactPositionList = JSON.parseArray(contactPositionTypeStr, PositionVO.class);
+        List<TDictionary> tDictionaryListByContactPosition
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.CONTACT_POSITION_TYPE);
+        List<PositionVO> allContactPositionList = GenerateUtil.getDicDataVOList(PositionVO.class, tDictionaryListByContactPosition);
         //获取联系人职务类型
         PositionVO contactPosition = GenerateUtil.getPositionVO(allContactPositionList, tPartnership.getContactPositionId());
         //获取负责人职务类型
@@ -179,6 +187,19 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
             operationStatus = (Integer) data;
         }
         TPartnership tPartnership = GenerateUtil.getTPartnership(createPartnershipDTO,operationStatus);
+        //生成新的字典数据
+        String newContactPosition = createPartnershipDTO.getNewContactPosition();
+        String newDirectorPosition = createPartnershipDTO.getNewDirectorPosition();
+        if(ObjectUtil.isNotEmpty(newDirectorPosition)){
+            Integer directorPositionId 
+                    = dictionaryService.insertByDicType(newDirectorPosition, Constant.DicType.DIRECTOR_POSITION_TYPE);
+            tPartnership.setDirectorPositionId(directorPositionId);
+        }
+        if(ObjectUtil.isNotEmpty(newContactPosition)){
+            Integer contactPositionId
+                    = dictionaryService.insertByDicType(newContactPosition, Constant.DicType.CONTACT_POSITION_TYPE);
+            tPartnership.setContactPositionId(contactPositionId);
+        }
         //入库
         partnershipService.save(tPartnership);
         //生成管理员账号
@@ -253,6 +274,19 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
             operationStatus = (Integer) data;
         }
         TPartnership inputTPartnership = GenerateUtil.getTPartnership(editPartnershipDTO,operationStatus);
+        //生成新的字典数据
+        String newContactPosition = editPartnershipDTO.getNewContactPosition();
+        String newDirectorPosition = editPartnershipDTO.getNewDirectorPosition();
+        if(ObjectUtil.isNotEmpty(newDirectorPosition)){
+            Integer directorPositionId
+                    = dictionaryService.insertByDicType(newDirectorPosition, Constant.DicType.DIRECTOR_POSITION_TYPE);
+            inputTPartnership.setDirectorPositionId(directorPositionId);
+        }
+        if(ObjectUtil.isNotEmpty(newContactPosition)){
+            Integer contactPositionId
+                    = dictionaryService.insertByDicType(newContactPosition, Constant.DicType.CONTACT_POSITION_TYPE);
+            inputTPartnership.setContactPositionId(contactPositionId);
+        }
         partnershipService.saveOrUpdate(inputTPartnership);
         //设置子账号状态
         Integer inputSubAccountNum = editPartnershipDTO.getSubAccountNum();

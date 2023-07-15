@@ -58,10 +58,10 @@ public class CreatePartnershipDTO {
      */
     private String directorName;
 
-//    /**
-//     * 负责人职务
-//     */
-//    private String directorPosition;
+    /**
+     * 新建负责人职务类型名称
+     */
+    private String newDirectorPosition;
 
     /**
      * 负责人职务id
@@ -82,6 +82,11 @@ public class CreatePartnershipDTO {
      * 联系人姓名
      */
     private String contactName;
+
+    /**
+     * 新建联系人职务类型名称
+     */
+    private String newContactPosition;
 
     /**
      * 联系人职务id

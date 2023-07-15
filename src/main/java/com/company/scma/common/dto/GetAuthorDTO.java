@@ -36,11 +36,11 @@ public class GetAuthorDTO {
     /**
      * 当前页数
      */
-    @NotNull
+    //@NotNull
     private Long currentPage;
     /**
      * 每页容量
      */
-    @NotNull
+    //@NotNull
     private Long pageSize;
 }

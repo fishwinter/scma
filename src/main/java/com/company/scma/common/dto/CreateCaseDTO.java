@@ -15,8 +15,12 @@ public class CreateCaseDTO {
     /**
      * 案列类别id
      */
-    @NotNull
     private Integer typeId;
+
+    /**
+     * 新建案例类别名称
+     */
+    private String newCaseType;
 
     /**
      * 文件url

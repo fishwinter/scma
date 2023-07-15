@@ -16,14 +16,19 @@ public class EditCaseDTO {
     /**
      * 标题
      */
-    @NotBlank
+    //@NotBlank
     private String title;
 
     /**
      * 案列类别id
      */
-    @NotNull
+    //@NotNull
     private Integer typeId;
+
+    /**
+     * 新建案例类别名称
+     */
+    private String newCaseType;
 
     /**
      * 文件url

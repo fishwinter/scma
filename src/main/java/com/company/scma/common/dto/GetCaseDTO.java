@@ -24,6 +24,11 @@ public class GetCaseDTO {
     private String publishTime;
 
     /**
+     * 摘要
+     */
+    private String caseAbstract;
+
+    /**
      * 开始时间
      */
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")

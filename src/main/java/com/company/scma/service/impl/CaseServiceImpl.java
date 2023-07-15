@@ -45,6 +45,10 @@ public class CaseServiceImpl extends ServiceImpl<CaseMapper, TCase> implements C
             queryWrapper.like(Constant.ColumnName.PUBLISH_TIME, getCaseDTO.getPublishTime());
         }
 
+        if (StringUtils.isNotEmpty(getCaseDTO.getCaseAbstract())) {
+            queryWrapper.like(Constant.ColumnName.CASE_ABSTRACT, getCaseDTO.getCaseAbstract());
+        }
+
         if (ObjectUtil.isNotEmpty(getCaseDTO.getStartDate())) {
             queryWrapper.ge(Constant.ColumnName.BUILD_DATE, getCaseDTO.getStartDate());
         }

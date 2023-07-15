@@ -8,11 +8,13 @@ import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreateSupplierDTO;
 import com.company.scma.common.dto.EditSupplierDTO;
 import com.company.scma.common.dto.GetSupplierDTO;
+import com.company.scma.common.po.TDictionary;
 import com.company.scma.common.po.TMemberType;
 import com.company.scma.common.po.TSupplier;
 import com.company.scma.common.util.GenerateUtil;
 import com.company.scma.common.vo.*;
 import com.company.scma.service.bizservice.SupplierBizService;
+import com.company.scma.service.mapperservice.DictionaryService;
 import com.company.scma.service.mapperservice.MemberTypeService;
 import com.company.scma.service.mapperservice.SupplierService;
 import com.company.scma.service.mapperservice.SysConfigService;
@@ -34,6 +36,8 @@ public class SupplierBizServiceImpl implements SupplierBizService {
     private MemberTypeService memberTypeService;
     @Autowired
     private SysConfigService sysConfigService;
+    @Autowired
+    private DictionaryService dictionaryService;
     @Override
     @Transactional
     public Result createSupplier(CreateSupplierDTO createSupplierDTO) {
@@ -44,6 +48,19 @@ public class SupplierBizServiceImpl implements SupplierBizService {
         }
         //生成实体
         TSupplier tSupplier = GenerateUtil.getTSupplier(createSupplierDTO);
+        //生成新的字典数据
+        String newContactPosition = createSupplierDTO.getNewContactPosition();
+        String newDirectorPosition = createSupplierDTO.getNewDirectorPosition();
+        if(ObjectUtil.isNotEmpty(newDirectorPosition)){
+            Integer directorPositionId
+                    = dictionaryService.insertByDicType(newDirectorPosition, Constant.DicType.DIRECTOR_POSITION_TYPE);
+            tSupplier.setDirectorPositionId(directorPositionId);
+        }
+        if(ObjectUtil.isNotEmpty(newContactPosition)){
+            Integer contactPositionId
+                    = dictionaryService.insertByDicType(newContactPosition, Constant.DicType.CONTACT_POSITION_TYPE);
+            tSupplier.setContactPositionId(contactPositionId);
+        }
         //插入
         supplierService.save(tSupplier);
         //返回
@@ -60,6 +77,19 @@ public class SupplierBizServiceImpl implements SupplierBizService {
         }
         //生成实体
         TSupplier tSupplier = GenerateUtil.getTSupplier(editSupplierDTO);
+        //生成新的字典数据
+        String newContactPosition = editSupplierDTO.getNewContactPosition();
+        String newDirectorPosition = editSupplierDTO.getNewDirectorPosition();
+        if(ObjectUtil.isNotEmpty(newDirectorPosition)){
+            Integer directorPositionId
+                    = dictionaryService.insertByDicType(newDirectorPosition, Constant.DicType.DIRECTOR_POSITION_TYPE);
+            tSupplier.setDirectorPositionId(directorPositionId);
+        }
+        if(ObjectUtil.isNotEmpty(newContactPosition)){
+            Integer contactPositionId
+                    = dictionaryService.insertByDicType(newContactPosition, Constant.DicType.CONTACT_POSITION_TYPE);
+            tSupplier.setContactPositionId(contactPositionId);
+        }
         //插入
         supplierService.saveOrUpdate(tSupplier);
         //返回
@@ -123,13 +153,19 @@ public class SupplierBizServiceImpl implements SupplierBizService {
             myPartnershipProjectType = GenerateUtil.getPartnershipProjectTypeVO(allPartnershipProjectType, projectTypeList);
         }
         //查询所有负责人职务类型
-        String directorPositionTypeStr
-                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.DIRECTOR_POSITION_TYPE);
-        List<PositionVO> allDirectorPositionList = JSON.parseArray(directorPositionTypeStr, PositionVO.class);
+//        String directorPositionTypeStr
+//                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.DIRECTOR_POSITION_TYPE);
+//        List<PositionVO> allDirectorPositionList = JSON.parseArray(directorPositionTypeStr, PositionVO.class);
+        List<TDictionary> tDictionaryListByDirectorPosition
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.DIRECTOR_POSITION_TYPE);
+        List<PositionVO> allDirectorPositionList = GenerateUtil.getDicDataVOList(PositionVO.class, tDictionaryListByDirectorPosition);
         //查询所有联系人职务类型
-        String contactPositionTypeStr
-                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CONTACT_POSITION_TYPE);
-        List<PositionVO> allContactPositionList = JSON.parseArray(contactPositionTypeStr, PositionVO.class);
+//        String contactPositionTypeStr
+//                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CONTACT_POSITION_TYPE);
+//        List<PositionVO> allContactPositionList = JSON.parseArray(contactPositionTypeStr, PositionVO.class);
+        List<TDictionary> tDictionaryListByContactPosition
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.CONTACT_POSITION_TYPE);
+        List<PositionVO> allContactPositionList = GenerateUtil.getDicDataVOList(PositionVO.class, tDictionaryListByContactPosition);
         //获取联系人职务类型
         PositionVO contactPosition = GenerateUtil.getPositionVO(allContactPositionList, tSupplier.getContactPositionId());
         //获取负责人职务类型

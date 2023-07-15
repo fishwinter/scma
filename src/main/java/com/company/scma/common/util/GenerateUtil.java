@@ -10,6 +10,7 @@ import com.company.scma.common.vo.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -813,5 +814,54 @@ public class GenerateUtil {
             }
         }
         return null;
+    }
+
+    public static TDictionary getTDictionary(String dicName, Integer dicType) {
+        TDictionary tDictionary = new TDictionary();
+        tDictionary.setDicName(dicName);
+        tDictionary.setDicType(dicType);
+        
+        //获取当前登录用户信息
+        TUser tUser = (TUser) SecurityUtils.getSubject().getPrincipal();
+        tDictionary.setBuildDate(new Date());
+        tDictionary.setBuildUserid(tUser.getUserid());
+        tDictionary.setDeleteflag(Constant.Judge.YES);
+        return tDictionary;
+    }
+    
+    public static <T> List<T> getDicDataVOList(Class<T> tClass,List<TDictionary> tDictionaryList){
+        if(ObjectUtil.isEmpty(tClass) || ObjectUtil.isEmpty(tDictionaryList)){
+            return null;
+        }
+        List<T> result = new ArrayList<>();
+        for (TDictionary tDictionary : tDictionaryList) {
+            Integer dicId = tDictionary.getDicId();
+            String dicName = tDictionary.getDicName();
+            if(ObjectUtil.isNotEmpty(dicId) && ObjectUtil.isNotEmpty(dicName)){
+                try {
+                    T t =(T) tClass.newInstance();
+                    Field[] declaredFields = t.getClass().getDeclaredFields();
+                    //生成的VO只能有两个属性，分别是id和名称，否则无法使用该方法
+                    if(ObjectUtil.isNotEmpty(declaredFields)){
+                        for (Field declaredField : declaredFields) {
+                            if(declaredField.getType() == Integer.class){
+                                declaredField.setAccessible(true);
+                                declaredField.set(t,tDictionary.getDicId());
+                            }
+                            if(declaredField.getType() == String.class){
+                                declaredField.setAccessible(true);
+                                declaredField.set(t,tDictionary.getDicName());
+                            }
+                        }
+                        result.add(t);
+                    }
+                } catch (InstantiationException e) { 
+                    return null;
+                } catch (IllegalAccessException e) { 
+                    return null;
+                }
+            }
+        }
+        return result;
     }
 }
