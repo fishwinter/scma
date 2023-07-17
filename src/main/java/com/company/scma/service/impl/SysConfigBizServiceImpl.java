@@ -4,10 +4,12 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.dto.SysConfigDTO;
+import com.company.scma.common.po.TDictionary;
 import com.company.scma.common.po.TMemberType;
 import com.company.scma.common.util.GenerateUtil;
 import com.company.scma.common.vo.*;
 import com.company.scma.service.bizservice.SysConfigBizService;
+import com.company.scma.service.mapperservice.DictionaryService;
 import com.company.scma.service.mapperservice.MemberTypeService;
 import com.company.scma.service.mapperservice.SysConfigService;
 import com.company.scma.service.validateservice.SysConfigValidateService;
@@ -25,6 +27,8 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
     private MemberTypeService memberTypeService;
     @Autowired
     private SysConfigValidateService sysConfigValidateService;
+    @Autowired
+    private DictionaryService dictionaryService;
     @Override
     public Result getSysConfig() {
         //查询配置
@@ -69,11 +73,11 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
         //获取股票类型
         String stockTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.STOCK_TYPE);
         //获取负责人职务类型
-        String directorPositionTypeStr
-                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.DIRECTOR_POSITION_TYPE);
+        List<TDictionary> tDictionaryListByDirectorPosition
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.DIRECTOR_POSITION_TYPE);
         //获取联系人职务类型
-        String contactPositionTypeStr
-                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CONTACT_POSITION_TYPE);
+        List<TDictionary> tDictionaryListByContactPosition
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.CONTACT_POSITION_TYPE);
         //获取单位类型
         String enterpriseTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.ENTERPRISE_TYPE);
         //封装
@@ -89,13 +93,13 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
             List<StockTypeVO> stockTypeVOList = JSON.parseArray(stockTypeStr, StockTypeVO.class);
             partnershipConfigVO.setStockTypeVOList(stockTypeVOList);
         }
-        if(ObjectUtil.isNotEmpty(directorPositionTypeStr)){
-            List<PositionVO> directorPositionVOList = JSON.parseArray(directorPositionTypeStr, PositionVO.class);
-            partnershipConfigVO.setDirectorPositionVOList(directorPositionVOList);
+        if(ObjectUtil.isNotEmpty(tDictionaryListByDirectorPosition)){
+            List<PositionVO> allDirectorPositionList = GenerateUtil.getDicDataVOList(PositionVO.class, tDictionaryListByDirectorPosition);
+            partnershipConfigVO.setDirectorPositionVOList(allDirectorPositionList);
         }
-        if(ObjectUtil.isNotEmpty(contactPositionTypeStr)){
-            List<PositionVO> contactPositionVOList = JSON.parseArray(contactPositionTypeStr, PositionVO.class);
-            partnershipConfigVO.setContactPositionVOList(contactPositionVOList);
+        if(ObjectUtil.isNotEmpty(tDictionaryListByContactPosition)){
+            List<PositionVO> allContactPositionList = GenerateUtil.getDicDataVOList(PositionVO.class, tDictionaryListByContactPosition);
+            partnershipConfigVO.setContactPositionVOList(allContactPositionList);
         }
         if(ObjectUtil.isNotEmpty(enterpriseTypeStr)){
             List<EnterpriseTypeVO> enterpriseTypeVOList = JSON.parseArray(enterpriseTypeStr, EnterpriseTypeVO.class);
@@ -106,11 +110,9 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
 
     @Override
     public Result getCaseType() {
-        List<CaseTypeVO> caseTypeVOList = new ArrayList<CaseTypeVO>();
-        String caseTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.CASE_TYPE);
-        if(ObjectUtil.isNotEmpty(caseTypeStr)){
-            caseTypeVOList = JSON.parseArray(caseTypeStr, CaseTypeVO.class);
-        }
+        List<TDictionary> tDictionaryListByCaseType
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.CASE_TYPE);
+        List<CaseTypeVO> caseTypeVOList = GenerateUtil.getDicDataVOList(CaseTypeVO.class, tDictionaryListByCaseType);
         return Result.success(caseTypeVOList);
     }
 }
