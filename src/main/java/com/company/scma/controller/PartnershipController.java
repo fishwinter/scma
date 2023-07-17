@@ -1,5 +1,6 @@
 package com.company.scma.controller;
 
+import cn.hutool.core.codec.Base64;
 import com.company.scma.common.dto.CreatePartnershipDTO;
 import com.company.scma.common.dto.EditPartnershipDTO;
 import com.company.scma.common.dto.GetPartnershipDTO;
@@ -27,6 +28,12 @@ public class PartnershipController {
     @RequiresPermissions("partnership:visit")
     public Result getPartnershipDetail(@RequestParam Integer partnershipId){
         return partnershipBizService.getPartnershipDetail(partnershipId);
+    }
+
+    @RequestMapping(value = "/downloadPartnershipData", method = RequestMethod.POST)
+    @RequiresPermissions("partnership:visit")
+    public Result downloadPartnershipData(@RequestBody GetPartnershipDTO getPartnershipDTO){
+        return partnershipBizService.downloadPartnershipData(getPartnershipDTO);
     }
 
     @RequestMapping(value = "/createPartnership", method = RequestMethod.POST)

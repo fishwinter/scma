@@ -46,6 +46,11 @@ public class AuthorServiceImpl extends ServiceImpl<AuthorMapper, TAuthor> implem
             queryWrapper.le(Constant.ColumnName.BUILD_DATE, getAuthorDTO.getEndDate());
         }
 
+        Long currentPage = getAuthorDTO.getCurrentPage();
+        Long pageSize = getAuthorDTO.getPageSize();
+        getAuthorDTO.setCurrentPage(ObjectUtil.isEmpty(currentPage) ? -1L : currentPage);
+        getAuthorDTO.setPageSize(ObjectUtil.isEmpty(pageSize) ? -1L : pageSize);
+
         Page<TAuthor> page = Page.of(getAuthorDTO.getCurrentPage(), getAuthorDTO.getPageSize(), 0, true);
         IPage<TAuthor> tAuthorIPage = authorMapper.selectPage(page, queryWrapper);
         return tAuthorIPage;

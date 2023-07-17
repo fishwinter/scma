@@ -3,6 +3,7 @@ package com.company.scma.common.util;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.company.scma.common.constant.CommonEnum;
 import com.company.scma.common.constant.Constant;
 import com.company.scma.common.dto.*;
 import com.company.scma.common.po.*;
@@ -788,6 +789,23 @@ public class GenerateUtil {
         return idStr;
     }
 
+    //将name用指定分隔符拼接成字符串，字符串最后没有符号
+    public static String getTypeNameStr(List<String> typeNameList,String separator){
+        String nameStr = null;
+        if(ObjectUtil.isEmpty(typeNameList) || ObjectUtil.isEmpty(separator)){
+            return null;
+        }
+        StringBuffer sb = new StringBuffer();
+        if(ObjectUtil.isNotEmpty(typeNameList)){
+            for (String name : typeNameList) {
+                sb.append(name).append(separator);
+            }
+            nameStr = sb.toString();
+            nameStr = nameStr.substring(0,nameStr.length() - 1);
+        }
+        return nameStr;
+    }
+
     public static PositionVO getPositionVO(List<PositionVO> positionVOList,Integer positionId){
         PositionVO result = null;
         if(ObjectUtil.isEmpty(positionVOList) || ObjectUtil.isEmpty(positionId)){
@@ -860,6 +878,182 @@ public class GenerateUtil {
                 } catch (IllegalAccessException e) { 
                     return null;
                 }
+            }
+        }
+        return result;
+    }
+    
+    public static List<PartnershipExcelVO> getPartnershipExcelVOList(IPage<TPartnership> iPage,List<PartnershipTypeVO> allPartnershipType,
+                                                              List<PartnershipProjectTypeVO> allPartnershipProjectType,
+                                                              List<StockTypeVO> allStockType, List<PositionVO> allDirectorPositionList,
+                                                              List<PositionVO> allContactPositionList){
+        List<PartnershipExcelVO> result = new ArrayList<>();
+        if(ObjectUtil.isEmpty(iPage)){
+            return result;
+        }
+        List<TPartnership> tPartnershipList = iPage.getRecords();
+        if(ObjectUtil.isNotEmpty(tPartnershipList)){
+            for (TPartnership tPartnership : tPartnershipList) {
+                PartnershipExcelVO partnershipExcelVO = 
+                        GenerateUtil.getPartnershipExcelVO(tPartnership, allPartnershipType, allPartnershipProjectType, allStockType, allDirectorPositionList, allContactPositionList);
+                result.add(partnershipExcelVO);
+            }
+        }
+        return result;
+    }
+    
+    public static PartnershipExcelVO getPartnershipExcelVO(TPartnership tPartnership,List<PartnershipTypeVO> allPartnershipType,
+                                                    List<PartnershipProjectTypeVO> allPartnershipProjectType,
+                                                    List<StockTypeVO> allStockType, List<PositionVO> allDirectorPositionList,
+                                                    List<PositionVO> allContactPositionList){
+        PartnershipExcelVO partnershipExcelVO = new PartnershipExcelVO();
+        if(ObjectUtil.isEmpty(tPartnership)){
+            return partnershipExcelVO;
+        }
+        BeanUtils.copyProperties(tPartnership,partnershipExcelVO);
+        //单位性质
+        Integer partnershipType = tPartnership.getPartnershipType();
+        if(ObjectUtil.isNotEmpty(partnershipType)){
+            PartnershipTypeVO myPartnershipType = GenerateUtil.getPartnershipTypeVO(allPartnershipType, partnershipType);
+            partnershipExcelVO.setPartnershipTypeName(myPartnershipType.getPartnershipName());
+        }
+        //合作项目
+        String projectType = tPartnership.getProjectType();
+        if(ObjectUtil.isNotEmpty(projectType)){
+            String[] split = projectType.split(",");
+            List<String> projectTypeList = Arrays.asList(split);
+            List<PartnershipProjectTypeVO> partnershipProjectTypeVOList = GenerateUtil.getPartnershipProjectTypeVO(allPartnershipProjectType, projectTypeList);
+            List<String> collect = partnershipProjectTypeVOList.stream().map(PartnershipProjectTypeVO::getPartnershipProjectTypeName).collect(Collectors.toList());
+            String partnershipProjectNameStr = GenerateUtil.getTypeNameStr(collect, ",");
+            partnershipExcelVO.setProjectType(partnershipProjectNameStr);
+        }
+        //负责人职务
+        Integer directorPositionId = tPartnership.getDirectorPositionId();
+        if(ObjectUtil.isNotEmpty(directorPositionId)){
+            PositionVO directorPosition = GenerateUtil.getPositionVO(allDirectorPositionList, directorPositionId);
+            partnershipExcelVO.setDirectorPosition(directorPosition.getPositionName());
+        }
+        //联系人职务
+        Integer contactPositionId = tPartnership.getContactPositionId();
+        if(ObjectUtil.isNotEmpty(contactPositionId)){
+            PositionVO contactPosition = GenerateUtil.getPositionVO(allContactPositionList, contactPositionId);
+            partnershipExcelVO.setContactPosition(contactPosition.getPositionName());
+        }
+        //是否上市
+        Integer isListed = tPartnership.getIsListed();
+        if(ObjectUtil.isNotEmpty(isListed)){
+            partnershipExcelVO.setIsListed(CommonEnum.getMsgByCode(isListed));
+        }
+        //股票类型
+        Integer stockTypeId = tPartnership.getStockTypeId();
+        if(ObjectUtil.isNotEmpty(stockTypeId)){
+            StockTypeVO myStockType = GenerateUtil.getStockTypeVO(allStockType, stockTypeId);
+            partnershipExcelVO.setStockType(myStockType.getStockTypeName());
+        }
+        //时间
+        Date paymentTime = tPartnership.getPaymentTime();
+        if(ObjectUtil.isNotEmpty(paymentTime)){
+            partnershipExcelVO.setPaymentTime(DateUtil.date2Str(paymentTime));
+        }
+        Date contractStartDate = tPartnership.getContractStartDate();
+        if(ObjectUtil.isNotEmpty(contractStartDate)){
+            partnershipExcelVO.setContractStartDate(DateUtil.date2Str(contractStartDate));
+        }
+        Date contractEndDate = tPartnership.getContractEndDate();
+        if(ObjectUtil.isNotEmpty(contractEndDate)){
+            partnershipExcelVO.setContractEndDate(DateUtil.date2Str(contractEndDate));
+        }
+        Date firstJoinTime = tPartnership.getFirstJoinTime();
+        if(ObjectUtil.isNotEmpty(firstJoinTime)){
+            partnershipExcelVO.setFirstJoinTime(DateUtil.date2Str(firstJoinTime));
+        }
+        return partnershipExcelVO;
+    }
+
+    public static List<SupplierExcelVO> getSupplierExcelVOList(IPage<TSupplier> iPage,List<PartnershipTypeVO> allPartnershipType,
+                                                                     List<PartnershipProjectTypeVO> allPartnershipProjectType, List<PositionVO> allDirectorPositionList,
+                                                                     List<PositionVO> allContactPositionList, List<EnterpriseTypeVO> allEnterpriseType){
+        List<SupplierExcelVO> result = new ArrayList<>();
+        if(ObjectUtil.isEmpty(iPage)){
+            return result;
+        }
+        List<TSupplier> tSupplierList = iPage.getRecords();
+        if(ObjectUtil.isNotEmpty(tSupplierList)){
+            for (TSupplier tSupplier : tSupplierList) {
+                SupplierExcelVO supplierExcelVO =
+                        GenerateUtil.getSupplierExcelVO(tSupplier, allPartnershipType, allPartnershipProjectType, allDirectorPositionList, allContactPositionList, allEnterpriseType);
+                result.add(supplierExcelVO);
+            }
+        }
+        return result;
+    }
+
+    public static SupplierExcelVO getSupplierExcelVO(TSupplier tSupplier,List<PartnershipTypeVO> allPartnershipType,
+                                                           List<PartnershipProjectTypeVO> allPartnershipProjectType, List<PositionVO> allDirectorPositionList,
+                                                           List<PositionVO> allContactPositionList, List<EnterpriseTypeVO> allEnterpriseType){
+        SupplierExcelVO supplierExcelVO = new SupplierExcelVO();
+        if(ObjectUtil.isEmpty(tSupplier)){
+            return supplierExcelVO;
+        }
+        BeanUtils.copyProperties(tSupplier,supplierExcelVO);
+        //单位性质
+        Integer partnershipType = tSupplier.getPartnershipType();
+        if(ObjectUtil.isNotEmpty(partnershipType)){
+            PartnershipTypeVO myPartnershipType = GenerateUtil.getPartnershipTypeVO(allPartnershipType, partnershipType);
+            supplierExcelVO.setPartnershipTypeName(myPartnershipType.getPartnershipName());
+        }
+        //合作项目
+        String projectType = tSupplier.getProjectType();
+        if(ObjectUtil.isNotEmpty(projectType)){
+            String[] split = projectType.split(",");
+            List<String> projectTypeList = Arrays.asList(split);
+            List<PartnershipProjectTypeVO> partnershipProjectTypeVOList = GenerateUtil.getPartnershipProjectTypeVO(allPartnershipProjectType, projectTypeList);
+            List<String> collect = partnershipProjectTypeVOList.stream().map(PartnershipProjectTypeVO::getPartnershipProjectTypeName).collect(Collectors.toList());
+            String partnershipProjectNameStr = GenerateUtil.getTypeNameStr(collect, ",");
+            supplierExcelVO.setProjectType(partnershipProjectNameStr);
+        }
+        //负责人职务
+        Integer directorPositionId = tSupplier.getDirectorPositionId();
+        if(ObjectUtil.isNotEmpty(directorPositionId)){
+            PositionVO directorPosition = GenerateUtil.getPositionVO(allDirectorPositionList, directorPositionId);
+            supplierExcelVO.setDirectorPosition(directorPosition.getPositionName());
+        }
+        //联系人职务
+        Integer contactPositionId = tSupplier.getContactPositionId();
+        if(ObjectUtil.isNotEmpty(contactPositionId)){
+            PositionVO contactPosition = GenerateUtil.getPositionVO(allContactPositionList, contactPositionId);
+            supplierExcelVO.setContactPosition(contactPosition.getPositionName());
+        }
+        //是否上市
+        Integer joinLogisticsFair = tSupplier.getJoinLogisticsFair();
+        if(ObjectUtil.isNotEmpty(joinLogisticsFair)){
+            supplierExcelVO.setJoinLogisticsFair(CommonEnum.getMsgByCode(joinLogisticsFair));
+        }
+        //单位类型
+        Integer enterpriseTypeId = tSupplier.getEnterpriseTypeId();
+        if(ObjectUtil.isNotEmpty(enterpriseTypeId)){
+            EnterpriseTypeVO myEnterpriseType = GenerateUtil.getEnterpriseTypeVO(allEnterpriseType, enterpriseTypeId);
+            supplierExcelVO.setEnterpriseType(myEnterpriseType.getEnterPriseName());
+        }
+        //时间
+        Date firstJoinTime = tSupplier.getFirstJoinTime();
+        if(ObjectUtil.isNotEmpty(firstJoinTime)){
+            supplierExcelVO.setFirstJoinTime(DateUtil.date2Str(firstJoinTime));
+        }
+        return supplierExcelVO;
+    }
+
+    public static List<AuthorExcelVO> getAuthorExcelVOList(IPage<TAuthor> iPage){
+        List<AuthorExcelVO> result = new ArrayList<>();
+        if(ObjectUtil.isEmpty(iPage)){
+            return result;
+        }
+        List<TAuthor> tAuthorList = iPage.getRecords();
+        if(ObjectUtil.isNotEmpty(tAuthorList)){
+            for (TAuthor tAuthor : tAuthorList) {
+                AuthorExcelVO authorExcelVO = new AuthorExcelVO();
+                BeanUtils.copyProperties(tAuthor,authorExcelVO);
+                result.add(authorExcelVO);
             }
         }
         return result;

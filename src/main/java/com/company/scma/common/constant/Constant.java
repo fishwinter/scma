@@ -68,6 +68,8 @@ public interface Constant {
         String DEFAULT_PARTNERSHIP_NAME = "总部";
         //子账号默认密码
         String DEFAULT_SUB_ACCOUNT_PASSWORD = "123456";
+        //导出excel sheet名称
+        String SHEET_NAME = "sheet1";
     }
     
     //用户类型

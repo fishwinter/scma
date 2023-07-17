@@ -28,6 +28,12 @@ public class AuthorController {
     public Result getAuthorDetail(@RequestParam Integer authorId){
         return authorBizService.getAuthorDetail(authorId);
     }
+
+    @RequestMapping(value = "/downloadAuthorData", method = RequestMethod.POST)
+    @RequiresPermissions("author:visit")
+    public Result downloadAuthorData(@RequestBody GetAuthorDTO getAuthorDTO){
+        return authorBizService.downloadAuthorData(getAuthorDTO);
+    }
     
     @RequestMapping(value = "/createAuthor", method = RequestMethod.POST)
     @RequiresPermissions("author:add")

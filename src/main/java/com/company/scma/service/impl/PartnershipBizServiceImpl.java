@@ -1,6 +1,7 @@
 package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.company.scma.common.constant.Constant;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +65,46 @@ public class PartnershipBizServiceImpl implements PartnershipBizService {
         PartnershipListVO partnershipListVO = GenerateUtil.getPartnershipListVO(tPartnershipIPage);
         //返回
         return Result.success(partnershipListVO);
+    }
+
+    @Override
+    public Result downloadPartnershipData(GetPartnershipDTO getPartnershipDTO) {
+        //参数校验
+        Result result = partnershipValidateService.validateGetPartnershipDTO(getPartnershipDTO);
+        if(!Result.isSuccess(result)){
+            return result;
+        }
+        //数据查询
+        IPage<TPartnership> tPartnershipIPage = partnershipService.getPartnershipByCondition(getPartnershipDTO);
+        if(ObjectUtil.isEmpty(tPartnershipIPage)){
+            return Result.getResult(ResultEnum.NO_EXCEL_DATA);
+        }
+        //查询所有单位性质
+        String partnershipTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.PARTNERSHIP_TYPE);
+        List<PartnershipTypeVO> allPartnershipType = JSON.parseArray(partnershipTypeStr, PartnershipTypeVO.class);
+        //查询所有活动类型
+        String partnershipProjectTypeStr
+                = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.PARTNERSHIP_PROJECT_TYPE);
+        List<PartnershipProjectTypeVO> allPartnershipProjectType = JSON.parseArray(partnershipProjectTypeStr, PartnershipProjectTypeVO.class);
+        //查询所有股票类型
+        String stockTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.STOCK_TYPE);
+        List<StockTypeVO> allStockType = JSON.parseArray(stockTypeStr, StockTypeVO.class);
+        //查询所有负责人职务类型
+        List<TDictionary> tDictionaryListByDirectorPosition
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.DIRECTOR_POSITION_TYPE);
+        List<PositionVO> allDirectorPositionList = GenerateUtil.getDicDataVOList(PositionVO.class, tDictionaryListByDirectorPosition);
+        //查询所有联系人职务类型
+        List<TDictionary> tDictionaryListByContactPosition
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.CONTACT_POSITION_TYPE);
+        List<PositionVO> allContactPositionList = GenerateUtil.getDicDataVOList(PositionVO.class, tDictionaryListByContactPosition);
+        //数据封装
+        List<PartnershipExcelVO> partnershipExcelVOList = 
+                GenerateUtil.getPartnershipExcelVOList(tPartnershipIPage, allPartnershipType, allPartnershipProjectType, allStockType, allDirectorPositionList, allContactPositionList);
+        //输出流
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        EasyExcel.write(bao,PartnershipExcelVO.class).sheet(Constant.Common.SHEET_NAME).doWrite(partnershipExcelVOList);
+        //返回
+        return Result.success(bao.toByteArray());
     }
 
     @Override

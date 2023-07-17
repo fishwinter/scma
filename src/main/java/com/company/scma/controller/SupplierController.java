@@ -27,6 +27,12 @@ public class SupplierController {
     public Result getSupplierDetail(@RequestParam Integer supplierId){
         return supplierBizService.getSupplierDetail(supplierId);
     }
+
+    @RequestMapping(value = "/downloadSupplierData", method = RequestMethod.POST)
+    @RequiresPermissions("supplier:visit")
+    public Result downloadSupplierData(@RequestBody GetSupplierDTO getSupplierDTO){
+        return supplierBizService.downloadSupplierData(getSupplierDTO);
+    }
     
     @RequestMapping(value = "/createSupplier", method = RequestMethod.POST)
     @RequiresPermissions("supplier:add")

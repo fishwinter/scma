@@ -70,6 +70,11 @@ public class PartnershipServiceImpl extends ServiceImpl<PartnershipMapper, TPart
             queryWrapper.le(Constant.ColumnName.BUILD_DATE, getPartnershipDTO.getEndDate());
         }
 
+        Long currentPage = getPartnershipDTO.getCurrentPage();
+        Long pageSize = getPartnershipDTO.getPageSize();
+        getPartnershipDTO.setCurrentPage(ObjectUtil.isEmpty(currentPage) ? -1L : currentPage);
+        getPartnershipDTO.setPageSize(ObjectUtil.isEmpty(pageSize) ? -1L : pageSize);
+
         Page<TPartnership> page = Page.of(getPartnershipDTO.getCurrentPage(), getPartnershipDTO.getPageSize(), 0, true);
         IPage<TPartnership> tPartnershipIPage = partnershipMapper.selectPage(page,queryWrapper);
         return tPartnershipIPage;

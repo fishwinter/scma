@@ -8,6 +8,8 @@ import com.company.scma.common.vo.Result;
 public interface PartnershipBizService {
 
     public Result getPartnership(GetPartnershipDTO getPartnershipDTO);
+    
+    public Result downloadPartnershipData(GetPartnershipDTO getPartnershipDTO);
 
     public Result getPartnershipDetail(Integer partnershipId);
 

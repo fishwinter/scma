@@ -12,6 +12,8 @@ public interface SupplierBizService {
     
     public Result getSupplier(GetSupplierDTO getSupplierDTO);
     
+    public Result downloadSupplierData(GetSupplierDTO getSupplierDTO);
+    
     public Result getSupplierDetail(Integer supplierId);
     
     public Result deleteSupplier(Integer supplierId);

@@ -5,13 +5,16 @@ import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.*;
 import com.company.scma.common.po.TUser;
 import com.company.scma.common.vo.*;
+import com.company.scma.service.bizservice.AuthorBizService;
+import com.company.scma.service.bizservice.PartnershipBizService;
+import com.company.scma.service.bizservice.SupplierBizService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -19,6 +22,13 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "apifox", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiFoxController {
+    @Autowired
+    private PartnershipBizService partnershipBizService;
+    @Autowired
+    private SupplierBizService supplierBizService;
+    @Autowired
+    private AuthorBizService authorBizService;
+    
     @PostMapping("/login")
     public ItemVO login(MemberDetailVO memberDetailVO) {
         return null;
@@ -257,5 +267,38 @@ public class ApiFoxController {
     @PostMapping("/login47")
     public GetSupplierDTO login47(CreateArticleDTO createArticleDTO) {
         return null;
+    }
+
+    @PostMapping("/login48")
+    public PartnershipExcelVO login48(CreateArticleDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login49")
+    public SupplierExcelVO login49(CreateArticleDTO createArticleDTO) {
+        return null;
+    }
+
+    @PostMapping("/login50")
+    public AuthorExcelVO login50(CreateArticleDTO createArticleDTO) {
+        return null;
+    }
+
+    @RequestMapping(value = "/downloadPartnershipData", method = RequestMethod.POST)
+    @RequiresPermissions("partnership:visit")
+    public Result downloadPartnershipData(@RequestBody GetPartnershipDTO getPartnershipDTO){
+        return partnershipBizService.downloadPartnershipData(getPartnershipDTO);
+    }
+
+    @RequestMapping(value = "/downloadSupplierData", method = RequestMethod.POST)
+    @RequiresPermissions("supplier:visit")
+    public Result downloadSupplierData(@RequestBody GetSupplierDTO getSupplierDTO){
+        return supplierBizService.downloadSupplierData(getSupplierDTO);
+    }
+
+    @RequestMapping(value = "/downloadAuthorData", method = RequestMethod.POST)
+    @RequiresPermissions("author:visit")
+    public Result downloadAuthorData(@RequestBody GetAuthorDTO getAuthorDTO){
+        return authorBizService.downloadAuthorData(getAuthorDTO);
     }
 }

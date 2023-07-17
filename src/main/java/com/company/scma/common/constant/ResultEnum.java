@@ -36,6 +36,7 @@ public enum ResultEnum {
     EXIST_MANAGER_USERNAME(443,"管理员账号名已存在"),
     EXIST_PARTNERSHIP_NAME(445,"合作企业名称已存在"),
     EXIST_MEMBER(446,"当前合作企业下存在未释放的会员"),
+    NO_EXCEL_DATA(447,"无需要下载的excel数据"),
 
     //供应商模块错误
     EXIST_SUPPLIER_NAME(451,"供应商名称已存在"),

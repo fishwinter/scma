@@ -639,5 +639,11 @@ public class DateUtil {
         }
         return false;
     }
+    
+    public static String date2Str(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat(DATEFORMATSECOND);
+        String format = sdf.format(date);
+        return format;
+    }
 
 }

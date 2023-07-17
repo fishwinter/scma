@@ -1,7 +1,9 @@
 package com.company.scma.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.company.scma.common.constant.Constant;
 import com.company.scma.common.constant.ResultEnum;
 import com.company.scma.common.dto.CreateAuthorDTO;
 import com.company.scma.common.dto.EditAuthorDTO;
@@ -9,10 +11,7 @@ import com.company.scma.common.dto.GetAuthorDTO;
 import com.company.scma.common.po.TArticle;
 import com.company.scma.common.po.TAuthor;
 import com.company.scma.common.util.GenerateUtil;
-import com.company.scma.common.vo.ArticleListRowVO;
-import com.company.scma.common.vo.AuthorDetailVO;
-import com.company.scma.common.vo.AuthorListVO;
-import com.company.scma.common.vo.Result;
+import com.company.scma.common.vo.*;
 import com.company.scma.service.bizservice.AuthorBizService;
 import com.company.scma.service.mapperservice.ArticleService;
 import com.company.scma.service.mapperservice.AuthorService;
@@ -22,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,6 +72,27 @@ public class AuthorBizServiceImpl implements AuthorBizService {
         AuthorListVO authorListVO = GenerateUtil.getAuthorListVO(iPage);
         //返回
         return Result.success(authorListVO);
+    }
+
+    @Override
+    public Result downloadAuthorData(GetAuthorDTO getAuthorDTO) {
+        //参数校验
+        Result result = authorValidateService.validateGetAuthorDTO(getAuthorDTO);
+        if(!Result.isSuccess(result)){
+            return result;
+        }
+        //数据查询
+        IPage<TAuthor> iPage = authorService.getAuthorByCondition(getAuthorDTO);
+        if(ObjectUtil.isEmpty(iPage)){
+            return Result.getResult(ResultEnum.NO_EXCEL_DATA);
+        }
+        //数据封装
+        List<AuthorExcelVO> authorExcelVOList = GenerateUtil.getAuthorExcelVOList(iPage);
+        //输出流
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        EasyExcel.write(bao,AuthorExcelVO.class).sheet(Constant.Common.SHEET_NAME).doWrite(authorExcelVOList);
+        //返回
+        return Result.success(bao.toByteArray());
     }
 
     @Override

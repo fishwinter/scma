@@ -10,6 +10,8 @@ public interface AuthorBizService {
     
     public Result getAllAuthor(GetAuthorDTO getAuthorDTO);
     
+    public Result downloadAuthorData(GetAuthorDTO getAuthorDTO);
+    
     public Result createAuthor(CreateAuthorDTO createAuthorDTO);
     
     public Result editAuthor(EditAuthorDTO editAuthorDTO);

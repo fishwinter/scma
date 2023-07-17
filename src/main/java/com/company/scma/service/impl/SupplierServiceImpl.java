@@ -73,6 +73,11 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, TSupplier> 
             queryWrapper.le(Constant.ColumnName.BUILD_DATE, getSupplierDTO.getEndDate());
         }
 
+        Long currentPage = getSupplierDTO.getCurrentPage();
+        Long pageSize = getSupplierDTO.getPageSize();
+        getSupplierDTO.setCurrentPage(ObjectUtil.isEmpty(currentPage) ? -1L : currentPage);
+        getSupplierDTO.setPageSize(ObjectUtil.isEmpty(pageSize) ? -1L : pageSize);
+
         Page<TSupplier> page = Page.of(getSupplierDTO.getCurrentPage(), getSupplierDTO.getPageSize(), 0, true);
         IPage<TSupplier> tSupplierIPage = supplierMapper.selectPage(page,queryWrapper);
         return tSupplierIPage;
