@@ -284,6 +284,11 @@ public class ApiFoxController {
         return null;
     }
 
+    @PostMapping("/login51")
+    public CreateCaseDTO login51(CreateArticleDTO createArticleDTO) {
+        return null;
+    }
+
     @RequestMapping(value = "/downloadPartnershipData", method = RequestMethod.POST)
     @RequiresPermissions("partnership:visit")
     public Result downloadPartnershipData(@RequestBody GetPartnershipDTO getPartnershipDTO){
