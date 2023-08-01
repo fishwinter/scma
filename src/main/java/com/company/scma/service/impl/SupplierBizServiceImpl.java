@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SupplierBizServiceImpl implements SupplierBizService {
@@ -212,6 +213,19 @@ public class SupplierBizServiceImpl implements SupplierBizService {
         PositionVO contactPosition = GenerateUtil.getPositionVO(allContactPositionList, tSupplier.getContactPositionId());
         //获取负责人职务类型
         PositionVO directorPosition = GenerateUtil.getPositionVO(allDirectorPositionList, tSupplier.getDirectorPositionId());
+        //查询所有参与物博会的年份
+        List<TDictionary> tDictionaryListByJoinYear 
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.JOIN_YEAR);
+        List<YearVO> allYearList = GenerateUtil.getDicDataVOList(YearVO.class, tDictionaryListByJoinYear);
+        //获取当前参与物博会的年份
+        String joinYearId = tSupplier.getJoinYearId();
+        List<YearVO> myJoinYear = null;
+        if(ObjectUtil.isNotEmpty(joinYearId)){
+            String[] split = joinYearId.split(",");
+            List<String> joinYearIdStrList = Arrays.asList(split);
+            List<Integer> joinYearIdList = joinYearIdStrList.stream().map(Integer::valueOf).collect(Collectors.toList());
+            myJoinYear = GenerateUtil.<YearVO>getVOListByIdList(allYearList, joinYearIdList);
+        }        
         //组装数据
         supplierDetailVO.setAllEnterpriseType(allEnterpriseType);
         supplierDetailVO.setMyEnterpriseTypeVO(myEnterpriseType);
@@ -223,6 +237,8 @@ public class SupplierBizServiceImpl implements SupplierBizService {
         supplierDetailVO.setContactsPosition(contactPosition);
         supplierDetailVO.setDirectorPosition(directorPosition);
         supplierDetailVO.setAllDirectorPosition(allDirectorPositionList);
+        supplierDetailVO.setAllYear(allYearList);
+        supplierDetailVO.setJoinYear(myJoinYear);
         //返回
         return Result.success(supplierDetailVO);
     }

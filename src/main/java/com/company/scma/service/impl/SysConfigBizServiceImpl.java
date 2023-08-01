@@ -80,6 +80,9 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
                 = dictionaryService.selectTDictionaryByDicType(Constant.DicType.CONTACT_POSITION_TYPE);
         //获取单位类型
         String enterpriseTypeStr = sysConfigService.getCustValueByCustCode(Constant.SysConfigCustCode.ENTERPRISE_TYPE);
+        //查询所有参与物博会的年份
+        List<TDictionary> tDictionaryListByJoinYear
+                = dictionaryService.selectTDictionaryByDicType(Constant.DicType.JOIN_YEAR);
         //封装
         if(ObjectUtil.isNotEmpty(partnershipProjectTypeStr)){
             List<PartnershipTypeVO> partnershipTypeVOList = JSON.parseArray(partnershipTypeStr, PartnershipTypeVO.class);
@@ -104,6 +107,10 @@ public class SysConfigBizServiceImpl implements SysConfigBizService {
         if(ObjectUtil.isNotEmpty(enterpriseTypeStr)){
             List<EnterpriseTypeVO> enterpriseTypeVOList = JSON.parseArray(enterpriseTypeStr, EnterpriseTypeVO.class);
             partnershipConfigVO.setEnterpriseTypeVOList(enterpriseTypeVOList);
+        }
+        if(ObjectUtil.isNotEmpty(tDictionaryListByJoinYear)){
+            List<YearVO> yearVOList = GenerateUtil.getDicDataVOList(YearVO.class, tDictionaryListByJoinYear);
+            partnershipConfigVO.setYearVOList(yearVOList);
         }
         return Result.success(partnershipConfigVO);
     }

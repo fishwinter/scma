@@ -135,5 +135,6 @@ public interface Constant {
         Integer DIRECTOR_POSITION_TYPE = 1;
         Integer CONTACT_POSITION_TYPE = 2;
         Integer CASE_TYPE = 3;
+        Integer JOIN_YEAR = 4;
     }
 }

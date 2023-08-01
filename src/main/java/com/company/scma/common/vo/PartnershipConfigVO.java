@@ -19,4 +19,6 @@ public class PartnershipConfigVO {
     List<PositionVO> contactPositionVOList;
     //所有单位类型
     List<EnterpriseTypeVO> enterpriseTypeVOList;
+    //所有参与物博会年份
+    List<YearVO> yearVOList;
 }

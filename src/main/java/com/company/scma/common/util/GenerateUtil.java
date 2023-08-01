@@ -560,6 +560,11 @@ public class GenerateUtil {
             String projectTypeStr = GenerateUtil.getTypeStr(projectType, ",");
             tSupplier.setProjectType(projectTypeStr);
         }
+        List<Integer> joinYearIdList = createSupplierDTO.getJoinYearIdList();
+        if(ObjectUtil.isNotEmpty(joinYearIdList)){
+            String joinYearIdStr = GenerateUtil.getTypeStr(joinYearIdList, ",");
+            tSupplier.setJoinYearId(joinYearIdStr);
+        }
         return tSupplier;
     }
     
@@ -585,6 +590,11 @@ public class GenerateUtil {
         if(ObjectUtil.isNotEmpty(projectType)){
             String projectTypeStr = GenerateUtil.getTypeStr(projectType, ",");
             tSupplier.setProjectType(projectTypeStr);
+        }
+        List<Integer> joinYearIdList = editSupplierDTO.getJoinYearIdList();
+        if(ObjectUtil.isNotEmpty(joinYearIdList)){
+            String joinYearIdStr = GenerateUtil.getTypeStr(joinYearIdList, ",");
+            tSupplier.setJoinYearId(joinYearIdStr);
         }
         return tSupplier;
     }
@@ -780,6 +790,7 @@ public class GenerateUtil {
         }
         StringBuffer sb = new StringBuffer();
         if(ObjectUtil.isNotEmpty(typeIdList)){
+            typeIdList = typeIdList.stream().sorted().collect(Collectors.toList());
             for (Integer id : typeIdList) {
                 sb.append(id).append(separator);
             }
@@ -1054,6 +1065,39 @@ public class GenerateUtil {
                 AuthorExcelVO authorExcelVO = new AuthorExcelVO();
                 BeanUtils.copyProperties(tAuthor,authorExcelVO);
                 result.add(authorExcelVO);
+            }
+        }
+        return result;
+    }
+
+    //从voList中按照id匹配返回结果
+    public static <T> List<T> getVOListByIdList(List<T> voList,List<Integer> idList){
+        List<T> result = new ArrayList<>();
+        if(ObjectUtil.isEmpty(voList) || ObjectUtil.isEmpty(idList)){
+            return result;
+        }
+        HashMap<Integer, T> map = new HashMap<>();
+        for (T t : voList) {
+            Field[] declaredFields = t.getClass().getDeclaredFields();
+            for (Field declaredField : declaredFields) {
+                if(declaredField.getType() == Integer.class){
+                    declaredField.setAccessible(true);
+                    try {
+                        Integer id = (Integer) declaredField.get(t);
+                        if(!map.containsKey(id)){
+                            map.put(id,t);
+                        }
+                    } catch (IllegalAccessException e) {
+                        continue;
+                    }
+                }
+            }
+        }
+
+        for (Integer id : idList) {
+            T t = map.get(id);
+            if(ObjectUtil.isNotEmpty(t)){
+                result.add(t);
             }
         }
         return result;

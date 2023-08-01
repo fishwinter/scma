@@ -103,6 +103,16 @@ public class SupplierDetailVO {
     private Integer joinLogisticsFair;
 
     /**
+     * 所有物博会年份
+     */
+    private List<YearVO> allYear;
+
+    /**
+     * 当前参与物博会年份
+     */
+    private List<YearVO> joinYear;
+
+    /**
      * 服务对接人
      */
     private String serviceProvider;

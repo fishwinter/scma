@@ -101,6 +101,11 @@ public class CreateSupplierDTO {
     private Integer joinLogisticsFair;
 
     /**
+     * 参加物博会年份id
+     */
+    private List<Integer> joinYearIdList;
+
+    /**
      * 服务对接人
      */
     private String serviceProvider;

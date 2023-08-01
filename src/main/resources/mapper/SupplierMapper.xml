@@ -20,6 +20,7 @@
     <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
     <result column="contact_position_id" jdbcType="INTEGER" property="contactPositionId" />
     <result column="join_logistics_fair" jdbcType="INTEGER" property="joinLogisticsFair" />
+    <result column="join_year_id" jdbcType="VARCHAR" property="joinYearId" />
     <result column="service_provider" jdbcType="VARCHAR" property="serviceProvider" />
     <result column="director_tel" jdbcType="VARCHAR" property="directorTel" />
     <result column="cooperation_cases" jdbcType="VARCHAR" property="cooperationCases" />
@@ -38,7 +39,7 @@
   <sql id="Base_Column_List">
     supplier_id, supplier_name, contacts, contact_tel, contact_addr, introduction, enterprise_type_id, 
     partnership_type, wechat_account, video_account, email, director_name, director_position_id, 
-    logo_url, contact_position_id, join_logistics_fair, service_provider, director_tel,
+    logo_url, contact_position_id, join_logistics_fair, join_year_id, service_provider, director_tel,
     cooperation_cases, project_type, first_join_time, president_name, president_tel, secretary_name, secretary_tel,
     build_userid, build_date, modify_userid, modify_date, deleteflag
   </sql>

@@ -106,6 +106,11 @@ public class TSupplier implements Serializable {
     private Integer joinLogisticsFair;
 
     /**
+     * 参加物博会年份id,多个同时存在时使用逗号隔开
+     */
+    private String joinYearId;
+
+    /**
      * 服务对接人
      */
     private String serviceProvider;
