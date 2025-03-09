@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Result {
+public class Result<T> {
     /**
      * 响应代码
      */
@@ -21,7 +21,7 @@ public class Result {
     /**
      * 响应数据
      */
-    private Object Data;
+    private T Data;
     
     public static Result success(){
         Result result = success(null);
