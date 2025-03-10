@@ -3,6 +3,7 @@ package com.company.scma.controller.one;
 import cn.hutool.core.util.NumberUtil;
 import com.company.scma.common.dto.UploadFileDTO;
 import com.company.scma.common.util.Base64Util;
+import com.company.scma.common.vo.DownloadFileVO;
 import com.company.scma.common.vo.Result;
 import com.company.scma.service.bizservice.FileBizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,12 @@ public class FileController {
     FileBizService fileBizService;
 
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public Result uploadFile(@RequestBody UploadFileDTO uploadFileDTO) throws IOException {
+    public Result<String> uploadFile(@RequestBody UploadFileDTO uploadFileDTO) throws IOException {
         return fileBizService.uploadFile(uploadFileDTO);
     }
 
     @RequestMapping(value = "/downloadFile", method = RequestMethod.POST)
-    public Result downloadFile(@RequestBody String fileUrl)  {
+    public Result<DownloadFileVO> downloadFile(@RequestBody String fileUrl)  {
         return fileBizService.downloadFile(fileUrl);
     }
 
