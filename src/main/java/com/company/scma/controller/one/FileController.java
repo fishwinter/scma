@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 文件接口
+ */
 @RestController
 @RequestMapping(value = "file", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FileController {
